@@ -1,6 +1,6 @@
 {
   "lint-staged": {
-    "app/javascript/src/**/*.{js,jsx,json}": [
+    "app/**/*.{js,jsx,json}": [
       "prettier --write",
       "eslint --fix"
     ],

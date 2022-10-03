@@ -2,6 +2,6 @@
 
 class UsersController < ApplicationController
   def index
-    render
+    render status:ok, json::Hi
   end
 end
