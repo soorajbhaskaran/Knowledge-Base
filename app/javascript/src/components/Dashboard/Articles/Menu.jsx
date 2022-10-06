@@ -16,7 +16,7 @@ const Menu = () => {
         iconProps={[
           {
             icon: () => (
-              <Tooltip content="Add new category" position="bottom">
+              <Tooltip content="Search for category" position="bottom">
                 <Search size={16} />
               </Tooltip>
             ),
