@@ -10,11 +10,13 @@ export const buildArticleColumnData = () => [
     title: "TITLE",
   },
   {
-    dataIndex: "createdAt",
-    key: "createdAt",
+    dataIndex: "created_at",
+    key: "created_at",
     title: "DATE",
-    render: (createdAt) => (
-      <Typography style="body2">{createdAt.toDateString()}</Typography>
+    render: (created_at) => (
+      <Typography style="body2">
+        {new Date(created_at).toDateString()}
+      </Typography>
     ),
   },
   {

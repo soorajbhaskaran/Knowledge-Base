@@ -2,7 +2,6 @@
 
 class ArticlesController < ApplicationController
   def index
-    articles = Article.all
-    render status: :ok, json: { articles: articles }
+    @articles = current_user.articles.includes(:category)
   end
 end

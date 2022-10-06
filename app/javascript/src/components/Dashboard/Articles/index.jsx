@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Plus } from "neetoicons";
-import { Button, Typography, Dropdown, Checkbox } from "neetoui";
+import { Button, Typography, Dropdown, Checkbox, PageLoader } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
+
+import articleApi from "apis/articles";
 
 import MenuBar from "./Menu";
 import Table from "./Table";
@@ -17,6 +19,34 @@ const Articles = () => {
     date: true,
     status: true,
   });
+  const [loading, setLoading] = useState(false);
+  const [articles, setArticles] = useState([]);
+
+  const fetchArticles = async () => {
+    setLoading(true);
+    try {
+      const {
+        data: { articles },
+      } = await articleApi.fetch();
+      setArticles(articles);
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full">
+        <PageLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="relative z-0 flex items-start">
@@ -52,7 +82,7 @@ const Articles = () => {
           67 Articles
         </Typography>
         <hr className="h-4" />
-        <Table />
+        <Table articles={articles} />
       </Container>
     </div>
   );
@@ -69,17 +99,17 @@ const renderColumnActionDropdown = ({ checkedColumns, setCheckedColumns }) => {
 
   return (
     <Menu>
-      {articleTableHeaderNames.map((item, idx) => (
+      {articleTableHeaderNames.map((name, idx) => (
         <MenuItem.Button key={idx}>
           <Checkbox
-            checked={checkedColumns[item.toLowerCase()]}
-            id={item.toLowerCase()}
-            label={item}
+            checked={checkedColumns[name.toLowerCase()]}
+            id={name.toLowerCase()}
+            label={name}
             onChange={() => {
-              setCheckedColumns({
-                ...checkedColumns,
-                [item.toLowerCase()]: !checkedColumns[item.toLowerCase()],
-              });
+              setCheckedColumns((previousCheckedColumns) => ({
+                ...previousCheckedColumns,
+                [name.toLowerCase()]: !checkedColumns[name.toLowerCase()],
+              }));
             }}
           />
         </MenuItem.Button>
