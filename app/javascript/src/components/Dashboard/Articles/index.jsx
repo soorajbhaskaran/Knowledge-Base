@@ -79,7 +79,7 @@ const Articles = () => {
           }}
         />
         <Typography component="h1" style="body1" weight="semibold">
-          67 Articles
+          {articles.length} Articles
         </Typography>
         <hr className="h-4" />
         <Table articles={articles} />
