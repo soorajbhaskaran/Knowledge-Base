@@ -21,6 +21,8 @@ const Articles = () => {
   });
   const [loading, setLoading] = useState(false);
   const [articles, setArticles] = useState([]);
+  const [searchArticle, setSearchArticle] = useState("");
+  const [selectedTab, setSelectedTab] = useState("All");
 
   const fetchArticles = async () => {
     setLoading(true);
@@ -36,6 +38,11 @@ const Articles = () => {
     }
   };
 
+  const getFilteredArticles = ({ articles, searchArticle }) =>
+    articles.filter(({ title }) =>
+      title.toLowerCase().includes(searchArticle.toLowerCase())
+    );
+
   useEffect(() => {
     fetchArticles();
   }, []);
@@ -50,7 +57,7 @@ const Articles = () => {
 
   return (
     <div className="relative z-0 flex items-start">
-      <MenuBar />
+      <MenuBar selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <Container>
         <Header
           actionBlock={
@@ -73,13 +80,16 @@ const Articles = () => {
             </>
           }
           searchProps={{
-            onChange: () => {},
+            onChange: (event) => setSearchArticle(event.target.value),
             placeholder: "Search article title",
             value: "",
           }}
         />
         <Typography component="h1" style="body1" weight="semibold">
-          {articles.length} Articles
+          {getFilteredArticles({ articles, searchArticle }).length}
+          {getFilteredArticles({ articles, searchArticle }).length > 1
+            ? " Articles"
+            : " Article"}
         </Typography>
         <hr className="h-4" />
         <Table articles={articles} />

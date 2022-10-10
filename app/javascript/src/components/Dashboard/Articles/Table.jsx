@@ -2,7 +2,6 @@ import React from "react";
 
 import { Table as NeetoUITable } from "neetoui";
 
-// import { CONTACTS } from "./constants";
 import { buildArticleColumnData } from "./utils";
 
 const Table = ({ articles }) => (

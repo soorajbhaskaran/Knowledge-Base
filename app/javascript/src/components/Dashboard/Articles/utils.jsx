@@ -8,6 +8,11 @@ export const buildArticleColumnData = () => [
     dataIndex: "title",
     key: "title",
     title: "TITLE",
+    render: (title) => (
+      <Typography className="text-purple-500" style="body2" weight="semibold">
+        {title}
+      </Typography>
+    ),
   },
   {
     dataIndex: "created_at",
