@@ -2,6 +2,24 @@ import React from "react";
 
 import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
+import * as yup from "yup";
+
+export const buildSelectOptions = (categories) =>
+  categories.map((category) => ({ label: category.title, value: category.id }));
+
+export const buildValidationSchema = (categories) =>
+  yup.object().shape({
+    title: yup.string().required("Title is required"),
+    category: yup
+      .object()
+      .nullable()
+      .shape({
+        label: yup.string().oneOf(categories.map((category) => category.label)),
+        value: yup.string().oneOf(categories.map((category) => category.value)),
+      })
+      .required("Category is required"),
+    content: yup.string().required("Content is required"),
+  });
 
 export const buildArticleColumnData = () => [
   {
