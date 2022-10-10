@@ -1,11 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { Search, Plus } from "neetoicons";
-import { Typography, Tooltip } from "neetoui";
+import { Search, Plus, Check } from "neetoicons";
+import { Typography, Tooltip, Input, Button } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
+
+import categoryApi from "apis/categories";
 
 const Menu = () => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [searchItem, setSearchItem] = useState("");
+  const [searchFieldText, setSearchFieldText] = useState("");
+
+  const fetchCategories = async () => {
+    try {
+      const {
+        data: { categories },
+      } = await categoryApi.fetch();
+      setCategories(categories);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const createCategory = async () => {
+    try {
+      await categoryApi.create({ title: searchFieldText });
+      fetchCategories();
+      setSearchFieldText("");
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const getFilteredCategories = ({ categories, searchFieldText }) =>
+    categories.filter(({ title }) =>
+      title.toLowerCase().includes(searchFieldText.toLowerCase())
+    );
+
+  const handleSearch = (value) => {
+    setIsSearchCollapsed((isSearchCollapsed) => !isSearchCollapsed);
+    setSearchItem(value);
+  };
+
+  const handleSubmit = (value) => {
+    if (value === "add") createCategory();
+    setIsSearchCollapsed(true);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   return (
     <MenuBar showMenu title="Articles">
@@ -16,12 +61,11 @@ const Menu = () => {
         iconProps={[
           {
             icon: () => (
-              <Tooltip content="Add new category" position="bottom">
+              <Tooltip content="Search for category" position="bottom">
                 <Search size={16} />
               </Tooltip>
             ),
-            onClick: () =>
-              setIsSearchCollapsed((isSearchCollapsed) => !isSearchCollapsed),
+            onClick: () => handleSearch("search"),
           },
           {
             icon: () => (
@@ -29,8 +73,7 @@ const Menu = () => {
                 <Plus size={16} />
               </Tooltip>
             ),
-            onClick: () =>
-              setIsSearchCollapsed((isSearchCollapsed) => !isSearchCollapsed),
+            onClick: () => handleSearch("add"),
           },
         ]}
       >
@@ -43,14 +86,31 @@ const Menu = () => {
           Categories
         </Typography>
       </MenuBar.SubTitle>
-      <MenuBar.Search
-        collapse={isSearchCollapsed}
-        onCollapse={() => setIsSearchCollapsed(true)}
-      />
-      <MenuBar.Block active count={80} label="Getting Started" />
-      <MenuBar.Block count={60} label="MISC" />
+      {!isSearchCollapsed && (
+        <div className="my-3 flex justify-between">
+          <Input
+            type="search"
+            value={searchFieldText}
+            placeholder={
+              searchItem === "search" ? "Search Category" : "Add Category"
+            }
+            onChange={(e) => setSearchFieldText(e.target.value)}
+          />
+          {searchItem === "add" && (
+            <Button
+              icon={Check}
+              style="text"
+              onClick={() => handleSubmit(searchItem)}
+            />
+          )}
+        </div>
+      )}
+      {getFilteredCategories({ categories, searchFieldText }).map(
+        ({ title, articles_count }, idx) => (
+          <MenuBar.Block count={articles_count} key={idx} label={title} />
+        )
+      )}
     </MenuBar>
   );
 };
-
 export default Menu;
