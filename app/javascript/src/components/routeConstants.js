@@ -1,4 +1,6 @@
 import Articles from "components/Dashboard/Articles";
+import Create from "components/Dashboard/Articles/NewArticle/Create";
+import Edit from "components/Dashboard/Articles/NewArticle/Edit";
 
 export const DASHBOARD_PATH = "/dashboard";
 export const ARTICLES_PATH = "/dashboard/articles";
@@ -15,13 +17,13 @@ export const DASHBOARD_ROUTES = [
   //   path: SETTINGS_PATH,
   //   component: Settings,
   // },
-];
 
-export const ARTICLE_ROUTES = [
   {
     path: NEW_ARTICLE_PATH,
+    component: Create,
   },
   {
     path: EDIT_ARTICLE_PATH,
+    component: Edit,
   },
 ];

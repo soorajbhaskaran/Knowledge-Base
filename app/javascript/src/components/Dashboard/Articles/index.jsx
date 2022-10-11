@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { Plus } from "neetoicons";
-import { Button, Typography, Dropdown, Checkbox, PageLoader } from "neetoui";
-import { Header, Container } from "neetoui/layouts";
+import { Typography, PageLoader } from "neetoui";
+import { Container } from "neetoui/layouts";
 
 import articleApi from "apis/articles";
 
+import Header from "./Header";
 import MenuBar from "./Menu";
 import Table from "./Table";
-
-const { Menu, MenuItem } = Dropdown;
 
 const Articles = () => {
   const [checkedColumns, setCheckedColumns] = useState({
@@ -38,14 +36,14 @@ const Articles = () => {
     }
   };
 
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
   const getFilteredArticles = ({ articles, searchArticle }) =>
     articles.filter(({ title }) =>
       title.toLowerCase().includes(searchArticle.toLowerCase())
     );
-
-  useEffect(() => {
-    fetchArticles();
-  }, []);
 
   if (loading) {
     return (
@@ -60,30 +58,10 @@ const Articles = () => {
       <MenuBar selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <Container>
         <Header
-          actionBlock={
-            <>
-              <Dropdown
-                buttonStyle="secondary"
-                closeOnSelect={false}
-                label="Columns"
-              >
-                {renderColumnActionDropdown({
-                  checkedColumns,
-                  setCheckedColumns,
-                })}
-              </Dropdown>
-              <Button
-                icon={Plus}
-                iconPosition="right"
-                label="Add New Article"
-              />
-            </>
-          }
-          searchProps={{
-            onChange: (event) => setSearchArticle(event.target.value),
-            placeholder: "Search article title",
-            value: "",
-          }}
+          checkedColumns={checkedColumns}
+          searchArticle={searchArticle}
+          setCheckedColumns={setCheckedColumns}
+          setSearchArticle={setSearchArticle}
         />
         <Typography component="h1" style="body1" weight="semibold">
           {getFilteredArticles({ articles, searchArticle }).length}
@@ -92,39 +70,9 @@ const Articles = () => {
             : " Article"}
         </Typography>
         <hr className="h-4" />
-        <Table articles={articles} />
+        <Table articles={getFilteredArticles({ articles, searchArticle })} />
       </Container>
     </div>
-  );
-};
-
-const renderColumnActionDropdown = ({ checkedColumns, setCheckedColumns }) => {
-  const articleTableHeaderNames = [
-    "Title",
-    "Categories",
-    "Author",
-    "Date",
-    "Status",
-  ];
-
-  return (
-    <Menu>
-      {articleTableHeaderNames.map((name, idx) => (
-        <MenuItem.Button key={idx}>
-          <Checkbox
-            checked={checkedColumns[name.toLowerCase()]}
-            id={name.toLowerCase()}
-            label={name}
-            onChange={() => {
-              setCheckedColumns((previousCheckedColumns) => ({
-                ...previousCheckedColumns,
-                [name.toLowerCase()]: !checkedColumns[name.toLowerCase()],
-              }));
-            }}
-          />
-        </MenuItem.Button>
-      ))}
-    </Menu>
   );
 };
 

@@ -33,11 +33,7 @@ const Header = ({
             icon={Plus}
             iconPosition="right"
             label="Add New Article"
-            onClick={() =>
-              history.push({
-                pathname: "/dashboard/articles/new",
-              })
-            }
+            onClick={() => history.push("/dashboard/articles/new")}
           />
         </>
       }
