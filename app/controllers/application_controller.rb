@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   include ApiResponders
   include ApiRescuable
 
+  include ActionView::Helpers::TranslationHelper
+
   private
 
     def current_user

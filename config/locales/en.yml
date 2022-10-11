@@ -30,4 +30,17 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  authorization:
+    denied: "Access denied. You are not authorized to perform this action."
+    incorrect_credentials: "Incorrect credentials, try again."
+  successfully_created: "%{entity} was successfully created!"
+  successfully_updated: "%{entity} was successfully updated!"
+  successfully_deleted: "%{entity} was successfully deleted!"
+  not_found: "Couldn't find %{entity}"
+  in_progress: "Report generation is processing"
+  task:
+    slug:
+      immutable: "is immutable!"
+  date:
+    invalid: "must be a valid date"
+    cant_be_in_past: "can't be in the past"
