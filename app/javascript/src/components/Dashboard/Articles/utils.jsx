@@ -21,7 +21,10 @@ export const buildValidationSchema = (categories) =>
     content: yup.string().required("Content is required"),
   });
 
-export const buildArticleColumnData = () => [
+export const buildArticleColumnData = ({
+  handleEditButton,
+  handleDeleteButton,
+}) => [
   {
     dataIndex: "title",
     key: "title",
@@ -62,13 +65,21 @@ export const buildArticleColumnData = () => [
     key: "delete",
     title: "",
     width: 10,
-    render: () => <Button icon={Delete} style="text" onClick={() => {}} />,
+    render: (_, { slug }) => (
+      <Button
+        icon={Delete}
+        style="text"
+        onClick={() => handleDeleteButton(slug)}
+      />
+    ),
   },
   {
     dataIndex: "edit",
     key: "edit",
     title: "",
     width: 10,
-    render: () => <Button icon={Edit} style="text" onClick={() => {}} />,
+    render: (_, { slug }) => (
+      <Button icon={Edit} style="text" onClick={() => handleEditButton(slug)} />
+    ),
   },
 ];

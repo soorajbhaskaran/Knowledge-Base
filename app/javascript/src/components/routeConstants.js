@@ -6,7 +6,7 @@ export const DASHBOARD_PATH = "/dashboard";
 export const ARTICLES_PATH = "/dashboard/articles";
 export const SETTINGS_PATH = "/dashboard/settings";
 export const NEW_ARTICLE_PATH = "/dashboard/articles/new";
-export const EDIT_ARTICLE_PATH = "/dashboard/articles/:id/edit";
+export const EDIT_ARTICLE_PATH = "/dashboard/articles/:slug/edit";
 
 export const DASHBOARD_ROUTES = [
   {

@@ -25,6 +25,7 @@ const Form = ({ isEdit = false, handleSubmit, initialArticleValue }) => {
       logger.error(error);
     }
   };
+
   useEffect(() => {
     fetchCategories();
   }, []);

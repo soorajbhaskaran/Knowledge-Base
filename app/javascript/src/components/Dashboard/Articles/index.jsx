@@ -70,7 +70,10 @@ const Articles = () => {
             : " Article"}
         </Typography>
         <hr className="h-4" />
-        <Table articles={getFilteredArticles({ articles, searchArticle })} />
+        <Table
+          articles={getFilteredArticles({ articles, searchArticle })}
+          refetch={fetchArticles}
+        />
       </Container>
     </div>
   );
