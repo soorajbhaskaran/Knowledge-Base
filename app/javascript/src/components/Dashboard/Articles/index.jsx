@@ -12,7 +12,7 @@ import Table from "./Table";
 const Articles = () => {
   const [checkedColumns, setCheckedColumns] = useState({
     title: true,
-    categories: true,
+    category: true,
     author: true,
     date: true,
     status: true,
@@ -72,6 +72,7 @@ const Articles = () => {
         <hr className="h-4" />
         <Table
           articles={getFilteredArticles({ articles, searchArticle })}
+          checkedColumns={checkedColumns}
           refetch={fetchArticles}
         />
       </Container>

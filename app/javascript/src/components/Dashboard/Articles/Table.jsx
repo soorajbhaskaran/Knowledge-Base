@@ -7,7 +7,7 @@ import articleApi from "apis/articles";
 
 import { buildArticleColumnData } from "./utils";
 
-const Table = ({ articles, refetch }) => {
+const Table = ({ articles, refetch, checkedColumns }) => {
   const history = useHistory();
 
   const handleEditButton = (slug) => {
@@ -30,6 +30,7 @@ const Table = ({ articles, refetch }) => {
       columnData={buildArticleColumnData({
         handleEditButton,
         handleDeleteButton,
+        checkedColumns,
       })}
       onRowClick={() => {}}
       onRowSelect={() => {}}
