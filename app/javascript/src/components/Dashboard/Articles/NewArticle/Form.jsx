@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form as FormikForm } from "formik";
 import { Button, Typography, Dropdown } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
+import { buildSelectOptions } from "utils";
 
 import categoryApi from "apis/categories";
 
-import { buildSelectOptions, buildValidationSchema } from "../utils";
+import { buildValidationSchemaForArticles } from "../utils";
 
 const { Menu, MenuItem } = Dropdown;
 
@@ -35,7 +36,7 @@ const Form = ({ isEdit = false, handleSubmit, initialArticleValue }) => {
       initialValues={initialArticleValue}
       validateOnBlur={submitted}
       validateOnChange={submitted}
-      validationSchema={buildValidationSchema(category)}
+      validationSchema={buildValidationSchemaForArticles(category)}
       onSubmit={(values) => handleSubmit(values, status)}
     >
       {({ isSubmitting }) => (
