@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 import General from "./General";
-import ManageCategories from "./ManageCategories/ManageCategories";
+import ManageCategories from "./ManageCategories";
 import Redirection from "./Redirection";
 
 export const SETTINGS_NAVLINKS = [
@@ -44,3 +44,14 @@ export const KNOWLEDGE_BASE_VALIDATION_SCHEMA = yup.object().shape({
       "Password should contain atleast one letter and number"
     ),
 });
+
+export const REDIRECTION = [
+  {
+    fromPath: "www.google.com",
+    toPath: "www.amazon.com",
+  },
+  {
+    fromPath: "www.google.com",
+    toPath: "www.amazon.com",
+  },
+];
