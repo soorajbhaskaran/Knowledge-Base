@@ -33,6 +33,7 @@ const Form = ({ isEdit = false, handleSubmit, initialArticleValue }) => {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={initialArticleValue}
       validateOnBlur={submitted}
       validateOnChange={submitted}

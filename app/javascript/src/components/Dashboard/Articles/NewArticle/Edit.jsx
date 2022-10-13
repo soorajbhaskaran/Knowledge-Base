@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 
 import articleApi from "apis/articles";
+import { buildSelectOptions } from "utils/";
 
 import Form from "./Form";
 
@@ -19,16 +20,12 @@ const Edit = () => {
       setArticle({
         title: article.title,
         content: article.content,
-        category: { label: article.category.title, value: article.category.id },
+        category: { ...buildSelectOptions([article.category])[0] },
       });
     } catch (error) {
       logger.error(error);
     }
   };
-
-  useEffect(() => {
-    fetchArticle();
-  }, []);
 
   const handleEditArticle = async (values, status) => {
     try {
@@ -42,6 +39,9 @@ const Edit = () => {
       logger.error(error);
     }
   };
+  useEffect(() => {
+    fetchArticle();
+  }, []);
 
   return (
     <Form
