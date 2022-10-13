@@ -4,10 +4,7 @@ import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import * as yup from "yup";
 
-export const buildSelectOptions = (categories) =>
-  categories.map((category) => ({ label: category.title, value: category.id }));
-
-export const buildValidationSchema = (categories) =>
+export const buildValidationSchemaForArticles = (categories) =>
   yup.object().shape({
     title: yup.string().required("Title is required"),
     category: yup

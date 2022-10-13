@@ -20,7 +20,7 @@ const NavBar = () => (
               Scribble
             </Typography>
             <NavItem name="Articles" path="/dashboard/articles" />
-            <NavItem name="Settings" path="/" />
+            <NavItem name="Settings" path="/dashboard/settings?tab=general" />
           </div>
         </div>
         <div className="flex items-center justify-end gap-x-4">

@@ -9,6 +9,7 @@ import { buildArticleColumnData } from "./utils";
 
 const Table = ({ articles, refetch }) => {
   const history = useHistory();
+
   const handleEditButton = (slug) => {
     history.push(`/dashboard/articles/${slug}/edit`);
   };
