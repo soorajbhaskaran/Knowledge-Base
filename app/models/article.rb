@@ -10,7 +10,8 @@ class Article < ApplicationRecord
   validates :content, presence: true, length: { maximum: 100 }
   validates :slug, uniqueness: true
 
-  before_create :set_slug
+  before_create :set_slug, :update_published_date_when_status_changes_to_published
+  before_update :update_published_date_when_status_changes_to_published
 
   private
 
@@ -34,6 +35,12 @@ class Article < ApplicationRecord
     def slug_not_changed
       if slug_changed? && self.persisted?
         errors.add(:slug, t("article.slug.immutable"))
+      end
+    end
+
+    def update_published_date_when_status_changes_to_published
+      if status_changed? && published?
+        self.published_date = Time.zone.now
       end
     end
 end

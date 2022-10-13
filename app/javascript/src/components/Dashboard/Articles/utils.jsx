@@ -21,62 +21,73 @@ export const buildValidationSchemaForArticles = (categories) =>
 export const buildArticleColumnData = ({
   handleEditButton,
   handleDeleteButton,
-}) => [
-  {
-    dataIndex: "title",
-    key: "title",
-    title: "TITLE",
-    render: (title) => (
-      <Typography className="text-purple-500" style="body2" weight="semibold">
-        {title}
-      </Typography>
-    ),
-  },
-  {
-    dataIndex: "created_at",
-    key: "created_at",
-    title: "DATE",
-    render: (created_at) => (
-      <Typography style="body2">
-        {new Date(created_at).toDateString()}
-      </Typography>
-    ),
-  },
-  {
-    dataIndex: "author",
-    key: "author",
-    title: "AUTHOR",
-  },
-  {
-    dataIndex: "category",
-    key: "category",
-    title: "CATEGORY",
-  },
-  {
-    dataIndex: "status",
-    key: "status",
-    title: "STATUS",
-  },
-  {
-    dataIndex: "delete",
-    key: "delete",
-    title: "",
-    width: 10,
-    render: (_, { slug }) => (
-      <Button
-        icon={Delete}
-        style="text"
-        onClick={() => handleDeleteButton(slug)}
-      />
-    ),
-  },
-  {
-    dataIndex: "edit",
-    key: "edit",
-    title: "",
-    width: 10,
-    render: (_, { slug }) => (
-      <Button icon={Edit} style="text" onClick={() => handleEditButton(slug)} />
-    ),
-  },
-];
+  checkedColumns,
+}) =>
+  [
+    {
+      dataIndex: "title",
+      key: "title",
+      title: "TITLE",
+      hidden: !checkedColumns.title,
+      render: (title) => (
+        <Typography className="text-purple-500" style="body2" weight="semibold">
+          {title}
+        </Typography>
+      ),
+    },
+    {
+      dataIndex: "date",
+      hidden: !checkedColumns.date,
+      key: "date",
+      title: "DATE",
+      render: (date) => (
+        <Typography style="body2">
+          {date ? new Date(date).toDateString() : "--"}
+        </Typography>
+      ),
+    },
+    {
+      dataIndex: "author",
+      hidden: !checkedColumns.author,
+      key: "author",
+      title: "AUTHOR",
+    },
+    {
+      dataIndex: "category",
+      hidden: !checkedColumns.category,
+      key: "category",
+      title: "CATEGORY",
+    },
+    {
+      dataIndex: "status",
+      hidden: !checkedColumns.status,
+      key: "status",
+      title: "STATUS",
+    },
+    {
+      dataIndex: "delete",
+      key: "delete",
+      title: "",
+      width: 10,
+      render: (_, { slug }) => (
+        <Button
+          icon={Delete}
+          style="text"
+          onClick={() => handleDeleteButton(slug)}
+        />
+      ),
+    },
+    {
+      dataIndex: "edit",
+      key: "edit",
+      title: "",
+      width: 10,
+      render: (_, { slug }) => (
+        <Button
+          icon={Edit}
+          style="text"
+          onClick={() => handleEditButton(slug)}
+        />
+      ),
+    },
+  ].filter((column) => !column.hidden);

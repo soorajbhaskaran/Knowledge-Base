@@ -49,7 +49,7 @@ const Header = ({
 const renderColumnActionDropdown = ({ checkedColumns, setCheckedColumns }) => {
   const articleTableHeaderNames = [
     "Title",
-    "Categories",
+    "Category",
     "Author",
     "Date",
     "Status",
