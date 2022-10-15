@@ -19,8 +19,8 @@ const NavBar = () => (
             >
               Scribble
             </Typography>
-            <NavItem name="Articles" path="/dashboard/articles" />
-            <NavItem name="Settings" path="/dashboard/settings?tab=general" />
+            <NavItem name="Articles" path="/admin/articles" />
+            <NavItem name="Settings" path="/admin/settings?tab=general" />
           </div>
         </div>
         <div className="flex items-center justify-end gap-x-4">

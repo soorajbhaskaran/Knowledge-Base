@@ -34,7 +34,7 @@ const Edit = () => {
         category_id: values.category.value,
         status,
       });
-      history.push("/dashboard/articles");
+      history.push("/admin/articles");
     } catch (error) {
       logger.error(error);
     }

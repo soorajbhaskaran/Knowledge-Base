@@ -11,7 +11,7 @@ const Table = ({ articles, refetch, checkedColumns }) => {
   const history = useHistory();
 
   const handleEditButton = (slug) => {
-    history.push(`/dashboard/articles/${slug}/edit`);
+    history.push(`/admin/articles/${slug}/edit`);
   };
   const handleDeleteButton = async (slug) => {
     try {

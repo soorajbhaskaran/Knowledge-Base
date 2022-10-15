@@ -3,11 +3,13 @@ import Create from "components/Dashboard/Articles/NewArticle/Create";
 import Edit from "components/Dashboard/Articles/NewArticle/Edit";
 import Settings from "components/Dashboard/Settings";
 
-export const DASHBOARD_PATH = "/dashboard";
-export const ARTICLES_PATH = "/dashboard/articles";
-export const SETTINGS_PATH = "/dashboard/settings";
-export const NEW_ARTICLE_PATH = "/dashboard/articles/new";
-export const EDIT_ARTICLE_PATH = "/dashboard/articles/:slug/edit";
+export const DASHBOARD_PATH = "/admin";
+export const ARTICLES_PATH = "/admin/articles";
+export const SETTINGS_PATH = "/admin/settings";
+export const NEW_ARTICLE_PATH = "/admin/articles/new";
+export const EDIT_ARTICLE_PATH = "/admin/articles/:slug/edit";
+export const EUI_PATH = "/article/";
+export const EUI_ARTICLE_PATH = "/article/:slug";
 
 export const DASHBOARD_ROUTES = [
   {

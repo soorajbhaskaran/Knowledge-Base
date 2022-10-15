@@ -6,4 +6,5 @@ json.article do
   json.status @article.status
   json.category @article.category
   json.slug @article.slug
+  json.published_date @article.published_date
 end

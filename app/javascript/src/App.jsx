@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
 import { initializeLogger } from "common/logger";
-
-import Dashboard from "./components/Dashboard";
+import Dashboard from "components/Dashboard";
+import Eui from "components/Eui/PublishedArticles";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,10 @@ const App = () => {
   return (
     <Router>
       <ToastContainer />
-      <Dashboard />
+      <Switch>
+        <Route component={Dashboard} path="/admin" />
+        <Route component={Eui} path="/" />
+      </Switch>
     </Router>
   );
 };
