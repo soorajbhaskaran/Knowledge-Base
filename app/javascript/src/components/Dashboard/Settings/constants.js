@@ -45,13 +45,7 @@ export const KNOWLEDGE_BASE_VALIDATION_SCHEMA = yup.object().shape({
     ),
 });
 
-export const REDIRECTION = [
-  {
-    fromPath: "www.google.com",
-    toPath: "www.amazon.com",
-  },
-  {
-    fromPath: "www.google.com",
-    toPath: "www.amazon.com",
-  },
-];
+export const REDIRECTION_VALIDATION_SCHEMA = yup.object().shape({
+  from_path: yup.string().required("From path is required"),
+  to_path: yup.string().required("To path is required"),
+});
