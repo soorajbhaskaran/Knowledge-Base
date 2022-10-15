@@ -4,7 +4,8 @@ class ArticlesController < ApplicationController
   before_action :load_article!, only: [:show, :update, :destroy]
 
   def index
-    @articles = current_user.articles.includes(:category)
+    @draft_articles = current_user.articles.includes(:category).of_status(:draft)
+    @published_articles = current_user.articles.includes(:category).of_status(:published)
   end
 
   def create

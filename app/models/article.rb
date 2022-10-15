@@ -38,6 +38,15 @@ class Article < ApplicationRecord
       end
     end
 
+    def self.of_status(progress)
+      if progress == :draft
+        status = draft.order("updated_at DESC")
+      else
+        status = published.order("updated_at DESC")
+      end
+      status
+    end
+
     def update_published_date_when_status_changes_to_published
       if status_changed? && published?
         self.published_date = Time.zone.now

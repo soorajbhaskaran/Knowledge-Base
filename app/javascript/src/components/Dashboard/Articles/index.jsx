@@ -28,7 +28,7 @@ const Articles = () => {
       const {
         data: { articles },
       } = await articleApi.fetch();
-      setArticles(articles);
+      setArticles([...articles.published, ...articles.draft]);
     } catch (error) {
       logger.error(error);
     } finally {
