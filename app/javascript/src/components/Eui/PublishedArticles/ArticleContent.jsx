@@ -45,10 +45,10 @@ const ArticleContent = () => {
       <div className="flex items-center">
         <Callout style="info">{article.category}</Callout>
         <Typography className="ml-4" component="p" style="body1">
-          {article.published_date}
+          {new Date(article.published_date).toDateString()}
         </Typography>
       </div>
-      <Typography className="pr-16 leading-7" component="p" style="body1">
+      <Typography className="mt-10 pr-16 leading-7" component="p" style="body1">
         {article.content}
       </Typography>
     </div>
