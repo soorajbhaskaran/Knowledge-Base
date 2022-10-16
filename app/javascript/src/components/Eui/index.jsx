@@ -4,7 +4,8 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import categoryApi from "apis/categories";
 
-import PublishedArticles from "./PublishedArticles";
+import Header from "./Header";
+import PasswordScreen from "./PasswordScreen";
 
 import { EUI_PATH, EUI_ARTICLE_PATH } from "../routeConstants";
 
@@ -24,9 +25,11 @@ const Eui = () => {
 
   return (
     <div className="h-screen w-full">
+      <Header />
+      <Redirect exact from={EUI_PATH} to={`${EUI_PATH}${initialSlug}`} />
       <Switch>
-        <Redirect exact from="/article" to={`${EUI_PATH}${initialSlug}`} />
-        <Route component={PublishedArticles} path={EUI_ARTICLE_PATH} />
+        <Route component={PasswordScreen} path={EUI_ARTICLE_PATH} />
+        <Route exact component={PasswordScreen} path="/article/authenticate" />
       </Switch>
     </div>
   );
