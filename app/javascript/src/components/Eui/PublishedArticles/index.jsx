@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
-import { Switch, Route } from "react-router-dom";
 
 import categoryApi from "apis/categories";
-import { EUI_ARTICLE_PATH } from "components/routeConstants";
 
 import Accordion from "./Accordion";
 import ArticleContent from "./ArticleContent";
@@ -18,15 +16,16 @@ const PublishedArticles = () => {
       const {
         data: { categories },
       } = await categoryApi.fetch();
-      setCategories(categories);
-
-      //       const publishedCategory = categories.articles.filter(
-      //         (article) => article.status === "published"
-      //       );
-      // debugger;
-      //       setCategories(
-      //         publishedCategory.filter((category) => category.articles.length > 0)
-      //       );
+      setCategories(
+        categories.map(
+          (category) =>
+            category.articles.published.length > 0 && {
+              id: category.id,
+              title: category.title,
+              articles: category.articles.published,
+            }
+        )
+      );
     } catch (error) {
       logger.error(error);
     } finally {
@@ -54,9 +53,7 @@ const PublishedArticles = () => {
       </div>
       <div className="flex">
         <Accordion categories={categories} />
-        <Switch>
-          <Route exact component={ArticleContent} path={EUI_ARTICLE_PATH} />
-        </Switch>
+        <ArticleContent />
       </div>
     </div>
   );

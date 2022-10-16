@@ -4,7 +4,8 @@ class CategoriesController < ApplicationController
   before_action :load_category!, only: [:update, :destroy]
 
   def index
-    @categories = Category.all
+    categories = Category.split_category_articles_based_on_status
+    render json: { categories: categories }
   end
 
   def create
