@@ -97,7 +97,7 @@ const Form = ({ isEdit = false, handleSubmit, initialArticleValue }) => {
                 label="Cancel"
                 size="large"
                 style="text"
-                // onClick={onClose}
+                onClick={() => {}}
               />
             </div>
           </FormikForm>

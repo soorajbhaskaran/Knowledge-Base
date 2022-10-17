@@ -29,21 +29,9 @@ export const SETTINGS_NAVLINKS = [
 ];
 
 export const KNOWLEDGE_BASE_INITIAL_FORM_VALUES = {
-  site: "",
+  name: "",
   password: "",
 };
-
-export const KNOWLEDGE_BASE_VALIDATION_SCHEMA = yup.object().shape({
-  site: yup.string().required("Site name is required"),
-  password: yup
-    .string()
-    .required("Password is required")
-    .min(6, "Password is too short - should be 6 chars minimum.")
-    .matches(
-      /([a-z]+[0-9]+)|([0-9]+[a-z]+)/gi,
-      "Password should contain atleast one letter and number"
-    ),
-});
 
 export const REDIRECTION_VALIDATION_SCHEMA = yup.object().shape({
   from_path: yup.string().required("From path is required"),
