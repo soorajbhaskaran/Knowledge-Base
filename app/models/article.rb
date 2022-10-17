@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
+  MAX_ARTICLE_TITLE_LENGTH = 15
+  MAX_ARTICLE_CONTENT_LENGTH = 50
+
   belongs_to :category, counter_cache: true, foreign_key: "category_id", class_name: "Category"
   belongs_to :author, foreign_key: "author_id", class_name: "User"
 
   enum status: { draft: "draft", published: "published" }
 
-  validates :title, presence: true, length: { maximum: 25 }
-  validates :content, presence: true, length: { maximum: 100 }
+  validates :title, presence: true, length: { maximum: MAX_ARTICLE_TITLE_LENGTH }
+  validates :content, presence: true, length: { maximum: MAX_ARTICLE_CONTENT_LENGTH }
   validates :slug, uniqueness: true
 
   before_create :set_slug, :update_published_date_when_status_changes_to_published
