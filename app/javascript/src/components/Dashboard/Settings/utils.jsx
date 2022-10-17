@@ -2,6 +2,7 @@ import React from "react";
 
 import { Edit, Delete, Check } from "neetoicons";
 import { Button, Typography } from "neetoui";
+import * as yup from "yup";
 
 import { SETTINGS_NAVLINKS } from "./constants";
 
@@ -70,5 +71,24 @@ export const buildRedirectionColumn = ({
     },
   },
 ];
+
 export const getActiveNavLink = (key) =>
   SETTINGS_NAVLINKS.find((navlink) => key === navlink.key);
+
+export const buildPreferanceValidationSchema = ({ isPasswordVisible }) => {
+  const validationShape = {
+    name: yup.string().required("Site name is required"),
+  };
+  if (isPasswordVisible) {
+    validationShape.password = yup
+      .string()
+      .required("Password is required")
+      .min(6, "Password is too short - should be 6 chars minimum.")
+      .matches(
+        /([a-z]+[0-9]+)|([0-9]+[a-z]+)/gi,
+        "Password should contain atleast one letter and number"
+      );
+  }
+
+  return yup.object().shape(validationShape);
+};

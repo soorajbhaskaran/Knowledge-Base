@@ -19,6 +19,7 @@ gem "webpacker", "~> 5.0"
 gem "jbuilder", "~> 2.7"
 gem "responders"
 # Build react components
+gem "bcrypt", "~> 3.1.13"
 gem "react-rails"
 
 # Use Redis adapter to run Action Cable in production
