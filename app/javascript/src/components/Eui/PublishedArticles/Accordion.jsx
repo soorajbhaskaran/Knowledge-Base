@@ -4,20 +4,27 @@ import { Accordion as NeetoUIAccordion } from "neetoui";
 import PropTypes from "prop-types";
 import { useParams, NavLink } from "react-router-dom";
 
+const DEFAULT_SELECTED_CATEGORY_INDEX = 0;
 const Accordion = ({ categories }) => {
   const { slug } = useParams();
 
-  const isAccordionOpen = (articles) =>
-    articles.some((article) => article.slug === slug);
+  const getActiveCategoryIndexFromSlug = (categories) => {
+    const activeCategoryIndex = categories.findIndex(({ articles }) =>
+      articles.find((article) => article.slug === slug)
+    );
+
+    return activeCategoryIndex === -1
+      ? DEFAULT_SELECTED_CATEGORY_INDEX
+      : activeCategoryIndex;
+  };
 
   return (
-    <NeetoUIAccordion className="mx-8 w-1/4 border-r-2" defaultActiveKey={0}>
+    <NeetoUIAccordion
+      className="mx-8 w-1/4 border-r-2"
+      defaultActiveKey={getActiveCategoryIndexFromSlug(categories)}
+    >
       {categories.map(({ id, articles, title }) => (
-        <NeetoUIAccordion.Item
-          isOpen={isAccordionOpen(articles)}
-          key={id}
-          title={title}
-        >
+        <NeetoUIAccordion.Item key={id} title={title}>
           {articles.map(({ id, title, slug }) => (
             <NavLink
               exact

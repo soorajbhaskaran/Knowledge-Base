@@ -48,12 +48,12 @@ const Eui = () => {
   return (
     <div className="h-screen w-full">
       <Header title={preference.name} />
-      <Redirect
-        exact
-        from={EUI_PATH}
-        to={`${EUI_PATH}${!preference.active ? initialSlug : "authenticate"}`}
-      />
       <Switch>
+        <Redirect
+          exact
+          from={EUI_PATH}
+          to={`${EUI_PATH}${!preference.active ? initialSlug : "authenticate"}`}
+        />
         <Route
           exact
           path="/article/authenticate"
@@ -65,7 +65,7 @@ const Eui = () => {
             />
           )}
         />
-        <Route component={PublishedArticles} path={EUI_ARTICLE_PATH} />
+        <Route exact component={PublishedArticles} path={EUI_ARTICLE_PATH} />
       </Switch>
     </div>
   );
