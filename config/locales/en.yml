@@ -38,8 +38,9 @@ en:
   successfully_deleted: "%{entity} was successfully deleted!"
   not_found: "Couldn't find %{entity}"
   in_progress: "Report generation is processing"
-  task:
+  article:
     slug:
+      taken: "Slug has already been taken"
       immutable: "is immutable!"
   date:
     invalid: "must be a valid date"
