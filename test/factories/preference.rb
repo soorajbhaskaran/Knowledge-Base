@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :preference do
     name { Faker::Name.name[0..14] }
-    password { Faker::Name.name[6..] }
+    password { "welcome123" }
   end
 end
