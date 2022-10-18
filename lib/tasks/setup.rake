@@ -39,6 +39,7 @@ end
 def create_sample_data!
   create_user! email: "oliver@example.com"
   create_category!
+  create_preference!
 end
 
 def create_user!(options = {})
@@ -59,4 +60,14 @@ def create_category!(options = {})
   }
   attributes = category_attributes.merge options
   Category.create! attributes
+end
+
+def create_preference!(options = {})
+  preference_attributes = {
+    name: "Spinkart",
+    password: "welcome123",
+    active: true
+  }
+  attributes = preference_attributes.merge options
+  Preference.create! attributes
 end
