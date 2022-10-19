@@ -22,7 +22,7 @@ const ManageCategories = () => {
     try {
       const {
         data: { categories },
-      } = await categoryApi.fetch();
+      } = await categoryApi.fetch({ path: "/categories" });
       setCategories(categories);
     } catch (error) {
       logger.error(error);

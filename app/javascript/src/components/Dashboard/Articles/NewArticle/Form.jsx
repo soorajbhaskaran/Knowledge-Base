@@ -20,7 +20,7 @@ const Form = ({ isEdit = false, handleSubmit, initialArticleValue }) => {
     try {
       const {
         data: { categories },
-      } = await categoryApi.fetch();
+      } = await categoryApi.fetch({ path: "/categories" });
       setCategory(buildSelectOptions(categories));
     } catch (error) {
       logger.error(error);

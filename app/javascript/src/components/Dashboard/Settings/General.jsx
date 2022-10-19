@@ -24,7 +24,7 @@ const General = () => {
         name: preference.name,
         password: "",
       });
-      setIsPasswordVisible(preference.active);
+      setIsPasswordVisible(preference.is_password_protection_enabled);
     } catch (error) {
       logger.error(error);
     }
@@ -34,7 +34,7 @@ const General = () => {
     try {
       await preferenceApi.update({
         name: values.name,
-        active: isPasswordVisible,
+        is_password_protection_enabled: isPasswordVisible,
         password: (isPasswordVisible && values.password) || "",
       });
       fetchApplicationDetails();

@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from "react";
 
-import { Route, Switch, Redirect } from "react-router-dom";
+import { either, isEmpty, isNil } from "ramda";
+import { Route, Switch } from "react-router-dom";
 
 import categoryApi from "apis/categories";
 import preferenceApi from "apis/preference";
+import PrivateRoute from "components/Common/PrivateRoute";
+import { getFromLocalStorage } from "utils/storage";
 
 import Header from "./Header";
 import PasswordScreen from "./PasswordScreen";
-import PublishedArticles from "./PublishedArticles";
+import PublishedArticle from "./PublishedArticles";
 
-import { EUI_PATH, EUI_ARTICLE_PATH } from "../routeConstants";
+import { AUTH_PATH, EUI_ARTICLE_PATH, EUI_PATH } from "../routeConstants";
 
 const Eui = () => {
   const [initialSlug, setInitialSlug] = useState("");
   const [preference, setPreference] = useState({});
+  const authToken = getFromLocalStorage("authToken");
+  const isAuthenticated = !either(isNil, isEmpty)(authToken);
 
   const fetchInitialSlug = async () => {
     try {
       const {
         data: { categories },
-      } = await categoryApi.fetch();
+      } = await categoryApi.fetch({ path: "/categories" });
       setInitialSlug(categories[0].articles.published[0].slug);
     } catch (error) {
       logger.error(error);
@@ -32,9 +37,6 @@ const Eui = () => {
         data: { preference },
       } = await preferenceApi.show();
       setPreference(preference);
-      if (preference.active) {
-        fetchInitialSlug();
-      }
     } catch (error) {
       logger.error(error);
     }
@@ -49,23 +51,16 @@ const Eui = () => {
     <div className="h-screen w-full">
       <Header title={preference.name} />
       <Switch>
-        <Redirect
-          exact
-          from={EUI_PATH}
-          to={`${EUI_PATH}${!preference.active ? initialSlug : "authenticate"}`}
+        <Route exact component={PasswordScreen} path={AUTH_PATH} />
+        <Route exact component={PublishedArticle} path={EUI_ARTICLE_PATH} />
+        <PrivateRoute
+          component={PublishedArticle}
+          condition={isAuthenticated}
+          initialSlug={initialSlug}
+          isPasswordProtected={preference.is_password_protection_enabled}
+          path={EUI_PATH}
+          redirectRoute={AUTH_PATH}
         />
-        <Route
-          exact
-          path="/article/authenticate"
-          render={(props) => (
-            <PasswordScreen
-              {...props}
-              preference={preference}
-              setPreference={setPreference}
-            />
-          )}
-        />
-        <Route exact component={PublishedArticles} path={EUI_ARTICLE_PATH} />
       </Switch>
     </div>
   );

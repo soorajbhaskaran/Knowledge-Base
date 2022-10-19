@@ -8,6 +8,12 @@ Rails.application.routes.draw do
   resources :redirections, only: [:index, :create, :update, :destroy], defaults: { format: "json" }
   resource :preference, only: [:show, :update, :create]
 
+  namespace :public do
+    resources :categories, only: [:index], defaults: { format: "json" }
+    resource :sessions, only: [:create]
+    resources :articles, only: [:show], defaults: { format: "json" }, param: :slug
+  end
+
   root "home#index"
   get "*path", to: "home#index", via: :all
 end

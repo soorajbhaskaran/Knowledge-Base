@@ -4,6 +4,7 @@ class Preference < ApplicationRecord
   MINIMUM_PREFERENCE_PASSWORD_LENGTH = 6
 
   has_secure_password
+  has_secure_token :authentication_token
   validates :name, presence: true
   validates :password, length: { minimum: MINIMUM_PREFERENCE_PASSWORD_LENGTH }, if: -> { password.present? }
 end

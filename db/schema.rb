@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_17_060645) do
+ActiveRecord::Schema.define(version: 2022_10_19_125202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -42,9 +42,10 @@ ActiveRecord::Schema.define(version: 2022_10_17_060645) do
   create_table "preferences", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "password_digest"
-    t.boolean "active"
+    t.boolean "is_password_protection_enabled", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "authentication_token"
   end
 
   create_table "redirections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

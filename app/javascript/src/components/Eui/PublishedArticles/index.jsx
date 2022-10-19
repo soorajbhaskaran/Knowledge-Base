@@ -15,7 +15,7 @@ const PublishedArticles = () => {
     try {
       const {
         data: { categories },
-      } = await categoryApi.fetch();
+      } = await categoryApi.fetch({ path: "/public/categories" });
       setCategories(
         categories.map(
           (category) =>
