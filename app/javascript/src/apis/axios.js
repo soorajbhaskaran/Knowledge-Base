@@ -1,6 +1,8 @@
 import axios from "axios";
 import { Toastr } from "neetoui";
 
+import { getFromLocalStorage } from "utils/storage";
+
 axios.defaults.baseURL = "/";
 const DEFAULT_ERROR_NOTIFICATION =
   "Something went wrong. Please try again later.";
@@ -13,6 +15,10 @@ const setAuthHeaders = (setLoading = () => null) => {
       .querySelector('[name="csrf-token"]')
       .getAttribute("content"),
   };
+  const token = getFromLocalStorage("authToken");
+  if (token) {
+    axios.defaults.headers["X-Auth-Token"] = token;
+  }
   setLoading(false);
 };
 const handleSuccessResponse = (response) => {

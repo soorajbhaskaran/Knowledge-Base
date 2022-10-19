@@ -66,7 +66,7 @@ def create_preference!(options = {})
   preference_attributes = {
     name: "Spinkart",
     password: "welcome123",
-    active: true
+    is_password_protection_enabled: false
   }
   attributes = preference_attributes.merge options
   Preference.create! attributes

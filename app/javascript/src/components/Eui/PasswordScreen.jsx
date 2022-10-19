@@ -1,25 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Formik, Form } from "formik";
-import { Typography, Button } from "neetoui";
+import { Typography, Button, PageLoader } from "neetoui";
 import { Input } from "neetoui/formik";
 
+import authApi from "apis/auth";
+import { setAuthHeaders } from "apis/axios";
 import preferenceApi from "apis/preference";
 import PasswordImage from "images/Password";
+import { setToLocalStorage } from "utils/storage";
 
 import { PASSWORD_SCREEN_VALIDATION_SCHEMA } from "./constants";
 
-const PasswordScreen = ({ preference, setPreference }) => {
+const PasswordScreen = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState("");
 
   const handleSubmitButton = async (values) => {
     try {
-      await preferenceApi.create(values);
-      setPreference((prevPreference) => (prevPreference.active = false));
+      setLoading(true);
+      const response = await authApi.login(values);
+      setToLocalStorage({
+        authToken: response.data.authentication_token,
+      });
+      setAuthHeaders();
+
+      window.location.href = "/article";
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getPreferenceData = async () => {
+    try {
+      const {
+        data: {
+          preference: { name },
+        },
+      } = await preferenceApi.show();
+      setToLocalStorage({
+        authToken: "",
+      });
+      setName(name);
     } catch (error) {
       logger.error(error);
     }
   };
+
+  useEffect(() => {
+    getPreferenceData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full">
+        <PageLoader />
+      </div>
+    );
+  }
 
   return (
     <Formik
@@ -37,14 +78,14 @@ const PasswordScreen = ({ preference, setPreference }) => {
             src={PasswordImage}
           />
           <Typography className="mt-2 w-64" component="h3" style="h3">
-            {preference.name} is password protected!
+            {name} is password protected!
           </Typography>
           <Typography
             className="mt-2 text-gray-500"
             component="p"
             style="body2"
           >
-            Enter the password to gain access to {preference.name}
+            Enter the password to gain access to {name}
           </Typography>
           <Form className="mt-6">
             <Input

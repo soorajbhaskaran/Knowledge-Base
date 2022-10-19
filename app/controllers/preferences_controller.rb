@@ -7,14 +7,6 @@ class PreferencesController < ApplicationController
     render json: { preference: @preference }
   end
 
-  def create
-    puts @preference.inspect
-    puts @preference.authenticate(preference_params[:password])
-    unless @preference.authenticate(preference_params[:password])
-      respond_with_error("Incorrect password, try again.", :unauthorized)
-    end
-  end
-
   def update
     @preference.update!(preference_params)
     respond_with_success(t("successfully_updated", entity: "Your preference"))
@@ -23,7 +15,7 @@ class PreferencesController < ApplicationController
   private
 
     def preference_params
-      params.require(:preference).permit(:name, :password, :active)
+      params.require(:preference).permit(:name, :password, :is_password_protection_enabled)
     end
 
     def load_preference!

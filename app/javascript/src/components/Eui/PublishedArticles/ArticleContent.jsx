@@ -14,7 +14,7 @@ const ArticleContent = () => {
     try {
       const {
         data: { article },
-      } = await articleApi.show(slug);
+      } = await articleApi.show({ slug, path: "/public/articles/" });
       setArticle({
         ...article,
         category: article.category.title,

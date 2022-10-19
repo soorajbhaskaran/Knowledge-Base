@@ -3,10 +3,17 @@
 class ApplicationController < ActionController::Base
   include ApiResponders
   include ApiRescuable
+  include Authenticable
 
   private
 
     def current_user
       @_current_user ||= User.find_by(email: "oliver@example.com")
+    end
+
+    def check_password_presence
+      if Preference.all.first.is_password_protection_enabled
+        authenticate_end_user_using_x_auth_token
+      end
     end
 end

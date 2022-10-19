@@ -16,7 +16,7 @@ const Edit = () => {
     try {
       const {
         data: { article },
-      } = await articleApi.show(slug);
+      } = await articleApi.show({ slug, path: "/articles/" });
       setArticle({
         title: article.title,
         content: article.content,
