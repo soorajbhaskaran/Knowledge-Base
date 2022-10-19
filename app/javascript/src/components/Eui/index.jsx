@@ -12,6 +12,8 @@ import Header from "./Header";
 import PasswordScreen from "./PasswordScreen";
 import PublishedArticle from "./PublishedArticles";
 
+import { AUTH_PATH, EUI_ARTICLE_PATH, EUI_PATH } from "../routeConstants";
+
 const Eui = () => {
   const [initialSlug, setInitialSlug] = useState("");
   const [preference, setPreference] = useState({});
@@ -49,15 +51,15 @@ const Eui = () => {
     <div className="h-screen w-full">
       <Header title={preference.name} />
       <Switch>
-        <Route exact component={PasswordScreen} path="/article/authenticate" />
-        <Route exact component={PublishedArticle} path="/article/:slug" />
+        <Route exact component={PasswordScreen} path={AUTH_PATH} />
+        <Route exact component={PublishedArticle} path={EUI_ARTICLE_PATH} />
         <PrivateRoute
           component={PublishedArticle}
           condition={isAuthenticated}
           initialSlug={initialSlug}
           isPasswordProtected={preference.is_password_protection_enabled}
-          path="/article"
-          redirectRoute="/article/authenticate"
+          path={EUI_PATH}
+          redirectRoute={AUTH_PATH}
         />
       </Switch>
     </div>
