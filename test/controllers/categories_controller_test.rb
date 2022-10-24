@@ -63,10 +63,20 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_create_new_general_category_if_category_count_is_one_when_deleting
-    assert_difference "Category.count", 1 do
+    assert_difference "Category.count", 0 do
       delete category_path(@category)
     end
     assert_response :success
     assert_equal "General", Category.first.title
+  end
+
+  def test_articles_count_should_be_consistent_on_deletion_of_category
+    category = create(:category)
+    article = create(:article, category: category)
+    assert_difference "Category.count", -1 do
+      delete category_path(category), params: { new_category_id: @category.id }
+    end
+    assert_response :success
+    assert_equal @category.articles_count, 2
   end
 end
