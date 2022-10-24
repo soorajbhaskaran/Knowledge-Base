@@ -2,17 +2,18 @@
 
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :users, only: [:new, :create, :show, :index]
-  resources :articles, only: [:index, :create, :show, :destroy, :update], defaults: { format: "json" }, param: :slug
-  resources :categories, only: [:index, :create, :update, :destroy], defaults: { format: "json" }
-  resources :redirections, only: [:index, :create, :update, :destroy], defaults: { format: "json" }
-  resource :preference, only: [:show, :update, :create]
+  constraints(lambda { |req| req.format == :json }) do
+      resources :articles, except: %i[new edit], param: :slug
+      resources :categories, except: %i[new edit show]
+      resources :redirections, except: %i[new edit show]
+      resource :preference, only: %i[update create show]
 
-  namespace :public do
-    resources :categories, only: [:index], defaults: { format: "json" }
-    resource :sessions, only: [:create]
-    resources :articles, only: [:show], defaults: { format: "json" }, param: :slug
-  end
+      namespace :public do
+        resources :categories, only: %i[create]
+        resource :sessions, only: %i[create]
+        resources :articles, only: %i[show], param: :slug
+      end
+    end
 
   root "home#index"
   get "*path", to: "home#index", via: :all
