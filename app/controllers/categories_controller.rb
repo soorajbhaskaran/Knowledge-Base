@@ -20,7 +20,6 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    puts @category.articles_count
     @category.articles_count.zero? ? @category.destroy! : change_article_category
     respond_with_success(t("successfully_deleted", entity: "Category"))
   end
@@ -34,14 +33,14 @@ class CategoriesController < ApplicationController
     def change_article_category
       new_category_id = create_new_category_if_there_is_only_one
       @category.articles.update_all(category_id: new_category_id)
-      Category.update_counters(new_category_id, articles_count: Category.find_by!(id: new_category_id).articles.count)
-      @category.destroy!
+      Category.reset_counters(new_category_id, :articles)
+      @category.reload.destroy!
     end
 
     def create_new_category_if_there_is_only_one
       if Category.count == 1
         Category.create!(title: "General")
-        return Category.first.id
+        return Category.last.id
       end
       params[:new_category_id]
     end
