@@ -42,9 +42,12 @@ const Eui = () => {
     }
   };
 
+  const loadData = async () => {
+    await Promise.all([fetchInitialSlug(), fetchPreference()]);
+  };
+
   useEffect(() => {
-    fetchPreference();
-    fetchInitialSlug();
+    loadData();
   }, []);
 
   return (

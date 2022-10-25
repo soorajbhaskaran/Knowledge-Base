@@ -9,7 +9,7 @@ const EditableCell = ({ editing, dataIndex, children, ...restProps }) => (
       <div className="flex items-center">
         {dataIndex === "from_path" && (
           <Typography className="mr-1" component="p" style="body2">
-            www.scribble.com/
+            www.scribble.com
           </Typography>
         )}
         <Input required name={dataIndex} placeholder="Enter path" />

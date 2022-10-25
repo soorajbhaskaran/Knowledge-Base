@@ -22,7 +22,7 @@ export const buildRedirectionColumn = ({
     render: (from_path) => (
       <div className="flex items-center">
         <Typography component="p" style="body2">
-          www.scribble.com/
+          www.scribble.com
         </Typography>
         {from_path}
       </div>
