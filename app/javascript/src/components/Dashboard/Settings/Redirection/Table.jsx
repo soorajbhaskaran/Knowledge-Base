@@ -15,7 +15,10 @@ const Table = () => {
   const [editingKey, setEditingKey] = useState("");
   const [redirections, setRedirections] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-  const [initialValues, setInitialValues] = useState({});
+  const [initialValues, setInitialValues] = useState({
+    from_path: "",
+    to_path: "",
+  });
 
   const isEditing = (record) => record.id === editingKey;
 
@@ -39,10 +42,6 @@ const Table = () => {
   };
 
   const handleAddNewRedirection = () => {
-    setInitialValues({
-      from_path: "",
-      to_path: "",
-    });
     const newRedirection = {
       id: uuidv4().slice(0, 8),
       fromPath: "",
@@ -52,13 +51,15 @@ const Table = () => {
     setEditingKey(newRedirection.id);
   };
 
-  const handleSubmitRedirection = async (values) => {
+  const handleSubmitRedirection = async (values, resetForm) => {
     if (editingKey.length === 8) {
       try {
         await redirectionApi.create(values);
         fetchRedirections();
+        resetForm({ from_path: "", to_path: "" });
       } catch (error) {
         logger.error(error);
+        handleDeleteRedirection(editingKey);
       }
     } else {
       try {
@@ -119,21 +120,24 @@ const Table = () => {
         enableReinitialize
         initialValues={initialValues}
         validateOnChange={submitted}
-        onSubmit={handleSubmitRedirection}
+        onSubmit={(values, { resetForm }) =>
+          handleSubmitRedirection(values, resetForm)
+        }
       >
         {({ isSubmitting }) => (
           <Form>
-            <NeetoUITable
-              columns={mergedColumns({ isSubmitting })}
-              currentPageNumber={1}
-              defaultPageSize={10}
-              rowData={redirections}
-              components={{
-                body: { cell: EditableCell },
-              }}
-              onRowClick={() => {}}
-              onRowSelect={() => {}}
-            />
+            <div style={{ height: "60vh" }}>
+              <NeetoUITable
+                fixedHeight
+                columns={mergedColumns({ isSubmitting })}
+                rowData={redirections}
+                components={{
+                  body: { cell: EditableCell },
+                }}
+                onRowClick={() => {}}
+                onRowSelect={() => {}}
+              />
+            </div>
           </Form>
         )}
       </Formik>
