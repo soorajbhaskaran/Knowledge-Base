@@ -1,6 +1,5 @@
 import React from "react";
 
-import { Plus } from "neetoicons";
 import { Dropdown, Checkbox, Button } from "neetoui";
 import { Header as NeetoUIHeader } from "neetoui/layouts";
 import PropTypes from "prop-types";
@@ -30,8 +29,6 @@ const Header = ({
             })}
           </Dropdown>
           <Button
-            icon={Plus}
-            iconPosition="right"
             label="Add New Article"
             onClick={() => history.push("/admin/articles/new")}
           />
