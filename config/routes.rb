@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resource :preference, only: %i[update create show]
 
       namespace :public do
-        resources :categories, only: %i[create]
+        resources :categories, only: %i[index]
         resource :sessions, only: %i[create]
         resources :articles, only: %i[show], param: :slug
       end
