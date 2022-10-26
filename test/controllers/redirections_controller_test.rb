@@ -19,7 +19,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
     assert_difference "Redirection.count", 1 do
       post redirections_path, params: {
         redirection: {
-          from_path: "test", to_path: "test"
+          from_path: "test1", to_path: "test2"
         }
       }
     end
