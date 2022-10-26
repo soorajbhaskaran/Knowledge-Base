@@ -33,9 +33,11 @@ const General = () => {
   const handleSubmitButton = async (values) => {
     try {
       await preferenceApi.update({
-        name: values.name,
-        is_password_protection_enabled: isPasswordVisible,
-        password: (isPasswordVisible && values.password) || "",
+        preference: {
+          name: values.name,
+          is_password_protection_enabled: isPasswordVisible,
+          password: (isPasswordVisible && values.password) || "",
+        },
       });
       fetchApplicationDetails();
     } catch (error) {

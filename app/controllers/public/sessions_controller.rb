@@ -2,10 +2,9 @@
 
 class Public::SessionsController < ApplicationController
   def create
-    puts login_params
     @preference = Preference.all.first
     unless @preference.reload.authenticate(login_params[:password])
-      respond_with_error(t("sessions.incorrect_credentials"), :unauthorized)
+      respond_with_error(t("session.incorrect_credentials"), :unauthorized)
     end
   end
 
