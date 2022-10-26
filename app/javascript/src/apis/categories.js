@@ -12,5 +12,7 @@ const destroy = ({ id, newCategoryId }) => {
   return axios.delete(path);
 };
 
-const categoryApi = { fetch, create, update, destroy };
+const sort = (payload) => axios.patch("/categories/sort", payload);
+
+const categoryApi = { fetch, create, update, destroy, sort };
 export default categoryApi;
