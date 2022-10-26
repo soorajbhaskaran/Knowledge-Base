@@ -11,8 +11,12 @@ class ApplicationController < ActionController::Base
       @_current_user ||= User.find_by(email: "oliver@example.com")
     end
 
+    def preference
+      @_preference ||= Preference.first
+    end
+
     def check_password_presence
-      if Preference.all.first.is_password_protection_enabled
+      if Preference.first.is_password_protection_enabled
         authenticate_end_user_using_x_auth_token
       end
     end
