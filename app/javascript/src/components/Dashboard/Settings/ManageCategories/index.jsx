@@ -167,8 +167,16 @@ const renderDragAndDrop = ({
     const items = Array.from(categories);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-
+    sortCategories(items);
     setCategories(items);
+  };
+
+  const sortCategories = async (categories) => {
+    try {
+      await categoryApi.sort({ categories });
+    } catch (error) {
+      logger.error(error);
+    }
   };
 
   return (

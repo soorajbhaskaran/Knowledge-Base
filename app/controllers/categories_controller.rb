@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   before_action :load_category!, only: [:update, :destroy]
 
   def index
-    categories = Category.split_category_articles_based_on_status
+    categories = Category.order(:position).split_category_articles_based_on_status
     render json: { categories: categories }
   end
 
@@ -22,6 +22,12 @@ class CategoriesController < ApplicationController
   def destroy
     @category.articles_count.zero? ? @category.destroy! : change_article_category
     respond_with_success(t("successfully_deleted", entity: "Category"))
+  end
+
+  def sort
+    params[:categories].each_with_index do |category, index|
+      Category.where(id: category[:id]).update_all(position: index + 1)
+    end
   end
 
   private
