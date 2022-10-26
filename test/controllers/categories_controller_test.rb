@@ -79,4 +79,18 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal @category.articles_count, 2
   end
+
+  def test_reordering_of_category_field_based_on_position
+    category1 = create(:category)
+    category2 = create(:category)
+    category1.update(position: 2)
+    category2.update(position: 1)
+    @category.update(position: 3)
+    get categories_path
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["categories"][0]["id"], category2.id
+    assert_equal response_json["categories"][1]["id"], category1.id
+    assert_equal response_json["categories"][2]["id"], @category.id
+  end
 end

@@ -32,8 +32,4 @@ class CategoryTest < ActiveSupport::TestCase
   def test_category_should_have_many_articles
     assert_respond_to @category, :articles
   end
-
-  def test_default_scope
-    assert_equal Category.all, Category.order("created_at")
-  end
 end
