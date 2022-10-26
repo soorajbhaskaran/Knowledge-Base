@@ -17,4 +17,9 @@ class PreferenceTest < ActiveSupport::TestCase
     @preference.password = "a" * (Preference::MINIMUM_PREFERENCE_PASSWORD_LENGTH - 1)
     assert_not @preference.valid?
   end
+
+  def test_preference_password_should_contain_alphanumeric_characters
+    @preference.password = "a" * Preference::MINIMUM_PREFERENCE_PASSWORD_LENGTH
+    assert_not @preference.valid?
+  end
 end
