@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PreferencesController < ApplicationController
-  before_action :load_preference!, only: [:show, :update, :create]
+  before_action :load_preference!, only: %i[show update]
 
   def show
     render json: { preference: @preference }
