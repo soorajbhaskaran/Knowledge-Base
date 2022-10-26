@@ -52,6 +52,9 @@ const App = () => {
         <Redirect exact from="/" to="/article" />
         <Route component={Eui} path="/article" />
         <Route component={Dashboard} path="/admin" />
+        <Route exact path="/:invalid">
+          <Redirect to="/article/invalid" />
+        </Route>
       </Switch>
     </Router>
   );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Typography, Callout, PageLoader } from "neetoui";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import articleApi from "apis/articles";
 
@@ -9,6 +9,7 @@ const ArticleContent = () => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
   const { slug } = useParams();
+  const history = useHistory();
 
   const fetchArticle = async () => {
     try {
@@ -21,6 +22,7 @@ const ArticleContent = () => {
       });
     } catch (error) {
       logger.error(error);
+      history.push("/article/invalid");
     } finally {
       setLoading(false);
     }
