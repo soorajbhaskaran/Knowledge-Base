@@ -11,6 +11,7 @@ export const EDIT_ARTICLE_PATH = "/admin/articles/:slug/edit";
 export const EUI_PATH = "/article/";
 export const EUI_ARTICLE_PATH = "/article/:slug";
 export const AUTH_PATH = "/article/authenticate";
+export const INVALID_PATH = "/article/invalid";
 
 export const DASHBOARD_ROUTES = [
   {
