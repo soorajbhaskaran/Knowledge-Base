@@ -4,5 +4,6 @@ FactoryBot.define do
   factory :preference do
     name { Faker::Name.name[0..14] }
     password { "welcome123" }
+    association :author, factory: :user
   end
 end

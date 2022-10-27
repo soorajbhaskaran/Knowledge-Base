@@ -34,6 +34,6 @@ class ArticlesController < ApplicationController
     end
 
     def load_article!
-      @article = Article.find_by!(slug: params[:slug])
+      @article = current_user.articles.find_by!(slug: params[:slug])
     end
 end

@@ -6,6 +6,7 @@ class Preference < ApplicationRecord
 
   has_secure_password
   has_secure_token :authentication_token
+  belongs_to :author, class_name: "User", foreign_key: "author_id"
   validates :name, presence: true
   validates :password,
     length: { minimum: MINIMUM_PREFERENCE_PASSWORD_LENGTH },

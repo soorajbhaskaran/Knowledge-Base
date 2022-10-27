@@ -6,6 +6,7 @@ class CreatePreferences < ActiveRecord::Migration[6.1]
     t.string :name
     t.string :password_digest
     t.boolean :is_password_protection_enabled, default: false
+    t.uuid :author_id, null: false
 
     t.timestamps
   end
