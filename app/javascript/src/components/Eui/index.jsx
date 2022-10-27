@@ -13,6 +13,7 @@ import { getFromLocalStorage } from "utils/storage";
 import Header from "./Header";
 import PasswordScreen from "./PasswordScreen";
 import PublishedArticle from "./PublishedArticles";
+import { getFirstPublishedArticleFromCategories } from "./utils";
 
 import {
   AUTH_PATH,
@@ -34,7 +35,7 @@ const Eui = () => {
       const {
         data: { categories },
       } = await categoryApi.fetch({ path: "/categories" });
-      setInitialSlug(categories[0].articles.published[0].slug);
+      setInitialSlug(getFirstPublishedArticleFromCategories(categories).slug);
     } catch (error) {
       logger.error(error);
     }
