@@ -4,7 +4,6 @@ class Public::CategoriesController < ApplicationController
   before_action :check_password_presence, only: [:index]
 
   def index
-    categories = Category.split_category_articles_based_on_status
-    render json: { categories: categories }
+    @public_categories = Category.split_category_articles_based_on_status
   end
 end

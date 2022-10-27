@@ -7,6 +7,8 @@ import categoryApi from "apis/categories";
 import Accordion from "./Accordion";
 import ArticleContent from "./ArticleContent";
 
+import { getCategoriesWithOnlyPublishedArticles } from "../utils";
+
 const PublishedArticles = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,16 +18,7 @@ const PublishedArticles = () => {
       const {
         data: { categories },
       } = await categoryApi.fetch({ path: "/public/categories" });
-      setCategories(
-        categories.map(
-          (category) =>
-            category.articles.published.length > 0 && {
-              id: category.id,
-              title: category.title,
-              articles: category.articles.published,
-            }
-        )
-      );
+      setCategories(getCategoriesWithOnlyPublishedArticles(categories));
     } catch (error) {
       logger.error(error);
     } finally {
