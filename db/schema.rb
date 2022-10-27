@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_26_150203) do
+ActiveRecord::Schema.define(version: 2022_10_27_141336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2022_10_26_150203) do
 
   create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
+    t.uuid "author_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "articles_count", default: 0
@@ -44,6 +45,7 @@ ActiveRecord::Schema.define(version: 2022_10_26_150203) do
     t.string "name"
     t.string "password_digest"
     t.boolean "is_password_protection_enabled", default: false
+    t.uuid "author_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "authentication_token"
@@ -52,8 +54,10 @@ ActiveRecord::Schema.define(version: 2022_10_26_150203) do
   create_table "redirections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "from_path", null: false
     t.string "to_path", null: false
+    t.uuid "author_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_redirections_on_author_id"
     t.index ["from_path"], name: "index_redirections_on_from_path", unique: true
   end
 
@@ -71,4 +75,7 @@ ActiveRecord::Schema.define(version: 2022_10_26_150203) do
 
   add_foreign_key "articles", "categories"
   add_foreign_key "articles", "users", column: "author_id"
+  add_foreign_key "categories", "users", column: "author_id"
+  add_foreign_key "preferences", "users", column: "author_id"
+  add_foreign_key "redirections", "users", column: "author_id"
 end

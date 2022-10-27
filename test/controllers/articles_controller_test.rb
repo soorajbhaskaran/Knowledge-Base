@@ -7,10 +7,11 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     @author = create(:user)
     @category = create(:category)
     @article = create(:article, author: @author, category: @category, status: "published")
+    @headers = headers(@article.author)
   end
 
   def test_should_list_all_articles
-    get articles_path
+    get articles_path, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     all_articles = response_json["articles"]
@@ -29,13 +30,13 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
           title: "Test article", content: "This is a test article content",
           category_id: @category.id, author_id: @author.id
         }
-      }
+      }, headers: @headers
     end
     assert_response :success
   end
 
   def test_should_update_article
-    put article_path(@article.slug), params: { article: { title: "Updated" } }
+    put article_path(@article.slug), params: { article: { title: "Updated" } }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     @article.reload
@@ -44,7 +45,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_delete_article
     assert_difference "Article.count", -1 do
-      delete article_path(@article.slug)
+      delete article_path(@article.slug), headers: @headers
     end
     assert_response :success
   end

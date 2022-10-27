@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Redirection < ApplicationRecord
+  belongs_to :author, class_name: "User", foreign_key: "author_id"
+
   validates :from_path, presence: true, uniqueness: true
   validates :to_path, presence: true
   validate :from_path_and_to_path_cannot_be_same

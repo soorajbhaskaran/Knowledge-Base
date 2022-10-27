@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
-  MAX_ARTICLE_TITLE_LENGTH = 15
-  MAX_ARTICLE_CONTENT_LENGTH = 50
+  MAX_ARTICLE_TITLE_LENGTH = 25
+  MAX_ARTICLE_CONTENT_LENGTH = 1000
 
   belongs_to :category, counter_cache: true, foreign_key: "category_id", class_name: "Category"
   belongs_to :author, foreign_key: "author_id", class_name: "User"

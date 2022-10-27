@@ -57,6 +57,7 @@ end
 def create_category!(options = {})
   category_attributes = {
     title: "Getting started",
+    author_id: User.first.id
   }
   attributes = category_attributes.merge options
   Category.create! attributes
@@ -66,7 +67,8 @@ def create_preference!(options = {})
   preference_attributes = {
     name: "Spinkart",
     password: "welcome123",
-    is_password_protection_enabled: false
+    is_password_protection_enabled: false,
+    author_id: User.first.id
   }
   attributes = preference_attributes.merge options
   Preference.create! attributes

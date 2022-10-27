@@ -5,6 +5,7 @@ class CreateRedirections < ActiveRecord::Migration[6.1]
     create_table :redirections, id: :uuid do |t|
       t.string :from_path, null: false, index: { unique: true }
       t.string :to_path, null: false
+      t.uuid :author_id, null: false
 
       t.timestamps
     end
