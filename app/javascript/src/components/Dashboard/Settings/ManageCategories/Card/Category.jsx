@@ -17,6 +17,7 @@ const Category = ({
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditButton = () => {
+    setCategoryTitle(categoryTitle.trim());
     handleEditCategory({
       id,
       payload: { title: categoryTitle },

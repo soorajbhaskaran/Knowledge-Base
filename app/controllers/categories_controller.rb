@@ -45,7 +45,7 @@ class CategoriesController < ApplicationController
     def create_new_category_if_there_is_only_one
       if Category.count == 1
         Category.create!(title: "General")
-        return Category.last.id
+        return Category.where(title: "General").first.id
       end
       params[:new_category_id]
     end

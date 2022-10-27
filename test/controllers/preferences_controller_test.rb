@@ -21,8 +21,8 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_users_must_be_able_authenticate_with_valid_preference_password
-    patch preference_path(@preference), params: { preference: { password: "123456" } }
+    patch preference_path(@preference), params: { preference: { password: "welcome12345" } }
     assert_response :success
-    assert @preference.reload.authenticate("123456")
+    assert @preference.reload.authenticate("welcome12345")
   end
 end

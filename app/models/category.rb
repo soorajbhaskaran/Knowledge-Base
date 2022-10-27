@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Category < ApplicationRecord
-  MAX_CATEGORY_TITLE_LENGTH = 15
+  MAX_CATEGORY_TITLE_LENGTH = 25
 
   has_many :articles, foreign_key: "category_id", class_name: "Article"
   acts_as_list
