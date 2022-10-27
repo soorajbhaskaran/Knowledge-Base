@@ -69,11 +69,13 @@ export const buildArticleColumnData = ({
       key: "delete",
       title: "",
       width: 10,
-      render: (_, { slug }) => (
+      render: (_, { slug, status, id }) => (
         <Button
           icon={Delete}
           style="text"
-          onClick={() => handleDeleteButton(slug)}
+          onClick={() =>
+            handleDeleteButton(status === "published" ? slug : id, status)
+          }
         />
       ),
     },
@@ -82,11 +84,13 @@ export const buildArticleColumnData = ({
       key: "edit",
       title: "",
       width: 10,
-      render: (_, { slug }) => (
+      render: (_, { slug, status, id }) => (
         <Button
           icon={Edit}
           style="text"
-          onClick={() => handleEditButton(slug)}
+          onClick={() =>
+            handleEditButton(status === "published" ? slug : id, status)
+          }
         />
       ),
     },

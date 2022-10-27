@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2022_10_27_141336) do
     t.string "status", default: "draft"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "slug", null: false
+    t.string "slug"
     t.datetime "published_date"
     t.index ["category_id"], name: "index_articles_on_category_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true

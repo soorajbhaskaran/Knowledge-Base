@@ -12,11 +12,16 @@ class Article < ApplicationRecord
   validates :title, presence: true, length: { maximum: MAX_ARTICLE_TITLE_LENGTH }
   validates :content, presence: true, length: { maximum: MAX_ARTICLE_CONTENT_LENGTH }
   validates :slug, uniqueness: true
+  validate :slug_not_changed
 
-  before_create :set_slug, :update_published_date_when_status_changes_to_published
-  before_update :update_published_date_when_status_changes_to_published
+  before_save :update_published_date_when_status_changes_to_published, :set_slug_if_article_is_published
+  before_update :update_published_date_when_status_changes_to_published, :set_slug_if_article_is_published
 
   private
+
+    def set_slug_if_article_is_published
+      set_slug if self.published? && slug.blank?
+    end
 
     def set_slug
       title_slug = title.parameterize

@@ -41,9 +41,6 @@ const PasswordScreen = () => {
           preference: { name },
         },
       } = await preferenceApi.show();
-      setToLocalStorage({
-        authToken: "",
-      });
       setName(name);
     } catch (error) {
       logger.error(error);

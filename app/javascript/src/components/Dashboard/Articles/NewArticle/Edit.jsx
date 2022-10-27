@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import queryString from "query-string";
 import { useParams, useHistory } from "react-router-dom";
 
 import articleApi from "apis/articles";
@@ -7,17 +8,20 @@ import { buildSelectOptions } from "utils/";
 
 import Form from "./Form";
 
-const Edit = () => {
+const Edit = ({ location }) => {
   const [article, setArticle] = useState({});
-  const { slug } = useParams();
+  const { identifier } = useParams();
+  const { status } = queryString.parse(location.search);
   const history = useHistory();
 
   const fetchArticle = async () => {
     try {
       const {
         data: { article },
-      } = await articleApi.show({ slug, path: "/articles/" });
+      } = await articleApi.show({ identifier, path: "/articles/", status });
       setArticle({
+        id: article.id,
+        slug: article.slug || "",
         title: article.title,
         content: article.content,
         category: { ...buildSelectOptions([article.category])[0] },
@@ -28,10 +32,16 @@ const Edit = () => {
   };
 
   const handleEditArticle = async (values, status) => {
+    let { slug } = article;
+
+    if (status === "published" && slug === "") {
+      slug = article.id;
+    }
     try {
-      await articleApi.update(slug, {
+      await articleApi.update(status === "draft" ? article.id : slug, status, {
         ...values,
         category_id: values.category.value,
+        slug: article.slug,
         status,
       });
       history.push("/admin/articles");
@@ -46,6 +56,7 @@ const Edit = () => {
   return (
     <Form
       isEdit
+      currentStatus={status}
       handleSubmit={handleEditArticle}
       initialArticleValue={article}
     />

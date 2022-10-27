@@ -2,9 +2,12 @@ import axios from "axios";
 
 const fetch = () => axios.get("/articles");
 const create = (payload) => axios.post("/articles", payload);
-const update = (slug, payload) => axios.put(`/articles/${slug}`, payload);
-const destroy = (slug) => axios.delete(`/articles/${slug}`);
-const show = ({ slug, path }) => axios.get(`${path}${slug}`);
+const update = (identifier, status, payload) =>
+  axios.put(`/articles/${identifier}?status=${status}`, payload);
+const destroy = (identifier, status) =>
+  axios.delete(`/articles/${identifier}?status=${status}`);
+const show = ({ identifier, path, status }) =>
+  axios.get(`${path}${identifier}?status=${status}`);
 
 const articleApi = { fetch, create, update, destroy, show };
 
