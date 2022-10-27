@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Button, Typography, Dropdown } from "neetoui";
+import { Button, Typography, ActionDropdown } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
 import { buildSelectOptions } from "utils";
 
@@ -9,12 +9,17 @@ import categoryApi from "apis/categories";
 
 import { buildValidationSchemaForArticles } from "../utils";
 
-const { Menu, MenuItem } = Dropdown;
+const { Menu, MenuItem } = ActionDropdown;
 
-const Form = ({ isEdit = false, handleSubmit, initialArticleValue }) => {
+const Form = ({
+  isEdit = false,
+  handleSubmit,
+  initialArticleValue,
+  currentStatus = "draft",
+}) => {
   const [submitted, setSubmitted] = useState(false);
   const [category, setCategory] = useState([]);
-  const [status, setStatus] = useState("draft");
+  const [status, setStatus] = useState(currentStatus);
 
   const fetchCategories = async () => {
     try {
@@ -72,26 +77,23 @@ const Form = ({ isEdit = false, handleSubmit, initialArticleValue }) => {
               rows={2}
             />
             <div className="flex">
-              <Button
-                className="mx-px rounded-none"
+              <ActionDropdown
                 disabled={isSubmitting}
                 label={status === "draft" ? "Save as Draft" : "Publish"}
-                loading={isSubmitting}
-                size="medium"
-                style="primary"
-                type="submit"
+                buttonProps={{
+                  type: "submit",
+                }}
                 onClick={() => setSubmitted(true)}
-              />
-              <Dropdown buttonSize="medium" className="mr-8 rounded-none">
-                <Menu className="rounded-none">
+              >
+                <Menu>
+                  <MenuItem.Button onClick={() => setStatus("published")}>
+                    Publish
+                  </MenuItem.Button>
                   <MenuItem.Button onClick={() => setStatus("draft")}>
                     Draft
                   </MenuItem.Button>
-                  <MenuItem.Button onClick={() => setStatus("published")}>
-                    Published
-                  </MenuItem.Button>
                 </Menu>
-              </Dropdown>
+              </ActionDropdown>
               <Button
                 className="mx-4 rounded-none"
                 label="Cancel"

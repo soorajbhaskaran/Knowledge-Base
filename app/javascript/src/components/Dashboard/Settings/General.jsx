@@ -6,6 +6,7 @@ import { Typography, Button, Checkbox } from "neetoui";
 import { Input } from "neetoui/formik";
 
 import preferenceApi from "apis/preference";
+import { setToLocalStorage } from "utils/storage";
 
 import { buildPreferanceValidationSchema } from "./utils";
 
@@ -38,6 +39,9 @@ const General = () => {
           is_password_protection_enabled: isPasswordVisible,
           password: (isPasswordVisible && values.password) || "",
         },
+      });
+      setToLocalStorage({
+        authToken: null,
       });
       fetchApplicationDetails();
     } catch (error) {

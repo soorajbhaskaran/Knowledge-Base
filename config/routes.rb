@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
 
   constraints(lambda { |req| req.format == :json }) do
-    resources :articles, except: %i[new edit], param: :slug
+    resources :articles, except: %i[new edit], param: :identifier
     resources :categories, except: %i[new edit show] do
       collection do
         patch :sort

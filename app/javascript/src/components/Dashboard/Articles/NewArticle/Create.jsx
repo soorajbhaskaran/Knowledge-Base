@@ -14,9 +14,12 @@ const Create = () => {
   const handleCreateArticle = async (values, status) => {
     try {
       await articleApi.create({
-        ...values,
-        category_id: values.category.value,
-        status,
+        article: {
+          title: values.title,
+          content: values.content,
+          category_id: values.category.value,
+          status,
+        },
       });
       history.push("/admin/articles");
     } catch (error) {

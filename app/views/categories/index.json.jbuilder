@@ -1,1 +1,3 @@
-json.categories @categories 
+# frozen_string_literal: true
+
+json.categories @categories
