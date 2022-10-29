@@ -59,6 +59,7 @@ const Edit = ({ location }) => {
       currentStatus={status}
       handleSubmit={handleEditArticle}
       initialArticleValue={article}
+      newStatus={status === "published" ? "draft" : "published"}
     />
   );
 };

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form as FormikForm } from "formik";
 import { Button, Typography, ActionDropdown } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
+import { useHistory } from "react-router-dom";
 import { buildSelectOptions } from "utils";
 
 import categoryApi from "apis/categories";
@@ -12,14 +13,16 @@ import { buildValidationSchemaForArticles } from "../utils";
 const { Menu, MenuItem } = ActionDropdown;
 
 const Form = ({
+  currentStatus,
   isEdit = false,
   handleSubmit,
   initialArticleValue,
-  currentStatus = "draft",
+  newStatus = "draft",
 }) => {
   const [submitted, setSubmitted] = useState(false);
   const [category, setCategory] = useState([]);
-  const [status, setStatus] = useState(currentStatus);
+  const [status, setStatus] = useState(newStatus);
+  const history = useHistory();
 
   const fetchCategories = async () => {
     try {
@@ -76,6 +79,12 @@ const Form = ({
               placeholder="Type your content"
               rows={2}
             />
+            {isEdit && (
+              <Typography className="my-4 italic" style="h6">
+                The article is currently in <strong>{currentStatus}</strong>{" "}
+                state
+              </Typography>
+            )}
             <div className="flex">
               <ActionDropdown
                 disabled={isSubmitting}
@@ -99,7 +108,8 @@ const Form = ({
                 label="Cancel"
                 size="large"
                 style="text"
-                onClick={() => {}}
+                type="reset"
+                onClick={() => history.push("/admin/articles")}
               />
             </div>
           </FormikForm>

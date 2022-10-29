@@ -37,19 +37,19 @@ class ArticlesController < ApplicationController
     end
 
     def load_article_on_show_and_destroy
-      @article = (params[:status] == "published") ? load_article_by_slug! : load_article_by_id!
+      @article = (params[:status] == "published") ? get_article_by_slug! : get_article_by_id!
     end
 
     def load_article_on_update
-      @article = (params[:status] == "published" && params[:article][:slug].length > 0) ? load_article_by_slug!
-      : load_article_by_id!
+      @article = (params[:status] == "published" && params[:article][:slug].length > 0) ? get_article_by_slug!
+      : get_article_by_id!
     end
 
-    def load_article_by_id!
+    def get_article_by_id!
       @article = current_user.articles.find_by!(id: params[:identifier])
     end
 
-    def load_article_by_slug!
+    def get_article_by_slug!
       @article = current_user.articles.find_by!(slug: params[:identifier])
     end
 end
