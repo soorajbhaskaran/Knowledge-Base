@@ -19,10 +19,10 @@ ActiveRecord::Schema.define(version: 2022_10_27_141336) do
   enable_extension "plpgsql"
 
   create_table "articles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.uuid "author_id", null: false
     t.uuid "category_id", null: false
-    t.text "content"
+    t.text "content", null: false
     t.string "status", default: "draft"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

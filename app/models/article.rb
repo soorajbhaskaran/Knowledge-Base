@@ -11,24 +11,23 @@ class Article < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: MAX_ARTICLE_TITLE_LENGTH }
   validates :content, presence: true, length: { maximum: MAX_ARTICLE_CONTENT_LENGTH }
-  validates :slug, uniqueness: true
+  validates :slug, uniqueness: true, if: -> { slug.present? }
   validate :slug_not_changed
 
-  before_save :update_published_date_when_status_changes_to_published, :set_slug_if_article_is_published
+  before_create :update_published_date_when_status_changes_to_published, :set_slug_if_article_is_published
   before_update :update_published_date_when_status_changes_to_published, :set_slug_if_article_is_published
 
   private
 
     def set_slug_if_article_is_published
-      set_slug if self.published? && slug.blank?
+      set_slug if published? && slug.blank?
     end
 
     def set_slug
       title_slug = title.parameterize
       regex_pattern = "slug #{Constants::DB_REGEX_OPERATOR} ?"
-      latest_article_slug = Article.where(
-        regex_pattern,
-        "#{title_slug}$|#{title_slug}-[0-9]+$"
+      latest_article_slug =
+      Article.where(status: :published).where(regex_pattern, "#{title_slug}$|#{title_slug}-[0-9]+$"
       ).order("LENGTH(slug) DESC", slug: :desc).first&.slug
       slug_count = 0
       if latest_article_slug.present?

@@ -6,7 +6,7 @@ class ArticleTest < ActiveSupport::TestCase
   def setup
     @author = create(:user)
     @category = create(:category)
-    @article = create(:article, author: @author, category: @category)
+    @article = create(:article, author: @author, category: @category, status: "published")
   end
 
   def test_values_of_created_at_and_updated_at
@@ -65,6 +65,11 @@ class ArticleTest < ActiveSupport::TestCase
     end
   end
 
+  def test_slug_should_not_be_set_if_article_is_not_published
+    article = create(:article, status: "draft")
+    assert_nil article.slug
+  end
+
   def test_article_slug_is_parameterized_title
     title = @article.title
     @article.save!
@@ -74,10 +79,10 @@ class ArticleTest < ActiveSupport::TestCase
   def test_incremental_slug_generation_for_articles_with_duplicate_two_worded_titles
     first_article = Article.create!(
       title: "test article", author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
     second_article = Article.create!(
       title: "test article", author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
 
     assert_equal "test-article", first_article.slug
     assert_equal "test-article-2", second_article.slug
@@ -86,10 +91,10 @@ class ArticleTest < ActiveSupport::TestCase
   def test_incremental_slug_generation_for_articles_with_duplicate_hyphenated_titles
     first_article = Article.create!(
       title: "test-article", author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
     second_article = Article.create!(
       title: "test-article", author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
 
     assert_equal "test-article", first_article.slug
     assert_equal "test-article-2", second_article.slug
@@ -98,10 +103,10 @@ class ArticleTest < ActiveSupport::TestCase
   def test_slug_generation_for_articles_having_titles_one_being_prefix_of_the_other
     first_article = Article.create!(
       title: "fishing", author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
     second_article = Article.create!(
       title: "fish", author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
 
     assert_equal "fishing", first_article.slug
     assert_equal "fish", second_article.slug
@@ -132,16 +137,16 @@ class ArticleTest < ActiveSupport::TestCase
     title = "test-article"
     first_article = Article.create!(
       title: title, author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
     second_article = Article.create!(
       title: title, author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
     third_article = Article.create!(
       title: title, author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
     fourth_article = Article.create!(
       title: title, author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
 
     assert_equal fourth_article.slug, "#{title.parameterize}-4"
 
@@ -151,7 +156,7 @@ class ArticleTest < ActiveSupport::TestCase
 
     new_article = Article.create!(
       title: title, author: @author, category: @category,
-      content: "This is a test article content")
+      content: "This is a test article content", status: "published")
     assert_equal new_article.slug, "#{title.parameterize}-#{expected_slug_suffix_for_new_article}"
   end
 
@@ -161,10 +166,12 @@ class ArticleTest < ActiveSupport::TestCase
 
     existing_article = Article.create!(
       title: title_having_new_title_as_substring, content: "This is content",
-      author: @author, category: @category)
+      author: @author, category: @category, status: "published")
     assert_equal title_having_new_title_as_substring.parameterize, existing_article.slug
 
-    new_article = Article.create!(title: new_title, author: @author, category: @category, content: "This is content")
+    new_article = Article.create!(
+      title: new_title, author: @author, category: @category, content: "This is content",
+      status: "published")
     assert_equal new_title.parameterize, new_article.slug
   end
 
@@ -173,19 +180,19 @@ class ArticleTest < ActiveSupport::TestCase
 
     existing_article = Article.create!(
       title: title_with_numbered_substring, author: @author, category: @category,
-      content: "This is content")
+      content: "This is content", status: "published")
     assert_equal title_with_numbered_substring.parameterize, existing_article.slug
 
     substring_of_existing_slug = "buy"
     new_article = Article.create!(
       title: substring_of_existing_slug, author: @author, category: @category,
-      content: "This is content")
+      content: "This is content", status: "published")
 
     assert_equal substring_of_existing_slug.parameterize, new_article.slug
   end
 
   def test_creates_multiple_articles_with_unique_slug
-    articles = create_list(:article, 10, author: @author, category: @category)
+    articles = create_list(:article, 10, author: @author, category: @category, status: "published")
     slugs = articles.pluck(:slug)
     assert_equal slugs.uniq, slugs
   end
