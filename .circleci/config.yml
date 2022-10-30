@@ -10,7 +10,7 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: trust
 
     #application directory change it with your application directory name
-    working_directory: ~/granite
+    working_directory: ~/scribble-by-sooraj-bhaskaran
     environment:
       TZ: "/usr/share/zoneinfo/America/New_York"
       RAILS_ENV: "test"
@@ -35,7 +35,7 @@ jobs:
           "./app/javascript/src/**/*.{js,jsx,json}"
       # Setup database
       - run: cp config/database.yml.ci config/database.yml
-      - run: bundle exec rails db:create db:schema:load --trace
+      - run: bundle exec rails db:setup
       # Generate assets
       - run: chmod a+x ./bin/webpack && ./bin/webpack
       - run: bundle exec rails webpacker:compile
