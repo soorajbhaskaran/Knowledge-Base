@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Dropdown, Checkbox, Button } from "neetoui";
 import { Header as NeetoUIHeader } from "neetoui/layouts";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
+import articleApi from "apis/articles";
+
 const { Menu, MenuItem } = Dropdown;
-const Header = ({
-  checkedColumns,
-  setCheckedColumns,
-  searchArticle,
-  setSearchArticle,
-}) => {
+const Header = ({ checkedColumns, setCheckedColumns, setArticles }) => {
+  const [searchArticle, setSearchArticle] = useState("");
   const history = useHistory();
+
+  const handleSearch = async (title) => {
+    try {
+      const {
+        data: { articles },
+      } = await articleApi.search(title);
+      setSearchArticle(title);
+      setArticles(articles);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
 
   return (
     <NeetoUIHeader
@@ -35,7 +45,7 @@ const Header = ({
         </>
       }
       searchProps={{
-        onChange: (e) => setSearchArticle(e.target.value),
+        onChange: (e) => handleSearch(e.target.value),
         placeholder: "Search article title",
         value: searchArticle,
       }}
@@ -76,8 +86,7 @@ const renderColumnActionDropdown = ({ checkedColumns, setCheckedColumns }) => {
 Header.propTypes = {
   checkedColumns: PropTypes.object,
   setCheckedColumns: PropTypes.func,
-  searchArticle: PropTypes.string,
-  setSearchArticle: PropTypes.func,
+  setArticles: PropTypes.func,
 };
 
 export default Header;

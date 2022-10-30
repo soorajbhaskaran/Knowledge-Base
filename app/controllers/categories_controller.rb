@@ -29,6 +29,10 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def search
+    params[:query].blank? ? index : search_categories
+  end
+
   private
 
     def load_category!
@@ -52,5 +56,9 @@ class CategoriesController < ApplicationController
 
     def category_params
       params.require(:category).permit(:title)
+    end
+
+    def search_categories
+      @categories = current_user.categories.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
     end
 end

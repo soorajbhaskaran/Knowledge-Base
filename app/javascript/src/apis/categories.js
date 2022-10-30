@@ -13,6 +13,7 @@ const destroy = ({ id, newCategoryId }) => {
 };
 
 const sort = (payload) => axios.patch("/categories/sort", payload);
+const search = (query) => axios.get(`/categories/search?query=${query}`);
 
-const categoryApi = { fetch, create, update, destroy, sort };
+const categoryApi = { fetch, create, update, destroy, sort, search };
 export default categoryApi;
