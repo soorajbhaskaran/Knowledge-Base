@@ -5,6 +5,10 @@ class CategoriesController < ApplicationController
 
   def index
     @categories = current_user.categories.order(:position).split_category_articles_based_on_status
+    params[:status] == "published" && @categories = @categories.map { |category|
+ category.merge(articles_count: category[:articles][:published].count) }
+    params[:status] == "draft" && @categories = @categories.map { |category|
+ category.merge(articles_count: category[:articles][:draft].count) }
   end
 
   def create

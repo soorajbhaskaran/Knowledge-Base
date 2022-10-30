@@ -1,6 +1,11 @@
 import axios from "axios";
 
-const fetch = ({ path }) => axios.get(path);
+const fetch = ({ path, status }) => {
+  const newPath =
+    path === "/categories" && status ? `${path}?status=${status}` : path;
+
+  return axios.get(newPath);
+};
 const create = (payload) => axios.post("/categories", payload);
 const update = ({ id, payload }) => axios.put(`/categories/${id}`, payload);
 

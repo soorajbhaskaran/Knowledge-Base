@@ -18,6 +18,28 @@ export const buildValidationSchemaForArticles = (categories) =>
     content: yup.string().required("Content is required"),
   });
 
+export const buildArticleStatusTabsWithCount = (articles) => [
+  {
+    label: "All",
+    value: "all",
+    count: articles.length,
+  },
+  {
+    label: "Published",
+    value: "published",
+    count: articles.filter((article) => article.status === "published").length,
+  },
+  {
+    label: "Draft",
+    value: "draft",
+    count: articles.filter((article) => article.status === "draft").length,
+  },
+];
+
+export const getCategoriesIdsFromCategoryObjects = (categoryList) => [
+  ...new Set(categoryList.map((category) => category.id)),
+];
+
 export const buildArticleColumnData = ({
   handleEditButton,
   handleDeleteButton,

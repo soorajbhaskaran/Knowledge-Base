@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
 import { Container } from "neetoui/layouts";
-import { useHistory } from "react-router-dom";
+import queryString from "query-string";
+import { useHistory, useLocation } from "react-router-dom";
 
 import articleApi from "apis/articles";
 import EmptyState from "components/Common/EmptyState";
@@ -11,6 +12,7 @@ import EmptyArticleList from "images/EmptyArticleList";
 import Header from "./Header";
 import MenuBar from "./Menu";
 import Table from "./Table";
+import { buildArticleStatusTabsWithCount } from "./utils";
 
 const Articles = () => {
   const [checkedColumns, setCheckedColumns] = useState({
@@ -22,17 +24,21 @@ const Articles = () => {
   });
   const [loading, setLoading] = useState(false);
   const [articles, setArticles] = useState([]);
-  const [selectedTab, setSelectedTab] = useState("All");
+  const [articleStatusTabs, setArticleStatusTabs] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
 
   const history = useHistory();
+  const location = useLocation();
+  const { status } = queryString.parse(location.search);
 
   const fetchArticles = async () => {
     setLoading(true);
     try {
       const {
         data: { articles },
-      } = await articleApi.fetch();
+      } = await articleApi.fetch({ status });
       setArticles(articles);
+      setArticleStatusTabs(buildArticleStatusTabsWithCount(articles));
     } catch (error) {
       logger.error(error);
     } finally {
@@ -54,9 +60,17 @@ const Articles = () => {
 
   return (
     <div className="relative z-0 flex items-start">
-      <MenuBar selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      <MenuBar
+        articleStatusTabs={articleStatusTabs}
+        categoryList={categoryList}
+        fetchArticles={fetchArticles}
+        setArticles={setArticles}
+        setCategoryList={setCategoryList}
+        setLoading={setLoading}
+      />
       <Container>
         <Header
+          categoryList={categoryList}
           checkedColumns={checkedColumns}
           fetchArticles={fetchArticles}
           setArticles={setArticles}

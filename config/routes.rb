@@ -6,9 +6,10 @@ Rails.application.routes.draw do
     resources :articles, except: %i[new edit], param: :identifier do
       collection do
         get :search
+        post :filter
       end
     end
-    resources :categories, except: %i[new edit show], defaults: { format: :json } do
+    resources :categories, except: %i[new edit show] do
       collection do
         get :search
         patch :sort
