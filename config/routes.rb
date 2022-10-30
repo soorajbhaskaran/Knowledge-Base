@@ -3,9 +3,14 @@
 Rails.application.routes.draw do
 
   constraints(lambda { |req| req.format == :json }) do
-    resources :articles, except: %i[new edit], param: :identifier
-    resources :categories, except: %i[new edit show] do
+    resources :articles, except: %i[new edit], param: :identifier do
       collection do
+        get :search
+      end
+    end
+    resources :categories, except: %i[new edit show], defaults: { format: :json } do
+      collection do
+        get :search
         patch :sort
       end
     end

@@ -22,7 +22,6 @@ const Articles = () => {
   });
   const [loading, setLoading] = useState(false);
   const [articles, setArticles] = useState([]);
-  const [searchArticle, setSearchArticle] = useState("");
   const [selectedTab, setSelectedTab] = useState("All");
 
   const history = useHistory();
@@ -33,7 +32,7 @@ const Articles = () => {
       const {
         data: { articles },
       } = await articleApi.fetch();
-      setArticles([...articles.published, ...articles.draft]);
+      setArticles(articles);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -44,11 +43,6 @@ const Articles = () => {
   useEffect(() => {
     fetchArticles();
   }, []);
-
-  const getFilteredArticles = ({ articles, searchArticle }) =>
-    articles.filter(({ title }) =>
-      title.toLowerCase().includes(searchArticle.toLowerCase())
-    );
 
   if (loading) {
     return (
@@ -64,21 +58,19 @@ const Articles = () => {
       <Container>
         <Header
           checkedColumns={checkedColumns}
-          searchArticle={searchArticle}
+          fetchArticles={fetchArticles}
+          setArticles={setArticles}
           setCheckedColumns={setCheckedColumns}
-          setSearchArticle={setSearchArticle}
         />
         {articles.length > 0 ? (
           <>
             <Typography component="h1" style="body1" weight="semibold">
-              {getFilteredArticles({ articles, searchArticle }).length}
-              {getFilteredArticles({ articles, searchArticle }).length > 1
-                ? " Articles"
-                : " Article"}
+              {articles.length}
+              {articles.length > 1 ? " Articles" : " Article"}
             </Typography>
             <hr className="h-4" />
             <Table
-              articles={getFilteredArticles({ articles, searchArticle })}
+              articles={articles}
               checkedColumns={checkedColumns}
               refetch={fetchArticles}
             />

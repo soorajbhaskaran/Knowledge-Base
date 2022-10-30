@@ -5,15 +5,12 @@ class ArticlesController < ApplicationController
   before_action :load_article_on_show_and_destroy, only: [:show, :destroy]
 
   def index
-    @draft_articles = current_user.articles.includes(:category).of_status(:draft)
-    @published_articles = current_user.articles.includes(:category).of_status(:published)
+    @articles = current_user.articles.includes(:category)
   end
 
   def create
     article = current_user.articles.new(article_params)
-    puts article.slug
     article.save!
-
     respond_with_success(t("successfully_created", entity: "Article"))
   end
 
@@ -28,6 +25,10 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy!
     respond_with_success(t("successfully_deleted", entity: "Article"))
+  end
+
+  def search
+    params[:query].blank? ? index : search_articles
   end
 
   private
@@ -51,5 +52,9 @@ class ArticlesController < ApplicationController
 
     def get_article_by_slug!
       @article = current_user.articles.find_by!(slug: params[:identifier])
+    end
+
+    def search_articles
+      @articles = current_user.articles.includes(:category).where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
     end
 end

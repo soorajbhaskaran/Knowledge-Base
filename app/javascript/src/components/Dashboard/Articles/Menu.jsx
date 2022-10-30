@@ -33,11 +33,6 @@ const Menu = () => {
     }
   };
 
-  const getFilteredCategories = ({ categories, searchFieldText }) =>
-    categories.filter(({ title }) =>
-      title.toLowerCase().includes(searchFieldText.toLowerCase())
-    );
-
   const handleSearch = (value) => {
     setIsSearchCollapsed((isSearchCollapsed) => !isSearchCollapsed);
     setSearchItem(value);
@@ -46,6 +41,18 @@ const Menu = () => {
   const handleSubmit = (value) => {
     if (value === "add") createCategory();
     setIsSearchCollapsed(true);
+  };
+
+  const handleSearchChange = async (title) => {
+    try {
+      const {
+        data: { categories },
+      } = await categoryApi.search(title);
+      setSearchFieldText(title);
+      setCategories(categories);
+    } catch (error) {
+      logger.error(error);
+    }
   };
 
   useEffect(() => {
@@ -94,7 +101,7 @@ const Menu = () => {
             placeholder={
               searchItem === "search" ? "Search Category" : "Add Category"
             }
-            onChange={(e) => setSearchFieldText(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
           />
           {searchItem === "add" && (
             <Button
@@ -105,11 +112,9 @@ const Menu = () => {
           )}
         </div>
       )}
-      {getFilteredCategories({ categories, searchFieldText }).map(
-        ({ title, articles_count }, idx) => (
-          <MenuBar.Block count={articles_count} key={idx} label={title} />
-        )
-      )}
+      {categories.map(({ title, articles_count }, idx) => (
+        <MenuBar.Block count={articles_count} key={idx} label={title} />
+      ))}
     </MenuBar>
   );
 };
