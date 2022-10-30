@@ -8,7 +8,7 @@ class ArticlesController < ApplicationController
     @articles = current_user.articles.includes(:category)
     params[:status] && @articles = @articles.where(status: params[:status])
     params[:categories_ids] && @articles = @articles.map { |article|
- article if params[:categories_ids].include?(article.category_id) }.compact
+    article if params[:categories_ids].include?(article.category_id) }.compact
   end
 
   def create
@@ -71,6 +71,6 @@ class ArticlesController < ApplicationController
       @articles = current_user.articles.includes(:category).where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
       params[:status] && @articles = @articles.where(status: params[:status])
       params[:categories_ids] && @articles = @articles.map { |article|
- article if params[:categories_ids].include?(article.category_id) }.compact
+      article if params[:categories_ids].include?(article.category_id) }.compact
     end
 end
