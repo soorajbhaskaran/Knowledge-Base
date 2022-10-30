@@ -102,4 +102,12 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_equal response_json["categories"][1]["id"], category1.id
     assert_equal response_json["categories"][2]["id"], @category.id
   end
+
+  def test_search_category_based_on_category_title
+    category = create(:category, title: "Test category", author: @author)
+    get search_categories_path, params: { query: "test" }, headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["categories"].last["id"], category.id
+  end
 end
