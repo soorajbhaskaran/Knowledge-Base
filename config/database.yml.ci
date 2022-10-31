@@ -10,7 +10,7 @@ development:
 
 test:
   <<: *default
-  username: scribble_by_sooraj_bhaskaran
+  user: scribble_by_sooraj_bhaskaran
   database: scribble_by_sooraj_bhaskaran_test<%= ENV['CIRCLE_NODE_INDEX'] %>
 
 production:
