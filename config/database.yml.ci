@@ -10,7 +10,8 @@ development:
 
 test:
   <<: *default
-  database: scribble_by_sooraj_bhaskaran_test
+  user: postgres
+  database: scribble_by_sooraj_bhaskaran_test<%= ENV['CIRCLE_NODE_INDEX'] %>
 
 production:
   <<: *default

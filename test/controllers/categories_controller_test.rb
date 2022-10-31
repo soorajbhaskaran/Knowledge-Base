@@ -22,10 +22,10 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     get categories_path, headers: @headers
     assert_response :success
     response_json = response.parsed_body
-    assert_equal response_json["categories"].length, Category.count
+    assert_equal response_json["categories"].length, @author.categories.count
   end
 
-  def test_should_list_all_category_articles_by_articles_status
+  def test_should_list_all_category_articles_by_article_status
     get categories_path, headers: @headers
     assert_response :success
     response_json = response.parsed_body
@@ -76,7 +76,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
       delete category_path(@category), headers: @headers
     end
     assert_response :success
-    assert_equal "General", Category.first.title
+    assert_equal "General", @author.categories.first.title
   end
 
   def test_articles_count_should_be_consistent_on_deletion_of_category

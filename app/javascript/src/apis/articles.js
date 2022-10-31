@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const fetch = () => axios.get("/articles");
+const fetch = ({ status }) => {
+  const path = status ? `/articles?status=${status}` : "/articles";
+
+  return axios.get(path);
+};
 
 const create = (payload) => axios.post("/articles", payload);
 
@@ -13,8 +17,26 @@ const destroy = (identifier, status) =>
 const show = ({ identifier, path, status }) =>
   axios.get(`${path}${identifier}?status=${status}`);
 
-const search = (query) => axios.get(`/articles/search?query=${query}`);
+const search = ({ title, status, categoriesIds }) => {
+  const path = status
+    ? `/articles/search?query=${title}&status=${status}`
+    : `/articles/search?query=${title}`;
 
-const articleApi = { fetch, create, update, destroy, show, search };
+  const newPath = categoriesIds
+    ? `${path}&categories_ids=${categoriesIds.join(",")}`
+    : path;
+
+  return axios.get(newPath);
+};
+
+const filter = ({ status, categories_ids }) => {
+  const path = status
+    ? `/articles/filter?status=${status}`
+    : `/articles/filter`;
+
+  return axios.post(path, { categories_ids });
+};
+
+const articleApi = { fetch, create, update, destroy, show, search, filter };
 
 export default articleApi;

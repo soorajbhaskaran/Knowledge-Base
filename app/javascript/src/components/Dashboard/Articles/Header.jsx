@@ -3,20 +3,34 @@ import React, { useState } from "react";
 import { Dropdown, Checkbox, Button } from "neetoui";
 import { Header as NeetoUIHeader } from "neetoui/layouts";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import queryString from "query-string";
+import { useHistory, useLocation } from "react-router-dom";
 
 import articleApi from "apis/articles";
 
+import { getCategoriesIdsFromCategoryObjects } from "./utils";
+
 const { Menu, MenuItem } = Dropdown;
-const Header = ({ checkedColumns, setCheckedColumns, setArticles }) => {
+const Header = ({
+  checkedColumns,
+  setCheckedColumns,
+  setArticles,
+  categoryList,
+}) => {
   const [searchArticle, setSearchArticle] = useState("");
   const history = useHistory();
+  const location = useLocation();
+  const { status } = queryString.parse(location.search);
 
   const handleSearch = async (title) => {
     try {
       const {
         data: { articles },
-      } = await articleApi.search(title);
+      } = await articleApi.search({
+        title,
+        status,
+        categoriesIds: getCategoriesIdsFromCategoryObjects(categoryList),
+      });
       setSearchArticle(title);
       setArticles(articles);
     } catch (error) {

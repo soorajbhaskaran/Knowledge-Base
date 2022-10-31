@@ -14,7 +14,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     get articles_path, headers: @headers
     assert_response :success
     response_json = response.parsed_body
-    assert_equal response_json["articles"].length, Article.count
+    assert_equal response_json["articles"].length, @author.articles.count
   end
 
   def test_should_create_new_article
@@ -53,11 +53,34 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  def test_should_list_all_articles_based_on_status_and_categories_ids
+    get articles_path, params: { status: "published", categories_ids: [@category.id] }, headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["articles"].length, @author.articles.count
+  end
+
   def test_search_article_based_on_article_title
     article = create(:article, title: "Test article", author: @author, category: @category)
     get search_articles_path, params: { query: "test" }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["articles"].last["title"], article.title
+  end
+
+  def test_search_article_based_on_article_title_and_category
+    article = create(:article, title: "Test article", author: @author, category: @category)
+    get search_articles_path, params: { query: "test", categories_ids: [@category.id] }, headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["articles"].last["title"], article.title
+  end
+
+  def test_filtering_articles_based_on_category
+    article = create(:article, title: "Test article", author: @author, category: @category)
+    post filter_articles_path, params: { categories_ids: [@category.id], status: "draft" }, headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["articles"].last["id"], article.id
   end
 end
