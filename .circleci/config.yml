@@ -35,7 +35,7 @@ jobs:
           "./app/javascript/src/**/*.{js,jsx,json}"
       # Setup database
       - run: cp config/database.yml.ci config/database.yml
-      - run: bundle exec rails db:setup
+      - run: bundle exec rails db:create db:schema:load --trace
       # Generate assets
       - run: chmod a+x ./bin/webpack && ./bin/webpack
       - run: bundle exec rails webpacker:compile
