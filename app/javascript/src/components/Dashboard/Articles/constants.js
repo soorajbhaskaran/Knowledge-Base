@@ -3,3 +3,5 @@ export const ARTICLES_INITIAL_FORM_VALUES = {
   category: null,
   content: "",
 };
+
+export const ALPHABHET_REGEX = /^(?=.*[A-Za-z])/;

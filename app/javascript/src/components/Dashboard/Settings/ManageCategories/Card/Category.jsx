@@ -26,6 +26,14 @@ const Category = ({
     setIsEditing(false);
   };
 
+  const handleOnKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleEditButton();
+    } else if (event.key === "Escape") {
+      setIsEditing(false);
+    }
+  };
+
   return (
     <div
       ref={innerRef}
@@ -43,11 +51,14 @@ const Category = ({
           ) : (
             <form className="flex">
               <Input
+                autoFocus
                 required
                 className="flex-grow mx-2"
                 name="categoryTitle"
                 value={categoryTitle}
                 onChange={(event) => setCategoryTitle(event.target.value)}
+                onKeyPress={handleOnKeyPress}
+                onKeyUp={handleOnKeyPress}
               />
               <Button
                 icon={Check}

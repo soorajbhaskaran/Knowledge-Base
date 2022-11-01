@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { Search, Plus, Check } from "neetoicons";
-import { Typography, Tooltip, Input, Button } from "neetoui";
+import { Search, Close, Plus } from "neetoicons";
+import { Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
+import PropTypes from "prop-types";
 import queryString from "query-string";
 import { useHistory, useLocation } from "react-router-dom";
 
 import articleApi from "apis/articles";
 import categoryApi from "apis/categories";
 
-import { getCategoriesIdsFromCategoryObjects } from "./utils";
+import Category from "./Category";
+import Input from "./Input";
+
+import { getCategoriesIdsFromCategoryObjects } from "../utils";
 
 const Menu = ({
   setLoading,
@@ -18,9 +22,10 @@ const Menu = ({
   categoryList,
   setCategoryList,
 }) => {
-  const [isSearchCollapsed, setIsSearchCollapsed] = useState(true);
+  const [showAddInput, setShowAddInput] = useState(false);
+  const [showSearchInput, setShowSearchInput] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [searchItem, setSearchItem] = useState("");
+  const [title, setTitle] = useState("");
   const [searchFieldText, setSearchFieldText] = useState("");
 
   const history = useHistory();
@@ -54,17 +59,12 @@ const Menu = ({
 
   const createCategory = async () => {
     try {
-      await categoryApi.create({ title: searchFieldText });
+      await categoryApi.create({ title });
       fetchCategories();
-      setSearchFieldText("");
+      setTitle("");
     } catch (error) {
       logger.error(error);
     }
-  };
-
-  const handleSearch = (value) => {
-    setIsSearchCollapsed((isSearchCollapsed) => !isSearchCollapsed);
-    setSearchItem(value);
   };
 
   const handleStatusChange = async (value) => {
@@ -83,34 +83,6 @@ const Menu = ({
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleSubmit = (value) => {
-    if (value === "add") createCategory();
-    setIsSearchCollapsed(true);
-  };
-
-  const handleSearchChange = async (title) => {
-    try {
-      const {
-        data: { categories },
-      } = await categoryApi.search(title);
-      setSearchFieldText(title);
-      setCategories(categories);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
-  const handleCategoryChange = async ({ title, id }) => {
-    categoryList.map(({ title }) => title).includes(title)
-      ? setCategoryList((prevCategoryList) =>
-          prevCategoryList.filter((category) => category.title !== title)
-        )
-      : setCategoryList((prevCategoryList) => [
-          ...prevCategoryList,
-          { title, id },
-        ]);
   };
 
   const getCategoryArticles = async () => {
@@ -148,6 +120,24 @@ const Menu = ({
     }
   };
 
+  const toggleSearch = (event) => {
+    const { _reactName: eventType, relatedTarget } = event;
+    const hasClickedOnSearchIcon = !(relatedTarget === null);
+    const shouldPreventMultiToggle =
+      eventType === "onBlur" && hasClickedOnSearchIcon;
+    if (shouldPreventMultiToggle) return null;
+    setShowAddInput(false);
+    setSearchFieldText("");
+
+    return setShowSearchInput(!showSearchInput);
+  };
+
+  const toggleAdd = () => {
+    setShowSearchInput(false);
+    setShowAddInput(!showAddInput);
+    setSearchFieldText("");
+  };
+
   useEffect(() => {
     fetchCategories();
   }, [status]);
@@ -175,20 +165,12 @@ const Menu = ({
       <MenuBar.SubTitle
         iconProps={[
           {
-            icon: () => (
-              <Tooltip content="Search for category" position="bottom">
-                <Search size={16} />
-              </Tooltip>
-            ),
-            onClick: () => handleSearch("search"),
+            icon: showSearchInput ? () => <Close /> : () => <Search />,
+            onClick: toggleSearch,
           },
           {
-            icon: () => (
-              <Tooltip content="Add new category" position="bottom">
-                <Plus size={16} />
-              </Tooltip>
-            ),
-            onClick: () => handleSearch("add"),
+            icon: showAddInput ? () => <Close /> : () => <Plus />,
+            onClick: toggleAdd,
           },
         ]}
       >
@@ -201,45 +183,38 @@ const Menu = ({
           Categories
         </Typography>
       </MenuBar.SubTitle>
-      {!isSearchCollapsed && (
-        <div className="my-3 flex justify-between">
-          <Input
-            type="search"
-            value={searchFieldText}
-            placeholder={
-              searchItem === "search" ? "Search Category" : "Add Category"
-            }
-            onChange={(e) => handleSearchChange(e.target.value)}
-          />
-          {searchItem === "add" && (
-            <Button
-              icon={Check}
-              style="text"
-              onClick={() => handleSubmit(searchItem)}
-            />
-          )}
-        </div>
-      )}
+      <Input
+        createCategory={createCategory}
+        searchFieldText={searchFieldText}
+        setCategories={setCategories}
+        setSearchFieldText={setSearchFieldText}
+        setShowAddInput={setShowAddInput}
+        setShowSearchInput={setShowSearchInput}
+        setTitle={setTitle}
+        showAddInput={showAddInput}
+        showSearchInput={showSearchInput}
+        title={title}
+      />
       {categories.map(({ title, articles_count, id }) => (
-        <MenuBar.Block
-          count={articles_count}
+        <Category
+          articles_count={articles_count}
+          category={category}
+          categoryList={categoryList}
+          id={id}
           key={id}
-          label={title}
-          active={
-            category &&
-            category
-              .split(",")
-              .includes(title.toLowerCase().replaceAll(" ", "-"))
-          }
-          onClick={() =>
-            handleCategoryChange({
-              title: title.toLowerCase().replaceAll(" ", "-"),
-              id,
-            })
-          }
+          setCategoryList={setCategoryList}
+          title={title}
         />
       ))}
     </MenuBar>
   );
+};
+
+Menu.propTypes = {
+  articleStatusTabs: PropTypes.array.isRequired,
+  categoryList: PropTypes.array.isRequired,
+  setCategoryList: PropTypes.func.isRequired,
+  setLoading: PropTypes.func.isRequired,
+  setArticles: PropTypes.func.isRequired,
 };
 export default Menu;

@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form as FormikForm } from "formik";
 import { Button, Typography, ActionDropdown } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { buildSelectOptions } from "utils";
 
 import categoryApi from "apis/categories";
+import TooltipWrapper from "components/Common/TooltipWrapper";
 
 import { buildValidationSchemaForArticles } from "../utils";
 
@@ -23,6 +25,12 @@ const Form = ({
   const [category, setCategory] = useState([]);
   const [status, setStatus] = useState(newStatus);
   const history = useHistory();
+
+  const handleKeyPress = (e, values, status) => {
+    if (e.key === "Enter") {
+      handleSubmit(values, status);
+    }
+  };
 
   const fetchCategories = async () => {
     try {
@@ -48,7 +56,7 @@ const Form = ({
       validationSchema={buildValidationSchemaForArticles(category)}
       onSubmit={(values) => handleSubmit(values, status)}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, values }) => (
         <div className="border mx-64 my-20 flex flex-col border-gray-200 px-48 py-10 shadow-xs">
           <Typography className="mb-6" style="h2">
             {isEdit ? "Edit Article" : "Add New Article"}
@@ -61,6 +69,7 @@ const Form = ({
                 label="Article Title"
                 name="title"
                 placeholder="Enter Title"
+                onKeyPress={(e) => handleKeyPress(e, values, status)}
               />
               <Select
                 required
@@ -86,23 +95,30 @@ const Form = ({
               </Typography>
             )}
             <div className="flex">
-              <ActionDropdown
-                disabled={isSubmitting}
-                label={status === "draft" ? "Save as Draft" : "Publish"}
-                buttonProps={{
-                  type: "submit",
-                }}
-                onClick={() => setSubmitted(true)}
+              <TooltipWrapper
+                content="Article values have not changed "
+                disabled={initialArticleValue === values && !isEdit}
               >
-                <Menu>
-                  <MenuItem.Button onClick={() => setStatus("published")}>
-                    Publish
-                  </MenuItem.Button>
-                  <MenuItem.Button onClick={() => setStatus("draft")}>
-                    Draft
-                  </MenuItem.Button>
-                </Menu>
-              </ActionDropdown>
+                <ActionDropdown
+                  label={status === "draft" ? "Save as Draft" : "Publish"}
+                  buttonProps={{
+                    type: "submit",
+                  }}
+                  disabled={
+                    isSubmitting || (initialArticleValue === values && !isEdit)
+                  }
+                  onClick={() => setSubmitted(true)}
+                >
+                  <Menu>
+                    <MenuItem.Button onClick={() => setStatus("draft")}>
+                      Draft
+                    </MenuItem.Button>
+                    <MenuItem.Button onClick={() => setStatus("published")}>
+                      Published
+                    </MenuItem.Button>
+                  </Menu>
+                </ActionDropdown>
+              </TooltipWrapper>
               <Button
                 className="mx-4 rounded-none"
                 label="Cancel"
@@ -117,6 +133,13 @@ const Form = ({
       )}
     </Formik>
   );
+};
+Form.propTypes = {
+  currentStatus: PropTypes.string,
+  isEdit: PropTypes.bool,
+  handleSubmit: PropTypes.func,
+  initialArticleValue: PropTypes.object,
+  newStatus: PropTypes.string,
 };
 
 export default Form;

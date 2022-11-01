@@ -24,6 +24,4 @@ const Redirection = () => (
   </div>
 );
 
-Redirection.propTypes = {};
-
 export default Redirection;

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Table as NeetoUITable } from "neetoui";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
 import articleApi from "apis/articles";
@@ -39,6 +40,12 @@ const Table = ({ articles, refetch, checkedColumns }) => {
       onRowSelect={() => {}}
     />
   );
+};
+
+Table.propTypes = {
+  articles: PropTypes.array,
+  refetch: PropTypes.func,
+  checkedColumns: PropTypes.object,
 };
 
 export default Table;
