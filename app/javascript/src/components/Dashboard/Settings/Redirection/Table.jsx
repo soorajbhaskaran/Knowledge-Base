@@ -87,11 +87,17 @@ const Table = () => {
     }
   };
 
+  const handleOnKeyPress = (e, values, resetForm) => {
+    if (e.key === "Enter") {
+      handleSubmitRedirection(values, resetForm);
+    }
+  };
+
   useEffect(() => {
     fetchRedirections();
   }, []);
 
-  const mergedColumns = ({ isSubmitting }) =>
+  const mergedColumns = ({ isSubmitting, values, resetForm }) =>
     buildRedirectionColumn({
       isEditing,
       handleEditRedirectionButton,
@@ -110,6 +116,9 @@ const Table = () => {
           record,
           dataIndex: col.dataIndex,
           editing: isEditing(record),
+          values,
+          resetForm,
+          handleOnKeyPress,
         }),
       };
     });
@@ -124,12 +133,12 @@ const Table = () => {
           handleSubmitRedirection(values, resetForm)
         }
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values, resetForm }) => (
           <Form>
             <div style={{ height: "60vh" }}>
               <NeetoUITable
                 fixedHeight
-                columns={mergedColumns({ isSubmitting })}
+                columns={mergedColumns({ isSubmitting, values, resetForm })}
                 rowData={redirections}
                 components={{
                   body: { cell: EditableCell },

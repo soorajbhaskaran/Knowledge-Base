@@ -81,6 +81,19 @@ const ManageCategories = () => {
     } else deleteCategory({ id });
   };
 
+  const handleOnClose = () => {
+    setIsInputCollapsed(true);
+    setTitle("");
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleAddCategory();
+    } else if (event.key === "Escape") {
+      handleOnClose();
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -114,11 +127,14 @@ const ManageCategories = () => {
         ) : (
           <form className="shrink mr-64 flex">
             <Input
+              autoFocus
               required
               placeholder="Add Category"
               type="search"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              onKeyPress={handleKeyPress}
+              onKeyUp={handleKeyPress}
             />
             <Button
               icon={Check}
@@ -126,11 +142,7 @@ const ManageCategories = () => {
               type="submit"
               onClick={handleAddCategory}
             />
-            <Button
-              icon={Close}
-              style="text"
-              onClick={() => setIsInputCollapsed(!isInputCollapsed)}
-            />
+            <Button icon={Close} style="text" onClick={handleOnClose} />
           </form>
         )}
         {renderDragAndDrop({
@@ -207,7 +219,5 @@ const renderDragAndDrop = ({
     </DragDropContext>
   );
 };
-
-ManageCategories.propTypes = {};
 
 export default ManageCategories;

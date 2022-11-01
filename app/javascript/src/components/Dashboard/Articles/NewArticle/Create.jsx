@@ -36,6 +36,4 @@ const Create = () => {
   );
 };
 
-Create.propTypes = {};
-
 export default Create;

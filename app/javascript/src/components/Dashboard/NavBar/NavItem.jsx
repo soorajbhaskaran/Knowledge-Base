@@ -1,5 +1,6 @@
 import React from "react";
 
+import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 
 const NavItem = ({ name, path }) => (
@@ -12,5 +13,10 @@ const NavItem = ({ name, path }) => (
     {name}
   </NavLink>
 );
+
+NavItem.propTypes = {
+  name: PropTypes.string,
+  path: PropTypes.string,
+};
 
 export default NavItem;

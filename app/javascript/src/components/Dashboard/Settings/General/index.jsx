@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 
 import { Formik, Form } from "formik";
-import { Check, Close } from "neetoicons";
 import { Typography, Button, Checkbox } from "neetoui";
 import { Input } from "neetoui/formik";
 
 import preferenceApi from "apis/preference";
+import TooltipWrapper from "components/Common/TooltipWrapper";
 import { setToLocalStorage } from "utils/storage";
 
-import { buildPreferanceValidationSchema } from "./utils";
+import Password from "./Password";
+
+import { buildPreferanceValidationSchema } from "../utils";
 
 const General = () => {
   const [submitted, setSubmitted] = useState(false);
   const [preference, setPreference] = useState({});
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const fetchApplicationDetails = async () => {
+  const fetchPreference = async () => {
     try {
       const {
         data: { preference },
@@ -43,19 +46,20 @@ const General = () => {
       setToLocalStorage({
         authToken: null,
       });
-      fetchApplicationDetails();
+      fetchPreference();
     } catch (error) {
       logger.error(error);
     }
   };
 
-  const handleCheckboxChange = (setTouched) => {
+  const handleCheckboxChange = (setTouched, setFieldValue) => {
     setIsPasswordVisible(!isPasswordVisible);
     setTouched((prevTouched) => (prevTouched.password = false));
+    setFieldValue("active", isPasswordVisible);
   };
 
   useEffect(() => {
-    fetchApplicationDetails();
+    fetchPreference();
   }, []);
 
   return (
@@ -67,7 +71,7 @@ const General = () => {
       validationSchema={buildPreferanceValidationSchema({ isPasswordVisible })}
       onSubmit={handleSubmitButton}
     >
-      {({ isSubmitting, setTouched }) => (
+      {({ isSubmitting, setTouched, values, setFieldValue }) => (
         <div className="mx-auto mt-5 w-full">
           <div className="mx-64">
             <Typography component="h3" style="h3">
@@ -95,42 +99,26 @@ const General = () => {
                 id="password"
                 label="Password Protect Knowledge Base"
                 name="active"
-                onChange={() => handleCheckboxChange(setTouched)}
+                onChange={() => handleCheckboxChange(setTouched, setFieldValue)}
               />
-              {isPasswordVisible && (
-                <>
-                  <Input
-                    className="flex-grow mr-5"
-                    label="Password"
-                    name="password"
-                    placeholder="Enter Password"
-                    type="password"
-                  />
-                  <div className="flex items-center">
-                    <Check color="green" size={22} />
-                    <Typography component="p" style="body3">
-                      Have atleast 6 characters
-                    </Typography>
-                  </div>
-                  <div className="flex items-center">
-                    <Close color="red" size={22} />
-                    <Typography component="p" style="body3">
-                      Include atleast one letter and one number
-                    </Typography>
-                  </div>
-                </>
-              )}
+              {isPasswordVisible && <Password setFieldValue={setFieldValue} />}
               <div className="flex">
-                <Button
-                  className="my-4"
-                  disabled={isSubmitting}
-                  label="Save Changes"
-                  loading={isSubmitting}
-                  size="medium"
-                  style="primary"
-                  type="submit"
-                  onClick={() => setSubmitted(true)}
-                />
+                <TooltipWrapper
+                  content="Button is disabled because settings are not changed"
+                  disabled={preference === values}
+                  position="bottom"
+                >
+                  <Button
+                    className="my-4"
+                    disabled={isSubmitting || preference === values}
+                    label="Save Changes"
+                    loading={isSubmitting}
+                    size="medium"
+                    style="primary"
+                    type="submit"
+                    onClick={() => setSubmitted(true)}
+                  />
+                </TooltipWrapper>
                 <Button
                   className="ml-4"
                   label="Cancel"

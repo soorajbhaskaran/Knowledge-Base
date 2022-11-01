@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import PropTypes from "prop-types";
 import queryString from "query-string";
 import { useParams, useHistory } from "react-router-dom";
 
@@ -62,6 +63,9 @@ const Edit = ({ location }) => {
       newStatus={status === "published" ? "draft" : "published"}
     />
   );
+};
+Edit.propTypes = {
+  location: PropTypes.object,
 };
 
 export default Edit;
