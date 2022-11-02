@@ -46,7 +46,7 @@ class CategoriesController < ApplicationController
     def change_article_category
       new_category_id = create_new_category_if_there_is_only_one
       @category.articles.update_all(category_id: new_category_id)
-      current_user.categories.reset_counters(new_category_id, :articles)
+      Category.update_counters(new_category_id, articles_count: @category.articles_count)
       @category.reload.destroy!
     end
 
