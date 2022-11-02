@@ -6,14 +6,8 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @author = create(:user)
     @category = create(:category, author: @author)
-    # @article1 = create(:article, category: @category, author: @author)
-    # @article2 = create(:article, category_id: @category.id, status: "published", author: @author)
-    @article1 = Article.create!(
-      title: "Test article 1", content: "Test body 1", category_id: @category.id,
-      author_id: @author.id)
-    @article2 = Article.create!(
-      title: "Test article 2", content: "Test body 2", category_id: @category.id,
-      author_id: @author.id, status: "published")
+    @article1 = create(:article, category: @category, author: @author)
+    @article2 = create(:article, category_id: @category.id, status: "published", author: @author)
     @headers = headers()
   end
 
@@ -21,7 +15,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     get categories_path, headers: @headers
     assert_response :success
     response_json = response.parsed_body
-    assert_equal response_json["categories"].first["author_id"], @category.author.id
+    assert_equal response_json["categories"].first["author_id"], @category.author.first_name
   end
 
   def test_should_list_all_categories
