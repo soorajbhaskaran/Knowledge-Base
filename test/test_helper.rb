@@ -9,7 +9,7 @@ def enable_test_coverage
   end
 end
 
-def headers(user, options = {})
+def headers(options = {})
   {
     Accept: "application/json",
     "Content_Type" => "application/json"

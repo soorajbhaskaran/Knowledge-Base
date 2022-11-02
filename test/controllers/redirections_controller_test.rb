@@ -6,7 +6,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @author = create(:user)
     @redirection = create(:redirection, author: @author)
-    @headers = headers(@redirection.author)
+    @headers = headers()
   end
 
   def test_should_list_all_redirections
