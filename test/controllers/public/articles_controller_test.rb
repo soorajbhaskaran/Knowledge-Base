@@ -21,4 +21,14 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get public_article_path(@article.slug), headers: headers(@preference.reload)
     assert_response :success
   end
+
+  def test_only_published_article_should_be_displayed_to_user
+    @article.update(status: "draft")
+    get public_article_path(@article.slug), headers: @headers
+    assert_response :not_found
+
+    @article.update(status: "published")
+    get public_article_path(@article.slug), headers: @headers
+    assert_response :success
+  end
 end

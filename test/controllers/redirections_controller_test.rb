@@ -6,7 +6,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @author = create(:user)
     @redirection = create(:redirection, author: @author)
-    @preference = create(:preference)
+    @preference = create(:preference, author: @author)
     @headers = headers(@preference)
   end
 
