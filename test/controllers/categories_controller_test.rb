@@ -6,8 +6,8 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @author = create(:user)
     @category = create(:category, author: @author)
-    @article1 = create(:article, category: @category, author: @author)
-    @article2 = create(:article, category: @category, status: "published", author: @author)
+    @article1 = create(:article, category_id: @category.id, author_id: @author.id)
+    @article2 = create(:article, category_id: @category.id, status: "published", author_id: @author.id)
     @headers = headers()
   end
 
@@ -76,7 +76,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
       delete category_path(@category), headers: @headers
     end
     assert_response :success
-    assert_equal "General", @author.categories.first.title
+    assert_equal "General", @author.categories.reload.first.title
   end
 
   def test_articles_count_should_be_consistent_on_deletion_of_category
@@ -86,7 +86,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
       delete category_path(category), params: { new_category_id: @category.id }, headers: @headers
     end
     assert_response :success
-    assert_equal @category.articles_count, 2
+    assert_equal @category.reload.articles_count, 3
   end
 
   def test_reordering_of_category_field_based_on_position

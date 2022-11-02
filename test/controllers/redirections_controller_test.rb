@@ -14,7 +14,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     response_json = response.parsed_body
     all_redirections = response_json["redirections"]
-    assert_equal all_redirections.length, Redirection.count
+    assert_equal all_redirections.length, @author.redirections.count
   end
 
   def test_should_create_new_redirection
