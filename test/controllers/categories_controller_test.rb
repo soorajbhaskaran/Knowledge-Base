@@ -8,7 +8,8 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     @category = create(:category, author: @author)
     @article1 = create(:article, category: @category, author: @author)
     @article2 = create(:article, category: @category, status: "published", author: @author)
-    @headers = headers()
+    @preference = create(:preference, author: @author)
+    @headers = headers(@preference)
   end
 
   def test_every_category_should_have_one_author
