@@ -36,13 +36,16 @@ const Settings = ({ history, location }) => {
     <div className="relative z-0 flex items-start">
       <MenuBar showMenu>
         {SETTINGS_NAVLINKS.map((navlink) => (
-          <MenuBar.Item
-            active={tab === navlink.key}
-            description={navlink.description}
-            key={navlink.key}
-            label={navlink.label}
-            onClick={() => setActiveNavlink(navlink)}
-          />
+          <div className="flex items-center" key={navlink.key}>
+            <navlink.icon size={24} />
+            <MenuBar.Item
+              active={tab === navlink.key}
+              description={navlink.description}
+              key={navlink.key}
+              label={navlink.label}
+              onClick={() => setActiveNavlink(navlink)}
+            />
+          </div>
         ))}
       </MenuBar>
       <Container>

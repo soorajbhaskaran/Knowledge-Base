@@ -4,7 +4,7 @@ import { Edit, Delete, Check } from "neetoicons";
 import { Button, Typography } from "neetoui";
 import * as yup from "yup";
 
-import { SETTINGS_NAVLINKS } from "./constants";
+import { SETTINGS_NAVLINKS, ALPHANUMERIC_REGEX } from "./constants";
 
 export const buildRedirectionColumn = ({
   isEditing,
@@ -85,7 +85,7 @@ export const buildPreferanceValidationSchema = ({ isPasswordVisible }) => {
       .required("Password is required")
       .min(6, "Password is too short - should be 6 chars minimum.")
       .matches(
-        /([a-z]+[0-9]+)|([0-9]+[a-z]+)/gi,
+        ALPHANUMERIC_REGEX,
         "Password should contain atleast one letter and number"
       );
   }

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Button } from "neetoui";
+import PropTypes from "prop-types";
 
 const EmptyState = ({
   image,
@@ -31,5 +32,13 @@ const EmptyState = ({
     </div>
   </div>
 );
+
+EmptyState.propTypes = {
+  image: PropTypes.string,
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  primaryAction: PropTypes.func,
+  primaryActionLabel: PropTypes.string,
+};
 
 export default EmptyState;

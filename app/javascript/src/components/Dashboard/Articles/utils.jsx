@@ -4,9 +4,14 @@ import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import * as yup from "yup";
 
+import { ALPHABHET_REGEX } from "./constants";
+
 export const buildValidationSchemaForArticles = (categories) =>
   yup.object().shape({
-    title: yup.string().required("Title is required"),
+    title: yup
+      .string()
+      .required("Title is required")
+      .matches(ALPHABHET_REGEX, "Title must contain atleast one alphabet"),
     category: yup
       .object()
       .nullable()
@@ -48,20 +53,26 @@ export const buildArticleColumnData = ({
   [
     {
       dataIndex: "title",
+      align: "center",
       key: "title",
       title: "TITLE",
       hidden: !checkedColumns.title,
-      render: (title) => (
-        <Typography className="text-purple-500" style="body2" weight="semibold">
-          {title}
-        </Typography>
+      render: (title, { id, slug, status }) => (
+        <Button
+          label={title}
+          style="link"
+          onClick={() =>
+            handleEditButton(status === "published" ? slug : id, status)
+          }
+        />
       ),
     },
     {
       dataIndex: "date",
+      align: "center",
       hidden: !checkedColumns.date,
       key: "date",
-      title: "DATE",
+      title: "PUBLISHED DATE",
       render: (date) => (
         <Typography style="body2">
           {date ? new Date(date).toDateString() : "--"}
@@ -72,18 +83,21 @@ export const buildArticleColumnData = ({
       dataIndex: "author",
       hidden: !checkedColumns.author,
       key: "author",
+      align: "center",
       title: "AUTHOR",
     },
     {
       dataIndex: "category",
       hidden: !checkedColumns.category,
       key: "category",
+      align: "center",
       title: "CATEGORY",
     },
     {
       dataIndex: "status",
       hidden: !checkedColumns.status,
       key: "status",
+      align: "center",
       title: "STATUS",
     },
     {
