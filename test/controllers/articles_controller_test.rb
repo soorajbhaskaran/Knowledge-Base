@@ -7,7 +7,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     @author = create(:user)
     @category = create(:category, author: @author)
     @article = create(:article, author: @author, category: @category, status: "published")
-    @preference = create(:preference)
+    @preference = create(:preference, author: @author)
     @headers = headers(@preference)
   end
 

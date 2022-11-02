@@ -20,4 +20,14 @@ class Category < ApplicationRecord
        })
    end
  end
+
+  def self.show_category_with_published_articles
+    category = Category.includes(:articles).map do |category|
+      category.attributes.merge(
+        {
+          articles: category.articles.of_status(:published)
+        }) if category.articles.of_status(:published).present?
+    end
+    category.compact
+  end
 end

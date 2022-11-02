@@ -21,4 +21,12 @@ class Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
     get public_categories_path, headers: @headers
     assert_response :success
   end
+
+  def test_only_categories_with_published_articles_should_be_returned
+    create(:article, author: @author, category: @category, status: "published")
+    get public_categories_path, headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["categories"].length, 1
+  end
 end
