@@ -5,9 +5,9 @@ require "test_helper"
 class ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @author = create(:user)
-    @category = create(:category)
+    @category = create(:category, author: @author)
     @article = create(:article, author: @author, category: @category, status: "published")
-    @headers = headers(@article.author)
+    @headers = headers()
   end
 
   def test_should_list_all_articles

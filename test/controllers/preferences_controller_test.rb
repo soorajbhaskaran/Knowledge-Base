@@ -6,7 +6,7 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @author = create(:user)
     @preference = create(:preference)
-    @headers = headers(@preference.author)
+    @headers = headers()
   end
 
   def test_should_show_the_proper_preference
