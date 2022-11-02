@@ -15,7 +15,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     get categories_path, headers: @headers
     assert_response :success
     response_json = response.parsed_body
-    assert_equal response_json["categories"].first["author_id"], @category.author.first_name
+    assert_equal response_json["categories"].first["author_id"], @category.author.last_name
   end
 
   def test_should_list_all_categories
