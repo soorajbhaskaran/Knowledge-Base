@@ -14,7 +14,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     get articles_path, headers: @headers
     assert_response :success
     response_json = response.parsed_body
-    assert_equal response_json["articles"].length, @author.articles.count
+    assert_equal response_json["articles"].length, Article.count
   end
 
   def test_should_create_new_article
