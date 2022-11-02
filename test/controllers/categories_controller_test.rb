@@ -6,8 +6,14 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @author = create(:user)
     @category = create(:category, author: @author)
-    @article1 = create(:article, category_id: @category.id, author_id: @author.id)
-    @article2 = create(:article, category_id: @category.id, status: "published", author_id: @author.id)
+    # @article1 = create(:article, category: @category, author: @author)
+    # @article2 = create(:article, category_id: @category.id, status: "published", author: @author)
+    @article1 = Article.create!(
+      title: "Test article 1", content: "Test body 1", category_id: @category.id,
+      author_id: @author.id)
+    @article2 = Article.create!(
+      title: "Test article 2", content: "Test body 2", category_id: @category.id,
+      author_id: @author.id, status: "published")
     @headers = headers()
   end
 

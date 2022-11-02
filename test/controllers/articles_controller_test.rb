@@ -6,7 +6,10 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @author = create(:user)
     @category = create(:category)
-    @article = create(:article, author_id: @author.id, category_id: @category.id, status: "published")
+    # @article = create(:article, author_id: @author.id, category_id: @category.id, status: "published")
+    @article = Article.create!(
+      title: "Test article", content: "This is a test article content",
+      category_id: @category.id, author_id: @author.id, status: "published")
     @headers = headers()
   end
 
