@@ -81,7 +81,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
 
   def test_articles_count_should_be_consistent_on_deletion_of_category
     category = create(:category, author: @author)
-    article = create(:article, category: category)
+    article = create(:article, category: category, author: @author)
     assert_difference "Category.count", -1 do
       delete category_path(category), params: { new_category_id: @category.id }, headers: @headers
     end
