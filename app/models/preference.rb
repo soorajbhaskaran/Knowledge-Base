@@ -10,5 +10,5 @@ class Preference < ApplicationRecord
   validates :name, presence: true
   validates :password,
     length: { minimum: MINIMUM_PREFERENCE_PASSWORD_LENGTH },
-    format: { with: VALID_PASSWORD_REGEX }, if: -> { password.present? }
+    format: { with: VALID_PASSWORD_REGEX }, if: -> { password.present? && is_password_protection_enabled }
 end

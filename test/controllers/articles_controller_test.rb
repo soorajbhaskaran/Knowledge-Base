@@ -7,7 +7,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     @author = create(:user)
     @category = create(:category, author: @author)
     @article = create(:article, author: @author, category: @category, status: "published")
-    @headers = headers()
+    @preference = create(:preference)
+    @headers = headers(@preference)
   end
 
   def test_should_list_all_articles
