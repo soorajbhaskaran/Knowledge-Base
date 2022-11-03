@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ArticlesController < ApplicationController
+class API::ArticlesController < ApplicationController
   before_action :load_article_on_update, only: [:update]
   before_action :load_article_on_show_and_destroy, only: [:show, :destroy]
 

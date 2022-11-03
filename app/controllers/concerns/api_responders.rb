@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ApiResponders
+module APIResponders
   extend ActiveSupport::Concern
 
   private

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ApiRescuable
+module APIRescuable
   extend ActiveSupport::Concern
 
   included do

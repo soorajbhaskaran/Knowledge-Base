@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PreferencesController < ApplicationController
+class API::PreferencesController < ApplicationController
   def show
     render json: { preference: preference }
   end

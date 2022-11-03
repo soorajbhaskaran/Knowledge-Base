@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Public::SessionsController < ApplicationController
+class API::Public::SessionsController < ApplicationController
   def create
     unless preference.authenticate(login_params[:password])
       respond_with_error(t("session.incorrect_credentials"), :unauthorized)

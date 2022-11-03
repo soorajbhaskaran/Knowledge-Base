@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Public::CategoriesController < ApplicationController
+class API::Public::CategoriesController < ApplicationController
   before_action :check_password_presence, only: [:index]
 
   def index
