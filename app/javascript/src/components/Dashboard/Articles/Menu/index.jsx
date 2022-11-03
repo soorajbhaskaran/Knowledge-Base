@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { Search, Close, Plus } from "neetoicons";
-import { Typography } from "neetoui";
+import { Typography, Tooltip } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 import PropTypes from "prop-types";
 import queryString from "query-string";
@@ -82,6 +82,7 @@ const Menu = ({
       logger.error(error);
     } finally {
       setLoading(false);
+      setCategoryList([]);
     }
   };
 
@@ -165,11 +166,27 @@ const Menu = ({
       <MenuBar.SubTitle
         iconProps={[
           {
-            icon: showSearchInput ? () => <Close /> : () => <Search />,
+            icon: showSearchInput
+              ? () => <Close />
+              : () => (
+                  <Tooltip content="Search for category" position="bottom">
+                    <div>
+                      <Search />
+                    </div>
+                  </Tooltip>
+                ),
             onClick: toggleSearch,
           },
           {
-            icon: showAddInput ? () => <Close /> : () => <Plus />,
+            icon: showAddInput
+              ? () => <Close />
+              : () => (
+                  <Tooltip content="Add new category" position="bottom">
+                    <div>
+                      <Plus />
+                    </div>
+                  </Tooltip>
+                ),
             onClick: toggleAdd,
           },
         ]}
