@@ -6,8 +6,8 @@ const fetch = ({ path, status }) => {
 
   return axios.get(`/api${newPath}`);
 };
-const create = (payload) => axios.post("/categories", payload);
-const update = ({ id, payload }) => axios.put(`/categories/${id}`, payload);
+const create = (payload) => axios.post("/api/categories", payload);
+const update = ({ id, payload }) => axios.put(`/api/categories/${id}`, payload);
 
 const destroy = ({ id, newCategoryId }) => {
   const path = newCategoryId

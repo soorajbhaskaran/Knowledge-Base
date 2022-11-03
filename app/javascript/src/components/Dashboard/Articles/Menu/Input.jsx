@@ -33,16 +33,6 @@ const Input = ({
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSubmit();
-    } else if (e.key === "Escape") {
-      setShowSearchInput(false);
-      setSearchFieldText("");
-    }
-  };
-
-  const handleKeyUp = (e, setState) => {
-    if (e.key === "Escape") {
-      setState(false);
-      setSearchFieldText("");
     }
   };
 
@@ -53,6 +43,7 @@ const Input = ({
   const handleSubmit = () => {
     createCategory();
     setShowAddInput(false);
+    setSearchFieldText("");
   };
 
   return (
@@ -66,7 +57,6 @@ const Input = ({
             value={searchFieldText}
             onBlur={() => handleBlur(setShowSearchInput)}
             onChange={(e) => handleSearch(e.target.value)}
-            onKeyUp={(e) => handleKeyUp(e, setShowSearchInput)}
           />
         </div>
       )}
@@ -80,7 +70,6 @@ const Input = ({
             onBlur={() => handleBlur(setShowAddInput)}
             onChange={(e) => setTitle(e.target.value)}
             onKeyPress={handleKeyPress}
-            onKeyUp={(e) => handleKeyUp(e, setShowAddInput)}
           />
           <Button icon={Check} style="text" onClick={handleSubmit} />
         </div>

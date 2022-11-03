@@ -71,7 +71,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_search_article_based_on_article_title_and_category
     article = create(:article, title: "Test article", author: @author, category: @category)
-    get search_api_articles_path, params: { query: "test", categories_ids: [@category.id] }, headers: @headers
+    get search_api_articles_path, params: { query: "test", categories_ids: @category.id }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["articles"].last["title"], article.title

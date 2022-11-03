@@ -23,7 +23,9 @@ class API::CategoriesController < ApplicationController
   end
 
   def destroy
-    @category.articles_count.zero? ? @category.destroy! : change_article_category
+    @category.articles_count.zero? ? @category.destroy! : DeleteCategoryService.process(
+      params[:new_category_id],
+      @category)
     respond_with_success(t("successfully_deleted", entity: "Category"))
   end
 
@@ -41,21 +43,6 @@ class API::CategoriesController < ApplicationController
 
     def load_category!
       @category = current_user.categories.find_by!(id: params[:id])
-    end
-
-    def change_article_category
-      new_category_id = create_new_category_if_there_is_only_one
-      @category.articles.update_all(category_id: new_category_id)
-      Category.update_counters(new_category_id, articles_count: @category.articles_count)
-      @category.reload.destroy!
-    end
-
-    def create_new_category_if_there_is_only_one
-      if current_user.categories.count == 1
-        current_user.categories.create!(title: "General")
-        return current_user.categories.where(title: "General").first.id
-      end
-      params[:new_category_id]
     end
 
     def category_params
