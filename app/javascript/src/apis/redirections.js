@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const fetch = () => axios.get("/redirections");
-const create = (redirection) => axios.post("/redirections", redirection);
+const fetch = () => axios.get("/api/redirections");
+const create = (redirection) => axios.post("/api/redirections", redirection);
 const update = ({ editingKey, values }) =>
-  axios.put(`/redirections/${editingKey}`, values);
-const destroy = (id) => axios.delete(`/redirections/${id}`);
+  axios.put(`/api/redirections/${editingKey}`, values);
+const destroy = (id) => axios.delete(`/api/redirections/${id}`);
 
 const redirectionApi = { fetch, create, update, destroy };
 

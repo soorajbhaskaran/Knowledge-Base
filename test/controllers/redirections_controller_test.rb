@@ -11,7 +11,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_all_redirections
-    get redirections_path, headers: @headers
+    get api_redirections_path, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     all_redirections = response_json["redirections"]
@@ -20,7 +20,7 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_create_new_redirection
     assert_difference "Redirection.count", 1 do
-      post redirections_path, params: {
+      post api_redirections_path, params: {
         redirection: {
           from_path: "test1", to_path: "test2", author: @author
         }
@@ -30,14 +30,14 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_update_redirection
-    patch redirection_path(@redirection), params: { redirection: { from_path: "updated" } }, headers: @headers
+    patch api_redirection_path(@redirection), params: { redirection: { from_path: "updated" } }, headers: @headers
     assert_response :success
     assert_equal "updated", @redirection.reload.from_path
   end
 
   def test_should_delete_redirection
     assert_difference "Redirection.count", -1 do
-      delete redirection_path(@redirection), headers: @headers
+      delete api_redirection_path(@redirection), headers: @headers
     end
     assert_response :success
   end

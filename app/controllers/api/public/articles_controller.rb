@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Public::ArticlesController < ApplicationController
+class API::Public::ArticlesController < ApplicationController
   before_action :load_article!, only: [:show]
   before_action :check_password_presence, only: [:show]
 
