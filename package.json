@@ -18,7 +18,7 @@
   "name": "scribble-by-sooraj-bhaskaran",
   "private": true,
   "engines": {
-    "node": "16.5",
+    "node": "16.4.2",
     "npm": "7.x",
     "yarn": "1.22.x"
   },
