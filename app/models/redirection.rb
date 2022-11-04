@@ -12,16 +12,16 @@ class Redirection < ApplicationRecord
   private
 
     def from_path_and_to_path_cannot_be_same
-      errors.add(:from_path, "and to path cannot be same") if from_path == to_path
+      errors.add(:from_path, t("redirections.not_same")) if from_path == to_path
     end
 
     def check_redirection_loop
       return if Redirection.where(from_path: to_path).empty?
 
-      errors.add(:to_path, "cannot be redirected to another path")
+      errors.add(:to_path, t("redirections.not_cyclic"))
     end
 
     def check_redirection_not_possible_to_admin
-      errors.add(:to_path, "cannot be redirected to protected path") if to_path.start_with?("/admin")
+      errors.add(:to_path, t("redirections.not_cyclic")) if to_path.start_with?("/admin")
     end
 end

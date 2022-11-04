@@ -15,7 +15,7 @@ def headers(preference, options = {})
     Accept: "application/json",
     "Content_Type" => "application/json",
     "X-Auth-Token" => (preference.authentication_token if preference.is_password_protection_enabled)
-  }.compact.merge(options)
+  }.merge(options).compact
 end
 
 enable_test_coverage if ENV["COVERAGE"]
