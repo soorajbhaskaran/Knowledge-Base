@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require "test_helper"
-
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @author = create(:user)
     @category = create(:category, author: @author)
+    @category1 = create(:category, author: @author)
     @article1 = create(:article, category: @category, author: @author)
     @article2 = create(:article, category: @category, status: "published", author: @author)
     @preference = create(:preference, author: @author)
@@ -73,6 +73,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_create_new_general_category_if_category_count_is_one_when_deleting
+    delete api_category_path(@category1), headers: @headers
     assert_difference "Category.count", 0 do
       delete api_category_path(@category), headers: @headers
     end
@@ -110,5 +111,23 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["categories"].last["id"], category.id
+  end
+
+  def test_category_should_give_proper_articles_count_based_on_status
+    get api_categories_path, params: { status: "published" }, headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["categories"].first["articles_count"], @category.articles.published.count
+
+    get api_categories_path, params: { status: "draft" }, headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["categories"].first["articles_count"], @category.articles.draft.count
+  end
+
+  def test_sorting_of_categories_based_on_category_index
+    categories = [@category1.as_json, @category.as_json]
+    patch sort_api_categories_path, params: { categories: categories }, headers: @headers
+    assert_equal @category.reload.position, 2
   end
 end

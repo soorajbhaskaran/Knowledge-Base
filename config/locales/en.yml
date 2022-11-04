@@ -45,3 +45,6 @@ en:
   date:
     invalid: "must be a valid date"
     cant_be_in_past: "can't be in the past"
+  redirections:
+    not_same: "and to path cannot be same"
+    not_cyclic: "cannot be redirected to protected path"
