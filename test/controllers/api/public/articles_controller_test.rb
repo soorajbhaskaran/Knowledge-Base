@@ -31,4 +31,10 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_public_article_path(@article.slug), headers: @headers
     assert_response :success
   end
+
+  def test_user_must_be_able_to_access_if_there_is_valid_authentication_token_when_password_protection_is_enabled
+    @preference.update(is_password_protection_enabled: true)
+    get api_public_article_path(@article.slug), headers: headers(@preference.reload, "X-Auth-Token" => "invalid")
+    assert_response :unauthorized
+  end
 end
