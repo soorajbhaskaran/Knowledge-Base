@@ -24,6 +24,7 @@ gem "bcrypt", "~> 3.1.13"
 gem "minitest-bisect"
 gem "react-rails"
 gem "simplecov", require: false, group: :test
+gem "uglifier"
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

@@ -219,6 +219,8 @@ GEM
     tilt (2.0.11)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
+    uglifier (4.2.0)
+      execjs (>= 0.3.0, < 3)
     unicode-display_width (2.2.0)
     web-console (4.2.0)
       actionview (>= 6.0.0)
@@ -260,6 +262,7 @@ DEPENDENCIES
   simplecov
   spring
   tzinfo-data
+  uglifier
   web-console (>= 4.1.0)
   webpacker (~> 5.0)
 
