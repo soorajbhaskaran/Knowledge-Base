@@ -26,7 +26,9 @@ jobs:
           bundle check --path=vendor/bundle || bundle install
           --path=vendor/bundle --jobs=4 --retry=3
       # Yarn install
-      - run: yarn install --cache-folder vendor/node_modules
+      - run:
+         chmod a+x ./bin/yarn && ./bin/yarn install --ignore engines --cache-folder
+         vendor/node_modules
       # Ensure Rubocop has linted all Ruby files
       - run: bundle exec rubocop
       # Ensure Prettier+ESLint has been run on all JS files
