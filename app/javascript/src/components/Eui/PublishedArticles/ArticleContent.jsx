@@ -26,7 +26,7 @@ const ArticleContent = () => {
       });
     } catch (error) {
       logger.error(error);
-      history.push("/article/invalid");
+      history.push("/articles/invalid");
     } finally {
       setLoading(false);
     }

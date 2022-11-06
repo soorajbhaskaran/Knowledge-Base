@@ -24,8 +24,8 @@ const PrivateRoute = ({
     );
   }
 
-  if (location.pathname === "/article" || location.pathname === "/article/") {
-    return <Redirect to={`/article/${initialSlug}`} />;
+  if (location.pathname === "/articles" || location.pathname === "/articles/") {
+    return <Redirect to={`/articles/${initialSlug}`} />;
   }
 
   return <Route component={Component} path={path} {...props} />;

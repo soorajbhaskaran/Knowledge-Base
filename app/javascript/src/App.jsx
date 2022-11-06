@@ -49,11 +49,11 @@ const App = () => {
             <Redirect to={to_path} />
           </Route>
         ))}
-        <Redirect exact from="/" to="/article" />
-        <Route component={Eui} path="/article" />
+        <Redirect exact from="/" to="/articles" />
+        <Route component={Eui} path="/articles" />
         <Route component={Dashboard} path="/admin" />
         <Route exact path="/:invalid">
-          <Redirect to="/article/invalid" />
+          <Redirect to="/articles/invalid" />
         </Route>
       </Switch>
     </Router>
