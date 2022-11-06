@@ -71,7 +71,13 @@ const Input = ({
             onChange={(e) => setTitle(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          <Button icon={Check} style="text" onClick={handleSubmit} />
+          <Button
+            className="ml-2"
+            icon={Check}
+            size={80}
+            style="text"
+            onMouseDown={handleSubmit}
+          />
         </div>
       )}
     </>

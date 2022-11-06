@@ -61,6 +61,4 @@ const ArticleContent = () => {
   );
 };
 
-ArticleContent.propTypes = {};
-
 export default ArticleContent;

@@ -107,6 +107,4 @@ const PasswordScreen = () => {
   );
 };
 
-PasswordScreen.propTypes = {};
-
 export default PasswordScreen;
