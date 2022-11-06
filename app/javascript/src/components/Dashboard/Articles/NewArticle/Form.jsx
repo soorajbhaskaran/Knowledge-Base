@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { buildSelectOptions } from "utils";
 
-import categoryApi from "apis/categories";
+import categoriesApi from "apis/categories";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 
 import { buildValidationSchemaForArticles } from "../utils";
@@ -36,7 +36,7 @@ const Form = ({
     try {
       const {
         data: { categories },
-      } = await categoryApi.fetch({ path: "/categories" });
+      } = await categoriesApi.fetch({ path: "/categories" });
       setCategory(buildSelectOptions(categories));
     } catch (error) {
       logger.error(error);

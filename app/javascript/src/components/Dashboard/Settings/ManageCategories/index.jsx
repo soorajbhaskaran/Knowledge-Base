@@ -5,7 +5,7 @@ import { Typography, Button, Input, PageLoader } from "neetoui";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { buildSelectOptions } from "utils";
 
-import categoryApi from "apis/categories";
+import categoriesApi from "apis/categories";
 
 import Category from "./Card/Category";
 import DeleteAlert from "./DeleteAlert";
@@ -22,7 +22,7 @@ const ManageCategories = () => {
     try {
       const {
         data: { categories },
-      } = await categoryApi.fetch({ path: "/categories" });
+      } = await categoriesApi.fetch({ path: "/categories" });
       setCategories(categories);
     } catch (error) {
       logger.error(error);
@@ -33,7 +33,7 @@ const ManageCategories = () => {
 
   const createCategory = async () => {
     try {
-      await categoryApi.create({ title });
+      await categoriesApi.create({ title });
       fetchCategories();
     } catch (error) {
       logger.error(error);
@@ -42,7 +42,7 @@ const ManageCategories = () => {
 
   const deleteCategory = async ({ id, newCategoryId }) => {
     try {
-      await categoryApi.destroy({ id, newCategoryId });
+      await categoriesApi.destroy({ id, newCategoryId });
       fetchCategories();
     } catch (error) {
       logger.error(error);
@@ -59,7 +59,7 @@ const ManageCategories = () => {
 
   const handleEditCategory = async ({ id, payload }) => {
     try {
-      await categoryApi.update({ id, payload });
+      await categoriesApi.update({ id, payload });
       fetchCategories();
     } catch (error) {
       logger.error(error);
@@ -185,7 +185,7 @@ const renderDragAndDrop = ({
 
   const sortCategories = async (categories) => {
     try {
-      await categoryApi.sort({ categories });
+      await categoriesApi.sort({ categories });
     } catch (error) {
       logger.error(error);
     }

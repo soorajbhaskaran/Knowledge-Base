@@ -20,5 +20,5 @@ const destroy = ({ id, newCategoryId }) => {
 const sort = (payload) => axios.patch("/api/categories/sort", payload);
 const search = (query) => axios.get(`/api/categories/search?query=${query}`);
 
-const categoryApi = { fetch, create, update, destroy, sort, search };
-export default categoryApi;
+const categoriesApi = { fetch, create, update, destroy, sort, search };
+export default categoriesApi;

@@ -4,7 +4,7 @@ import { Table as NeetoUITable } from "neetoui";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
-import articleApi from "apis/articles";
+import articlesApi from "apis/articles";
 
 import { buildArticleColumnData } from "./utils";
 
@@ -19,7 +19,7 @@ const Table = ({ articles, refetch, checkedColumns }) => {
   };
   const handleDeleteButton = async (identifier, status) => {
     try {
-      await articleApi.destroy(identifier, status);
+      await articlesApi.destroy(identifier, status);
       refetch();
     } catch (error) {
       logger.error(error);

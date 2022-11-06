@@ -9,7 +9,7 @@ import {
 import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
-import redirectionApi from "apis/redirections";
+import redirectionsApi from "apis/redirections";
 import { initializeLogger } from "common/logger";
 import Dashboard from "components/Dashboard";
 import Eui from "components/Eui";
@@ -22,7 +22,7 @@ const App = () => {
     try {
       const {
         data: { redirections },
-      } = await redirectionApi.fetch();
+      } = await redirectionsApi.fetch();
       setRedirections(redirections);
     } catch (error) {
       logger.error(error);
