@@ -9,7 +9,7 @@ import {
 import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
-import redirectionApi from "apis/redirections";
+import redirectionsApi from "apis/redirections";
 import { initializeLogger } from "common/logger";
 import Dashboard from "components/Dashboard";
 import Eui from "components/Eui";
@@ -22,7 +22,7 @@ const App = () => {
     try {
       const {
         data: { redirections },
-      } = await redirectionApi.fetch();
+      } = await redirectionsApi.fetch();
       setRedirections(redirections);
     } catch (error) {
       logger.error(error);
@@ -49,11 +49,11 @@ const App = () => {
             <Redirect to={to_path} />
           </Route>
         ))}
-        <Redirect exact from="/" to="/article" />
-        <Route component={Eui} path="/article" />
+        <Redirect exact from="/" to="/articles" />
+        <Route component={Eui} path="/articles" />
         <Route component={Dashboard} path="/admin" />
         <Route exact path="/:invalid">
-          <Redirect to="/article/invalid" />
+          <Redirect to="/articles/invalid" />
         </Route>
       </Switch>
     </Router>

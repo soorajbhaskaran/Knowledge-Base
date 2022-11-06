@@ -5,7 +5,7 @@ import { Plus } from "neetoicons";
 import { Table as NeetoUITable, Button } from "neetoui";
 import { v4 as uuidv4 } from "uuid";
 
-import redirectionApi from "apis/redirections";
+import redirectionsApi from "apis/redirections";
 
 import EditableCell from "./EditableCell";
 
@@ -34,7 +34,7 @@ const Table = () => {
     try {
       const {
         data: { redirections },
-      } = await redirectionApi.fetch();
+      } = await redirectionsApi.fetch();
       setRedirections(redirections);
     } catch (error) {
       logger.error(error);
@@ -54,7 +54,7 @@ const Table = () => {
   const handleSubmitRedirection = async (values, resetForm) => {
     if (editingKey.length === 8) {
       try {
-        await redirectionApi.create(values);
+        await redirectionsApi.create(values);
         fetchRedirections();
         resetForm({ from_path: "", to_path: "" });
       } catch (error) {
@@ -63,7 +63,7 @@ const Table = () => {
       }
     } else {
       try {
-        await redirectionApi.update({ editingKey, values });
+        await redirectionsApi.update({ editingKey, values });
         fetchRedirections();
       } catch (error) {
         logger.error(error);
@@ -79,7 +79,7 @@ const Table = () => {
       );
     } else {
       try {
-        await redirectionApi.destroy(id);
+        await redirectionsApi.destroy(id);
         fetchRedirections();
       } catch (error) {
         logger.error(error);

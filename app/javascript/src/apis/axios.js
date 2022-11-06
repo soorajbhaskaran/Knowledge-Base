@@ -39,7 +39,7 @@ const handleErrorResponse = (axiosErrorObject) => {
     axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION
   );
   if (axiosErrorObject.response?.status === 423) {
-    window.location.href = "/article";
+    window.location.href = "/articles";
   }
 
   return Promise.reject(axiosErrorObject);

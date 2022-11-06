@@ -5,7 +5,7 @@ import { Container } from "neetoui/layouts";
 import queryString from "query-string";
 import { useHistory, useLocation } from "react-router-dom";
 
-import articleApi from "apis/articles";
+import articlesApi from "apis/articles";
 import EmptyState from "components/Common/EmptyState";
 import EmptyArticleList from "images/EmptyArticleList";
 
@@ -36,7 +36,7 @@ const Articles = () => {
     try {
       const {
         data: { articles },
-      } = await articleApi.fetch({ status });
+      } = await articlesApi.fetch({ status });
       setArticles(articles);
       setArticleStatusTabs(buildArticleStatusTabsWithCount(articles));
     } catch (error) {

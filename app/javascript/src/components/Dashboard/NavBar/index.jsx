@@ -29,12 +29,12 @@ const NavBar = () => {
           </div>
           <div className="flex items-center justify-end gap-x-4">
             <Button
-              href="/article"
+              href="/articles"
               icon={ExternalLink}
               iconPosition="right"
               label="Preview"
               style="secondary"
-              onClick={() => openInNewTab("/article")}
+              onClick={() => openInNewTab("/articles")}
             />
           </div>
         </div>

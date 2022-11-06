@@ -6,6 +6,6 @@ const update = ({ editingKey, values }) =>
   axios.put(`/api/redirections/${editingKey}`, values);
 const destroy = (id) => axios.delete(`/api/redirections/${id}`);
 
-const redirectionApi = { fetch, create, update, destroy };
+const redirectionsApi = { fetch, create, update, destroy };
 
-export default redirectionApi;
+export default redirectionsApi;

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import queryString from "query-string";
 import { useHistory, useLocation } from "react-router-dom";
 
-import articleApi from "apis/articles";
+import articlesApi from "apis/articles";
 
 import { getCategoriesIdsFromCategoryObjects } from "./utils";
 
@@ -26,7 +26,7 @@ const Header = ({
     try {
       const {
         data: { articles },
-      } = await articleApi.search({
+      } = await articlesApi.search({
         title,
         status,
         categoriesIds: getCategoriesIdsFromCategoryObjects(categoryList),

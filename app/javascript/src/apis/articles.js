@@ -37,6 +37,6 @@ const filter = ({ status, categories_ids }) => {
   return axios.post(`/api${path}`, { categories_ids });
 };
 
-const articleApi = { fetch, create, update, destroy, show, search, filter };
+const articlesApi = { fetch, create, update, destroy, show, search, filter };
 
-export default articleApi;
+export default articlesApi;

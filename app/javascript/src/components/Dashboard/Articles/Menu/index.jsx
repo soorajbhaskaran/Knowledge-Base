@@ -7,8 +7,8 @@ import PropTypes from "prop-types";
 import queryString from "query-string";
 import { useHistory, useLocation } from "react-router-dom";
 
-import articleApi from "apis/articles";
-import categoryApi from "apis/categories";
+import articlesApi from "apis/articles";
+import categoriesApi from "apis/categories";
 
 import Category from "./Category";
 import Input from "./Input";
@@ -36,7 +36,7 @@ const Menu = ({
     try {
       const {
         data: { categories },
-      } = await categoryApi.fetch({ path: "/categories", status });
+      } = await categoriesApi.fetch({ path: "/categories", status });
       setCategories(categories);
     } catch (error) {
       logger.error(error);
@@ -48,7 +48,7 @@ const Menu = ({
     try {
       const {
         data: { articles },
-      } = await articleApi.fetch({ status });
+      } = await articlesApi.fetch({ status });
       setArticles(articles);
     } catch (error) {
       logger.error(error);
@@ -59,7 +59,7 @@ const Menu = ({
 
   const createCategory = async () => {
     try {
-      await categoryApi.create({ title });
+      await categoriesApi.create({ title });
       fetchCategories();
       setTitle("");
     } catch (error) {
@@ -76,7 +76,7 @@ const Menu = ({
     try {
       const {
         data: { articles },
-      } = await articleApi.fetch({ status: value !== "all" ? value : "" });
+      } = await articlesApi.fetch({ status: value !== "all" ? value : "" });
       setArticles(articles);
     } catch (error) {
       logger.error(error);
@@ -109,7 +109,7 @@ const Menu = ({
     try {
       const {
         data: { articles },
-      } = await articleApi.filter({
+      } = await articlesApi.filter({
         status,
         categories_ids: getCategoriesIdsFromCategoryObjects(categoryList),
       });

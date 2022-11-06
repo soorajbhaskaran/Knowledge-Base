@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import queryString from "query-string";
 import { useParams, useHistory } from "react-router-dom";
 
-import articleApi from "apis/articles";
+import articlesApi from "apis/articles";
 import { buildSelectOptions } from "utils/";
 
 import Form from "./Form";
@@ -19,7 +19,7 @@ const Edit = ({ location }) => {
     try {
       const {
         data: { article },
-      } = await articleApi.show({ identifier, path: "/articles/", status });
+      } = await articlesApi.show({ identifier, path: "/articles/", status });
       setArticle({
         id: article.id,
         slug: article.slug || "",
@@ -39,7 +39,7 @@ const Edit = ({ location }) => {
       slug = article.id;
     }
     try {
-      await articleApi.update(status === "draft" ? article.id : slug, status, {
+      await articlesApi.update(status === "draft" ? article.id : slug, status, {
         ...values,
         category_id: values.category.value,
         slug: article.slug,

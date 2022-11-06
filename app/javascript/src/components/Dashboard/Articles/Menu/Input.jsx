@@ -4,7 +4,7 @@ import { Check } from "neetoicons";
 import { Input as NeetoUIInput, Button } from "neetoui";
 import PropTypes from "prop-types";
 
-import categoryApi from "apis/categories";
+import categoriesApi from "apis/categories";
 
 const Input = ({
   searchFieldText,
@@ -22,7 +22,7 @@ const Input = ({
     try {
       const {
         data: { categories },
-      } = await categoryApi.search(title);
+      } = await categoriesApi.search(title);
       setSearchFieldText(title);
       setCategories(categories);
     } catch (error) {
@@ -71,7 +71,13 @@ const Input = ({
             onChange={(e) => setTitle(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          <Button icon={Check} style="text" onClick={handleSubmit} />
+          <Button
+            className="ml-2"
+            icon={Check}
+            size={80}
+            style="text"
+            onMouseDown={handleSubmit}
+          />
         </div>
       )}
     </>

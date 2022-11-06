@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Typography, Callout, PageLoader } from "neetoui";
 import { useParams, useHistory } from "react-router-dom";
 
-import articleApi from "apis/articles";
+import articlesApi from "apis/articles";
 
 const ArticleContent = () => {
   const [article, setArticle] = useState({});
@@ -15,7 +15,7 @@ const ArticleContent = () => {
     try {
       const {
         data: { article },
-      } = await articleApi.show({
+      } = await articlesApi.show({
         identifier: slug,
         path: "/public/articles/",
         status: "published",
@@ -26,7 +26,7 @@ const ArticleContent = () => {
       });
     } catch (error) {
       logger.error(error);
-      history.push("/article/invalid");
+      history.push("/articles/invalid");
     } finally {
       setLoading(false);
     }
@@ -60,7 +60,5 @@ const ArticleContent = () => {
     </div>
   );
 };
-
-ArticleContent.propTypes = {};
 
 export default ArticleContent;

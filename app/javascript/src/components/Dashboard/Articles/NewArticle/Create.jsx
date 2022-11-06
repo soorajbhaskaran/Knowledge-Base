@@ -2,7 +2,7 @@ import React from "react";
 
 import { useHistory } from "react-router-dom";
 
-import articleApi from "apis/articles";
+import articlesApi from "apis/articles";
 
 import Form from "./Form";
 
@@ -13,7 +13,7 @@ const Create = () => {
 
   const handleCreateArticle = async (values, status) => {
     try {
-      await articleApi.create({
+      await articlesApi.create({
         article: {
           title: values.title,
           content: values.content,

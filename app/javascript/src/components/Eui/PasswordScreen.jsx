@@ -26,7 +26,7 @@ const PasswordScreen = () => {
       });
       setAuthHeaders();
 
-      window.location.href = "/article";
+      window.location.href = "/articles";
     } catch (error) {
       logger.error(error);
     } finally {
@@ -106,7 +106,5 @@ const PasswordScreen = () => {
     </Formik>
   );
 };
-
-PasswordScreen.propTypes = {};
 
 export default PasswordScreen;

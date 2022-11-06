@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { either, isEmpty, isNil } from "ramda";
 import { Route, Switch, useHistory } from "react-router-dom";
 
-import categoryApi from "apis/categories";
+import categoriesApi from "apis/categories";
 import preferenceApi from "apis/preference";
 import EmptyState from "components/Common/EmptyState";
 import PrivateRoute from "components/Common/PrivateRoute";
@@ -34,7 +34,7 @@ const Eui = () => {
     try {
       const {
         data: { categories },
-      } = await categoryApi.fetch({ path: "/categories" });
+      } = await categoriesApi.fetch({ path: "/categories" });
       setInitialSlug(getFirstPublishedArticleFromCategories(categories).slug);
     } catch (error) {
       logger.error(error);
@@ -72,7 +72,7 @@ const Eui = () => {
             <EmptyState
               {...props}
               image={EmptyArticleList}
-              primaryAction={() => history.push("/article")}
+              primaryAction={() => history.push("/articles")}
               primaryActionLabel="Home"
               subtitle="The page you are looking for does not exist."
               title="Page Not Found"
