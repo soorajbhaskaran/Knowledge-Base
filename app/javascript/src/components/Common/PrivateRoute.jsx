@@ -9,7 +9,7 @@ const PrivateRoute = ({
   path,
   redirectRoute,
   location,
-  initialSlug,
+  slugOfFirstArticle,
   isPasswordProtected,
   ...props
 }) => {
@@ -25,7 +25,7 @@ const PrivateRoute = ({
   }
 
   if (location.pathname === "/articles" || location.pathname === "/articles/") {
-    return <Redirect to={`/articles/${initialSlug}`} />;
+    return <Redirect to={`/articles/${slugOfFirstArticle}`} />;
   }
 
   return <Route component={Component} path={path} {...props} />;

@@ -23,19 +23,21 @@ import {
 } from "../routeConstants";
 
 const Eui = () => {
-  const [initialSlug, setInitialSlug] = useState("");
+  const [slugOfFirstArticle, setSlugOfFirstArticle] = useState("");
   const [preference, setPreference] = useState({});
   const authToken = getFromLocalStorage("authToken");
   const isAuthenticated = !either(isNil, isEmpty)(authToken);
 
   const history = useHistory();
 
-  const fetchInitialSlug = async () => {
+  const fetchFirstArticle = async () => {
     try {
       const {
         data: { categories },
       } = await categoriesApi.fetch({ path: "/categories" });
-      setInitialSlug(getFirstPublishedArticleFromCategories(categories).slug);
+      setSlugOfFirstArticle(
+        getFirstPublishedArticleFromCategories(categories).slug
+      );
     } catch (error) {
       logger.error(error);
     }
@@ -53,7 +55,7 @@ const Eui = () => {
   };
 
   const loadData = async () => {
-    await Promise.all([fetchInitialSlug(), fetchPreference()]);
+    await Promise.all([fetchFirstArticle(), fetchPreference()]);
   };
 
   useEffect(() => {
@@ -83,10 +85,10 @@ const Eui = () => {
         <PrivateRoute
           component={PublishedArticle}
           condition={isAuthenticated}
-          initialSlug={initialSlug}
           isPasswordProtected={preference.is_password_protection_enabled}
           path={EUI_PATH}
           redirectRoute={AUTH_PATH}
+          slugOfFirstArticle={slugOfFirstArticle}
         />
       </Switch>
     </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Formik, Form } from "formik";
 import { Plus } from "neetoicons";
-import { Table as NeetoUITable, Button } from "neetoui";
+import { Table as NeetoUITable, Button, PageLoader } from "neetoui";
 import { v4 as uuidv4 } from "uuid";
 
 import redirectionsApi from "apis/redirections";
@@ -14,6 +14,7 @@ import { buildRedirectionColumn } from "../utils";
 const Table = () => {
   const [editingKey, setEditingKey] = useState("");
   const [redirections, setRedirections] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [initialValues, setInitialValues] = useState({
     from_path: "",
@@ -32,12 +33,15 @@ const Table = () => {
 
   const fetchRedirections = async () => {
     try {
+      setLoading(true);
       const {
         data: { redirections },
       } = await redirectionsApi.fetch();
       setRedirections(redirections);
     } catch (error) {
       logger.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,6 +126,10 @@ const Table = () => {
         }),
       };
     });
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   return (
     <>

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import NavItem from "./NavItem";
 
 const NavBar = () => {
-  const openInNewTab = (url) => window.open(url, "_blank");
+  const openInNewTab = (url) => window.open(url, "_blank noreferrer noopener");
 
   return (
     <nav className="shadow relative z-10 bg-white">

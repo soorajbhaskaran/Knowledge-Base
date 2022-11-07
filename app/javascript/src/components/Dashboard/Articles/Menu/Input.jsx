@@ -74,7 +74,6 @@ const Input = ({
           <Button
             className="ml-2"
             icon={Check}
-            size={80}
             style="text"
             onMouseDown={handleSubmit}
           />

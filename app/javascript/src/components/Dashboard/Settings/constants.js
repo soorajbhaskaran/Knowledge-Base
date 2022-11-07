@@ -42,4 +42,4 @@ export const REDIRECTION_VALIDATION_SCHEMA = yup.object().shape({
   to_path: yup.string().required("To path is required"),
 });
 
-export const ALPHANUMERIC_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+export const ALPHANUMERIC_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/;

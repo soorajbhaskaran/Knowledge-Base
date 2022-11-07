@@ -4,21 +4,21 @@ const fetch = ({ path, status }) => {
   const newPath =
     path === "/categories" && status ? `${path}?status=${status}` : path;
 
-  return axios.get(`/api${newPath}`);
+  return axios.get(newPath);
 };
-const create = (payload) => axios.post("/api/categories", payload);
-const update = ({ id, payload }) => axios.put(`/api/categories/${id}`, payload);
+const create = (payload) => axios.post("/categories", payload);
+const update = ({ id, payload }) => axios.put(`/categories/${id}`, payload);
 
 const destroy = ({ id, newCategoryId }) => {
   const path = newCategoryId
     ? `/categories/${id}?new_category_id=${newCategoryId}`
     : `/categories/${id}`;
 
-  return axios.delete(`/api${path}`);
+  return axios.delete(path);
 };
 
-const sort = (payload) => axios.patch("/api/categories/sort", payload);
-const search = (query) => axios.get(`/api/categories/search?query=${query}`);
+const sort = (payload) => axios.patch("/categories/sort", payload);
+const search = (query) => axios.get(`/categories/search?query=${query}`);
 
 const categoriesApi = { fetch, create, update, destroy, sort, search };
 export default categoriesApi;
