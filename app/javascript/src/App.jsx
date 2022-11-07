@@ -45,7 +45,7 @@ const App = () => {
       <ToastContainer />
       <Switch>
         {redirections.map(({ id, from_path, to_path }) => (
-          <Route exact key={id} path={`/${from_path}`}>
+          <Route exact key={id} path={from_path}>
             <Redirect to={to_path} />
           </Route>
         ))}
