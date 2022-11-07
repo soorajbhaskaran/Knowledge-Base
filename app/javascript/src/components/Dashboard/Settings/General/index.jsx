@@ -136,6 +136,4 @@ const General = () => {
   );
 };
 
-General.propTypes = {};
-
 export default General;

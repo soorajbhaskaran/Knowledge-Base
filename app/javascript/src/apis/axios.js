@@ -3,7 +3,7 @@ import { Toastr } from "neetoui";
 
 import { getFromLocalStorage } from "utils/storage";
 
-axios.defaults.baseURL = "/";
+axios.defaults.baseURL = "/api";
 const DEFAULT_ERROR_NOTIFICATION =
   "Something went wrong. Please try again later.";
 
