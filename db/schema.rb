@@ -41,11 +41,10 @@ ActiveRecord::Schema.define(version: 2022_10_27_141336) do
     t.integer "position", default: 0
   end
 
-  create_table "preferences", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "password_digest"
     t.boolean "is_password_protection_enabled", default: false
-    t.uuid "author_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "authentication_token"
@@ -64,6 +63,7 @@ ActiveRecord::Schema.define(version: 2022_10_27_141336) do
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name"
+    t.uuid "organization_id", null: false
     t.string "email", null: false
     t.string "password", null: false
     t.string "password_confirmation"
@@ -76,6 +76,6 @@ ActiveRecord::Schema.define(version: 2022_10_27_141336) do
   add_foreign_key "articles", "categories"
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "categories", "users", column: "author_id"
-  add_foreign_key "preferences", "users", column: "author_id"
   add_foreign_key "redirections", "users", column: "author_id"
+  add_foreign_key "users", "organizations"
 end
