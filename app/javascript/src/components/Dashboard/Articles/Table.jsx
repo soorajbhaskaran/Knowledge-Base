@@ -11,15 +11,16 @@ import { buildArticleColumnData } from "./utils";
 const Table = ({ articles, refetch, checkedColumns }) => {
   const history = useHistory();
 
-  const handleEditButton = (identifier, status) => {
+  const handleEditButton = (identifier, status, id) => {
     history.push({
       pathname: `/admin/articles/${identifier}/edit`,
       search: `?status=${status}`,
+      state: { id },
     });
   };
-  const handleDeleteButton = async (identifier, status) => {
+  const handleDeleteButton = async (id) => {
     try {
-      await articlesApi.destroy(identifier, status);
+      await articlesApi.destroy(id);
       refetch();
     } catch (error) {
       logger.error(error);

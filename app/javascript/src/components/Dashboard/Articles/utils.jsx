@@ -105,13 +105,11 @@ export const buildArticleColumnData = ({
       key: "delete",
       title: "",
       width: 10,
-      render: (_, { slug, status, id }) => (
+      render: (_, { id }) => (
         <Button
           icon={Delete}
           style="text"
-          onClick={() =>
-            handleDeleteButton(status === "published" ? slug : id, status)
-          }
+          onClick={() => handleDeleteButton(id)}
         />
       ),
     },
@@ -125,9 +123,19 @@ export const buildArticleColumnData = ({
           icon={Edit}
           style="text"
           onClick={() =>
-            handleEditButton(status === "published" ? slug : id, status)
+            handleEditButton(status === "published" ? slug : id, status, id)
           }
         />
       ),
     },
   ].filter((column) => !column.hidden);
+
+export const getArticlesCountFromCategoryBasedOnStatus = (category, status) => {
+  if (status === "draft") {
+    return category.articles.draft.length;
+  } else if (status === "published") {
+    return category.articles.published.length;
+  }
+
+  return category.articles_count;
+};

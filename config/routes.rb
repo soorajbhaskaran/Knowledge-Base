@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   end
   namespace :api do
-    resources :articles, except: %i[new edit], param: :identifier, defaults: { format: :json } do
+    resources :articles, except: %i[new edit], defaults: { format: :json } do
       collection do
         get :search
         post :filter

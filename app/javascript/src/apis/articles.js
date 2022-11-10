@@ -8,14 +8,11 @@ const fetch = ({ status }) => {
 
 const create = (payload) => axios.post("/articles", payload);
 
-const update = (identifier, status, payload) =>
-  axios.put(`/articles/${identifier}?status=${status}`, payload);
+const update = (id, payload) => axios.put(`/articles/${id}`, payload);
 
-const destroy = (identifier, status) =>
-  axios.delete(`/articles/${identifier}?status=${status}`);
+const destroy = (id) => axios.delete(`/articles/${id}`);
 
-const show = ({ identifier, path, status }) =>
-  axios.get(`${path}${identifier}?status=${status}`);
+const show = ({ id, path }) => axios.get(`${path}${id}`);
 
 const search = ({ title, status, categoriesIds }) => {
   const path = status

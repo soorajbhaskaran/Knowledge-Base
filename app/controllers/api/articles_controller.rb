@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class API::ArticlesController < ApplicationController
-  before_action :load_article_on_update, only: [:update]
-  before_action :load_article_on_show_and_destroy, only: [:show, :destroy]
+  before_action :load_article!, only: %i[update show destroy]
 
   def index
     @articles = current_user.articles.includes(:category)
@@ -12,8 +11,7 @@ class API::ArticlesController < ApplicationController
   end
 
   def create
-    article = current_user.articles.new(article_params)
-    article.save!
+    current_user.articles.create!(article_params)
     respond_with_success(t("successfully_created", entity: "Article"))
   end
 
@@ -47,20 +45,7 @@ class API::ArticlesController < ApplicationController
       params.require(:article).permit(:title, :content, :category_id, :status)
     end
 
-    def load_article_on_show_and_destroy
-      @article = (params[:status] == "published") ? get_article_by_slug! : get_article_by_id!
-    end
-
-    def load_article_on_update
-      @article = (params[:status] == "published" && params[:article][:slug].length > 0) ? get_article_by_slug!
-      : get_article_by_id!
-    end
-
-    def get_article_by_id!
-      @article = current_user.articles.find_by!(id: params[:identifier])
-    end
-
-    def get_article_by_slug!
-      @article = current_user.articles.find_by!(slug: params[:identifier])
+    def load_article!
+      @article = current_user.articles.find(params[:id])
     end
 end
