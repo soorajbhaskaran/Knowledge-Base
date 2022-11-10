@@ -4,10 +4,10 @@ require "test_helper"
 
 class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @author = create(:user)
+    @organization = create(:organization)
+    @author = create(:user, organization: @organization)
     @redirection = create(:redirection, author: @author)
-    @preference = create(:preference, author: @author)
-    @headers = headers(@preference)
+    @headers = headers(@organization)
   end
 
   def test_should_list_all_redirections

@@ -4,7 +4,7 @@ import { either, isEmpty, isNil } from "ramda";
 import { Route, Switch, useHistory } from "react-router-dom";
 
 import categoriesApi from "apis/categories";
-import preferenceApi from "apis/preference";
+import organizationApi from "apis/organization";
 import EmptyState from "components/Common/EmptyState";
 import PrivateRoute from "components/Common/PrivateRoute";
 import EmptyArticleList from "images/EmptyArticleList";
@@ -24,7 +24,7 @@ import {
 
 const Eui = () => {
   const [slugOfFirstArticle, setSlugOfFirstArticle] = useState("");
-  const [preference, setPreference] = useState({});
+  const [organization, setOrganization] = useState({});
   const authToken = getFromLocalStorage("authToken");
   const isAuthenticated = !either(isNil, isEmpty)(authToken);
 
@@ -43,19 +43,19 @@ const Eui = () => {
     }
   };
 
-  const fetchPreference = async () => {
+  const fetchOrganization = async () => {
     try {
       const {
-        data: { preference },
-      } = await preferenceApi.show();
-      setPreference(preference);
+        data: { organization },
+      } = await organizationApi.show();
+      setOrganization(organization);
     } catch (error) {
       logger.error(error);
     }
   };
 
   const loadData = async () => {
-    await Promise.all([fetchFirstArticle(), fetchPreference()]);
+    await Promise.all([fetchFirstArticle(), fetchOrganization()]);
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const Eui = () => {
 
   return (
     <div className="h-screen w-full">
-      <Header title={preference.name} />
+      <Header title={organization.name} />
       <Switch>
         <Route exact component={PasswordScreen} path={AUTH_PATH} />
         <Route
@@ -85,7 +85,7 @@ const Eui = () => {
         <PrivateRoute
           component={PublishedArticle}
           condition={isAuthenticated}
-          isPasswordProtected={preference.is_password_protection_enabled}
+          isPasswordProtected={organization.is_password_protection_enabled}
           path={EUI_PATH}
           redirectRoute={AUTH_PATH}
           slugOfFirstArticle={slugOfFirstArticle}

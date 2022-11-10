@@ -37,9 +37,19 @@ def delete_all_records_from_all_tables
 end
 
 def create_sample_data!
+  create_organization!
   create_user! email: "oliver@example.com"
   create_category!
-  create_preference!
+end
+
+def create_organization!(options = {})
+  organization_attributes = {
+    name: "Spinkart",
+    password: "welcome123",
+    is_password_protection_enabled: false,
+  }
+  attributes = organization_attributes.merge options
+  Organization.create! attributes
 end
 
 def create_user!(options = {})
@@ -48,7 +58,8 @@ def create_user!(options = {})
     last_name: "Smith",
     password: "welcome",
     password_confirmation: "welcome",
-    role: "super_admin"
+    role: "super_admin",
+    organization_id: Organization.first.id,
   }
   attributes = user_attributes.merge options
   User.create! attributes
@@ -61,15 +72,4 @@ def create_category!(options = {})
   }
   attributes = category_attributes.merge options
   Category.create! attributes
-end
-
-def create_preference!(options = {})
-  preference_attributes = {
-    name: "Spinkart",
-    password: "welcome123",
-    is_password_protection_enabled: false,
-    author_id: User.first.id
-  }
-  attributes = preference_attributes.merge options
-  Preference.create! attributes
 end

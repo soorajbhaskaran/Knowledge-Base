@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { Typography, Button, Checkbox } from "neetoui";
 import { Input } from "neetoui/formik";
 
-import preferenceApi from "apis/preference";
+import organizationApi from "apis/organization";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 import { setToLocalStorage } from "utils/storage";
 
@@ -14,21 +14,21 @@ import { buildPreferanceValidationSchema } from "../utils";
 
 const General = () => {
   const [submitted, setSubmitted] = useState(false);
-  const [preference, setPreference] = useState({});
+  const [organization, setOrganization] = useState({});
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const fetchPreference = async () => {
+  const fetchOrganization = async () => {
     try {
       const {
-        data: { preference },
-      } = await preferenceApi.show();
-      setPreference({
-        id: preference.id,
-        name: preference.name,
+        data: { organization },
+      } = await organizationApi.show();
+      setOrganization({
+        id: organization.id,
+        name: organization.name,
         password: "",
       });
-      setIsPasswordVisible(preference.is_password_protection_enabled);
+      setIsPasswordVisible(organization.is_password_protection_enabled);
     } catch (error) {
       logger.error(error);
     }
@@ -36,8 +36,8 @@ const General = () => {
 
   const handleSubmitButton = async (values) => {
     try {
-      await preferenceApi.update({
-        preference: {
+      await organizationApi.update({
+        organization: {
           name: values.name,
           is_password_protection_enabled: isPasswordVisible,
           password: (isPasswordVisible && values.password) || "",
@@ -46,7 +46,7 @@ const General = () => {
       setToLocalStorage({
         authToken: null,
       });
-      fetchPreference();
+      fetchOrganization();
     } catch (error) {
       logger.error(error);
     }
@@ -59,13 +59,13 @@ const General = () => {
   };
 
   useEffect(() => {
-    fetchPreference();
+    fetchOrganization();
   }, []);
 
   return (
     <Formik
       enableReinitialize
-      initialValues={preference}
+      initialValues={organization}
       validateOnBlur={submitted}
       validateOnChange={submitted}
       validationSchema={buildPreferanceValidationSchema({ isPasswordVisible })}
@@ -105,12 +105,12 @@ const General = () => {
               <div className="flex">
                 <TooltipWrapper
                   content="Button is disabled because settings are not changed"
-                  disabled={preference === values}
+                  disabled={organization === values}
                   position="bottom"
                 >
                   <Button
                     className="my-4"
-                    disabled={isSubmitting || preference === values}
+                    disabled={isSubmitting || organization === values}
                     label="Save Changes"
                     loading={isSubmitting}
                     size="medium"

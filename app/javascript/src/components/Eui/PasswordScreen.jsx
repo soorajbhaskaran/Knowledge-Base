@@ -6,7 +6,7 @@ import { Input } from "neetoui/formik";
 
 import authApi from "apis/auth";
 import { setAuthHeaders } from "apis/axios";
-import preferenceApi from "apis/preference";
+import organizationApi from "apis/organization";
 import PasswordImage from "images/Password";
 import { setToLocalStorage } from "utils/storage";
 
@@ -34,13 +34,13 @@ const PasswordScreen = () => {
     }
   };
 
-  const getPreferenceData = async () => {
+  const getOrganizationData = async () => {
     try {
       const {
         data: {
-          preference: { name },
+          organization: { name },
         },
-      } = await preferenceApi.show();
+      } = await organizationApi.show();
       setName(name);
     } catch (error) {
       logger.error(error);
@@ -48,7 +48,7 @@ const PasswordScreen = () => {
   };
 
   useEffect(() => {
-    getPreferenceData();
+    getOrganizationData();
   }, []);
 
   if (loading) {

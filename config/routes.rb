@@ -18,11 +18,11 @@ Rails.application.routes.draw do
       end
     end
     resources :redirections, except: %i[new edit show], defaults: { format: :json }
-    resource :preference, only: %i[update create show], defaults: { format: :json }
+    resource :organization, only: %i[update create show], defaults: { format: :json }
 
     namespace :public do
       resources :categories, only: %i[index], defaults: { format: :json }
-      resource :sessions, only: %i[create], defaults: { format: :json }
+      resource :session, only: %i[create], defaults: { format: :json }
       resources :articles, only: %i[show], param: :slug, defaults: { format: :json }
     end
   end

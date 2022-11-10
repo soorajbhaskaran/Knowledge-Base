@@ -8,5 +8,6 @@ FactoryBot.define do
     password { "password" }
     password_confirmation { "password" }
     role { "super_admin" }
+    association :organization, factory: :organization
   end
 end
