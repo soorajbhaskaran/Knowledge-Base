@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
     namespace :public do
       resources :categories, only: %i[index], defaults: { format: :json }
-      resource :sessions, only: %i[create], defaults: { format: :json }
+      resource :session, only: %i[create], defaults: { format: :json }
       resources :articles, only: %i[show], param: :slug, defaults: { format: :json }
     end
   end
