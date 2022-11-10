@@ -113,18 +113,6 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_equal response_json["categories"].last["id"], category.id
   end
 
-  def test_category_should_give_proper_articles_count_based_on_status
-    get api_categories_path, params: { status: "published" }, headers: @headers
-    assert_response :success
-    response_json = response.parsed_body
-    assert_equal response_json["categories"].first["articles_count"], @category.articles.published.count
-
-    get api_categories_path, params: { status: "draft" }, headers: @headers
-    assert_response :success
-    response_json = response.parsed_body
-    assert_equal response_json["categories"].first["articles_count"], @category.articles.draft.count
-  end
-
   def test_sorting_of_categories_based_on_category_index
     categories = [@category1.as_json, @category.as_json]
     patch sort_api_categories_path, params: { categories: categories }, headers: @headers

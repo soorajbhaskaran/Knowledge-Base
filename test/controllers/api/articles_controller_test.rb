@@ -30,27 +30,14 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  def test_should_update_draft_article
-    patch api_article_path(@article.id), params: {
-      status: "draft", article: { title: "Updated title" }
+  def test_should_update_article
+    patch api_article_path(@article.id), params: { article: { title: "Updated title" }
     }, headers: @headers
     assert_response :success
   end
 
-  def test_should_update_published_article
-    patch api_article_path(@article.slug), params: {
-      status: "published", article: { title: "Updated title", slug: "title" }
-    }, headers: @headers
-    assert_response :success
-  end
-
-  def test_should_delete_draft_article
-    delete api_article_path(@article.id), params: { status: "draft" }, headers: @headers
-    assert_response :success
-  end
-
-  def test_should_delete_published_article
-    delete api_article_path(@article.slug), params: { status: "published" }, headers: @headers
+  def test_should_delete_article
+    delete api_article_path(@article.id), headers: @headers
     assert_response :success
   end
 
