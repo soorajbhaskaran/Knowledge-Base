@@ -2,24 +2,22 @@ import React, { useState, useEffect } from "react";
 
 import PropTypes from "prop-types";
 import queryString from "query-string";
-import { useParams, useHistory } from "react-router-dom";
+import { buildSelectOptions } from "utils";
 
 import articlesApi from "apis/articles";
-import { buildSelectOptions } from "utils/";
 
 import Form from "./Form";
 
-const Edit = ({ location }) => {
+const Edit = ({ location, history }) => {
   const [article, setArticle] = useState({});
-  const { identifier } = useParams();
   const { status } = queryString.parse(location.search);
-  const history = useHistory();
+  const { id } = location.state;
 
   const fetchArticle = async () => {
     try {
       const {
         data: { article },
-      } = await articlesApi.show({ identifier, path: "/articles/", status });
+      } = await articlesApi.show({ id, path: "/articles/" });
       setArticle({
         id: article.id,
         slug: article.slug || "",
@@ -33,16 +31,10 @@ const Edit = ({ location }) => {
   };
 
   const handleEditArticle = async (values, status) => {
-    let { slug } = article;
-
-    if (status === "published" && slug === "") {
-      slug = article.id;
-    }
     try {
-      await articlesApi.update(status === "draft" ? article.id : slug, status, {
+      await articlesApi.update(id, {
         ...values,
         category_id: values.category.value,
-        slug: article.slug,
         status,
       });
       history.push("/admin/articles");

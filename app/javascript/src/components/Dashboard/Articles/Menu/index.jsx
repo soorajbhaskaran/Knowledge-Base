@@ -13,7 +13,10 @@ import categoriesApi from "apis/categories";
 import Category from "./Category";
 import Input from "./Input";
 
-import { getCategoriesIdsFromCategoryObjects } from "../utils";
+import {
+  getCategoriesIdsFromCategoryObjects,
+  getArticlesCountFromCategoryBasedOnStatus,
+} from "../utils";
 
 const Menu = ({
   setLoading,
@@ -212,15 +215,18 @@ const Menu = ({
         showSearchInput={showSearchInput}
         title={title}
       />
-      {categories.map(({ title, articles_count, id }) => (
+      {categories.map((categoryItem) => (
         <Category
-          articles_count={articles_count}
           category={category}
           categoryList={categoryList}
-          id={id}
-          key={id}
+          id={categoryItem.id}
+          key={categoryItem.id}
           setCategoryList={setCategoryList}
-          title={title}
+          title={categoryItem.title}
+          articles_count={getArticlesCountFromCategoryBasedOnStatus(
+            categoryItem,
+            status
+          )}
         />
       ))}
     </MenuBar>
