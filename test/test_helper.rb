@@ -10,11 +10,11 @@ def enable_test_coverage
   end
 end
 
-def headers(preference, options = {})
+def headers(organization, options = {})
   {
     Accept: "application/json",
     "Content_Type" => "application/json",
-    "X-Auth-Token" => (preference.authentication_token if preference.is_password_protection_enabled)
+    "X-Auth-Token" => (organization.authentication_token if organization.is_password_protection_enabled)
   }.merge(options).compact
 end
 

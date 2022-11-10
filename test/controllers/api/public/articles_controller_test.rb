@@ -4,11 +4,11 @@ require "test_helper"
 
 class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @author = create(:user)
+    @organization = create(:organization, password: "welcome12345")
+    @author = create(:user, organization: @organization)
     @category = create(:category, author: @author)
     @article = create(:article, author: @author, category: @category, status: "published")
-    @preference = create(:preference, password: "password12345")
-    @headers = headers(@preference)
+    @headers = headers(@organization)
   end
 
   def test_user_should_be_able_to_access_article_if_password_protection_is_disabled
@@ -17,8 +17,8 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_must_be_authenticated_if_password_protection_is_enabled
-    @preference.update(is_password_protection_enabled: true)
-    get api_public_article_path(@article.slug), headers: headers(@preference.reload)
+    @organization.update(is_password_protection_enabled: true)
+    get api_public_article_path(@article.slug), headers: headers(@organization.reload)
     assert_response :success
   end
 
@@ -33,8 +33,8 @@ class Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_must_be_able_to_access_if_there_is_valid_authentication_token_when_password_protection_is_enabled
-    @preference.update(is_password_protection_enabled: true)
-    get api_public_article_path(@article.slug), headers: headers(@preference.reload, "X-Auth-Token" => "invalid")
+    @organization.update(is_password_protection_enabled: true)
+    get api_public_article_path(@article.slug), headers: headers(@organization.reload, "X-Auth-Token" => "invalid")
     assert_response :unauthorized
   end
 end

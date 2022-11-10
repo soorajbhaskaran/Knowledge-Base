@@ -3,13 +3,13 @@
 require "test_helper"
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @author = create(:user)
+    @organization = create(:organization)
+    @author = create(:user, organization: @organization)
     @category = create(:category, author: @author)
     @category1 = create(:category, author: @author)
     @article1 = create(:article, category: @category, author: @author)
     @article2 = create(:article, category: @category, status: "published", author: @author)
-    @preference = create(:preference, author: @author)
-    @headers = headers(@preference)
+    @headers = headers(@organization)
   end
 
   def test_every_category_should_have_one_author

@@ -1,1 +1,1 @@
-json.extract! @preference, :authentication_token
+json.extract! @organization, :authentication_token
