@@ -22,7 +22,7 @@ export const buildRedirectionColumn = ({
     render: (from_path) => (
       <div className="flex items-center">
         <Typography component="p" style="body2">
-          www.scribble.com
+          {window.location.origin}/
         </Typography>
         {from_path}
       </div>
@@ -34,6 +34,14 @@ export const buildRedirectionColumn = ({
     title: "TO PATH",
     editable: true,
     width: 290,
+    render: (to_path) => (
+      <div className="flex items-center">
+        <Typography component="p" style="body2">
+          /
+        </Typography>
+        {to_path}
+      </div>
+    ),
   },
   {
     dataIndex: "actions",

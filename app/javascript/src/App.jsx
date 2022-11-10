@@ -9,31 +9,17 @@ import {
 import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
-import redirectionsApi from "apis/redirections";
 import { initializeLogger } from "common/logger";
 import Dashboard from "components/Dashboard";
 import Eui from "components/Eui";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-  const [redirections, setRedirections] = useState([]);
-
-  const fetchRedirections = async () => {
-    try {
-      const {
-        data: { redirections },
-      } = await redirectionsApi.fetch();
-      setRedirections(redirections);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
 
   useEffect(() => {
     initializeLogger();
     registerIntercepts();
     setAuthHeaders(setLoading);
-    fetchRedirections();
   }, []);
 
   if (loading) {
@@ -44,11 +30,6 @@ const App = () => {
     <Router>
       <ToastContainer />
       <Switch>
-        {redirections.map(({ id, from_path, to_path }) => (
-          <Route exact key={id} path={from_path}>
-            <Redirect to={to_path} />
-          </Route>
-        ))}
         <Redirect exact from="/" to="/articles" />
         <Route component={Eui} path="/articles" />
         <Route component={Dashboard} path="/admin" />
