@@ -18,7 +18,12 @@ const EditableCell = ({
       <div className="flex items-center">
         {dataIndex === "from_path" && (
           <Typography className="mr-1" component="p" style="body2">
-            www.scribble.com
+            {window.location.origin}/
+          </Typography>
+        )}
+        {dataIndex === "to_path" && (
+          <Typography className="mr-1" component="p" style="body2">
+            /
           </Typography>
         )}
         <Input
