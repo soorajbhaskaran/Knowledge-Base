@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
+require "json"
+
 class API::ArticlesController < ApplicationController
   before_action :load_article!, only: %i[update show destroy]
 
   def index
-    @articles = current_user.articles.includes(:category)
-    !params[:status].blank? && @articles = @articles.where(status: params[:status])
-    !params[:categories_ids].blank? && @articles = @articles.map { |article|
-  article if params[:categories_ids].include?(article.category_id) }.compact
+    @articles = current_user.articles.includes(:category).where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
+    params[:status].present? && @articles = @articles.where(status: params[:status])
+    params[:categories_ids].present? && categories_ids = JSON.parse(params[:categories_ids])
+    categories_ids.present? && @articles = @articles.select { |article| categories_ids.include?(article.category_id) }
   end
 
   def create
@@ -28,15 +30,9 @@ class API::ArticlesController < ApplicationController
     respond_with_success(t("successfully_deleted", entity: "Article"))
   end
 
-  def search
-    !params[:categories_ids].blank? && @categories_ids = params[:categories_ids].split(",")
-    params[:query].blank? ? index : @articles = SearchArticlesService.process(
-      params[:query], @categories_ids,
-      params[:status])
-  end
-
   def filter
-    @articles = FilterArticlesService.process(params[:categories_ids], params[:status])
+    filter_articles_service = FilterArticlesService.new(params[:categories_ids], params[:status])
+    @articles = filter_articles_service.process
   end
 
   private

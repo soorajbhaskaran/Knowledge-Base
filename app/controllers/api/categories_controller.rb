@@ -4,7 +4,8 @@ class API::CategoriesController < ApplicationController
   before_action :load_category!, only: %i[update destroy]
 
   def index
-    @categories = current_user.categories.order(:position).split_category_articles_based_on_status
+    @categories = current_user.categories.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
+    @categories = @categories.order(:position).split_category_articles_based_on_status
   end
 
   def create
@@ -18,9 +19,8 @@ class API::CategoriesController < ApplicationController
   end
 
   def destroy
-    @category.articles_count.zero? ? @category.destroy! : DeleteCategoryService.process(
-      params[:new_category_id],
-      @category)
+    delete_category_service = DeleteCategoryService.new(params[:new_category_id], @category)
+    @category.articles_count.zero? ? @category.destroy! : delete_category_service.process
     respond_with_success(t("successfully_deleted", entity: "Category"))
   end
 
@@ -28,10 +28,6 @@ class API::CategoriesController < ApplicationController
     params[:categories].each_with_index do |category, index|
       current_user.categories.where(id: category[:id]).update_all(position: index + 1)
     end
-  end
-
-  def search
-    @categories = current_user.categories.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
   end
 
   private

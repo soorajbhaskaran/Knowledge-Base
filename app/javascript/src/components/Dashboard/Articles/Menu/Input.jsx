@@ -22,7 +22,7 @@ const Input = ({
     try {
       const {
         data: { categories },
-      } = await categoriesApi.search(title);
+      } = await categoriesApi.fetch({ path: "/categories", query: title });
       setSearchFieldText(title);
       setCategories(categories);
     } catch (error) {

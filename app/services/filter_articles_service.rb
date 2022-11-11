@@ -9,7 +9,9 @@ class FilterArticlesService < ApplicationService
   end
 
   def process
-    articles = categories_ids.reduce([]) { |articles, category_id| articles + Article.where(category_id: category_id) }
+    articles = current_user.articles.includes(:category)
+    articles = categories_ids.reduce([]) { |articles_list, category_id|
+ articles_list + articles.where(category_id: category_id) }
     return articles.uniq if status.blank?
 
     status && articles = articles.select { |article| article.status == status }

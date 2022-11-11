@@ -7,13 +7,11 @@ Rails.application.routes.draw do
   namespace :api do
     resources :articles, except: %i[new edit], defaults: { format: :json } do
       collection do
-        get :search
         post :filter
       end
     end
     resources :categories, except: %i[new edit show], defaults: { format: :json } do
       collection do
-        get :search
         patch :sort
       end
     end
