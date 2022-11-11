@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const fetch = ({ path, query = "" }) => axios.get(`${path}?query=${query}`);
+const fetch = ({ query = "" }) => axios.get(`/categories?query=${query}`);
 const create = (payload) => axios.post("/categories", payload);
 const update = ({ id, payload }) => axios.put(`/categories/${id}`, payload);
 

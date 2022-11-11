@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { PageLoader } from "neetoui";
 
-import categoriesApi from "apis/categories";
+import categoriesApi from "apis/public/categories";
 
 import Accordion from "./Accordion";
 import ArticleContent from "./ArticleContent";
@@ -17,7 +17,7 @@ const PublishedArticles = () => {
     try {
       const {
         data: { categories },
-      } = await categoriesApi.fetch({ path: "/public/categories" });
+      } = await categoriesApi.fetch();
       setCategories(formatCategoriesWithTitleAndArticles(categories));
     } catch (error) {
       logger.error(error);

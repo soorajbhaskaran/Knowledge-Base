@@ -40,7 +40,7 @@ class RedirectionTest < ActiveSupport::TestCase
   end
 
   def test_redirection_not_possible_to_admin
-    @redirection.to_path = "/admin"
+    @redirection.to_path = "admin"
     assert_not @redirection.valid?
     assert_includes @redirection.errors.full_messages, "To path " + t("redirections.not_cyclic")
   end

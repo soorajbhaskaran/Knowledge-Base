@@ -34,7 +34,7 @@ const Eui = () => {
     try {
       const {
         data: { categories },
-      } = await categoriesApi.fetch({ path: "/categories" });
+      } = await categoriesApi.fetch({});
       setSlugOfFirstArticle(
         getFirstPublishedArticleFromCategories(categories).slug
       );
@@ -55,7 +55,7 @@ const Eui = () => {
   };
 
   const loadData = async () => {
-    await Promise.all([fetchFirstArticle(), fetchOrganization()]);
+    await Promise.all([fetchOrganization(), fetchFirstArticle()]);
   };
 
   useEffect(() => {

@@ -4,9 +4,9 @@ import { Formik, Form } from "formik";
 import { Typography, Button, PageLoader } from "neetoui";
 import { Input } from "neetoui/formik";
 
-import authApi from "apis/auth";
 import { setAuthHeaders } from "apis/axios";
 import organizationApi from "apis/organization";
+import authApi from "apis/public/auth";
 import PasswordImage from "images/Password";
 import { setToLocalStorage } from "utils/storage";
 
@@ -25,7 +25,6 @@ const PasswordScreen = () => {
         authToken: response.data.authentication_token,
       });
       setAuthHeaders();
-
       window.location.href = "/articles";
     } catch (error) {
       logger.error(error);
