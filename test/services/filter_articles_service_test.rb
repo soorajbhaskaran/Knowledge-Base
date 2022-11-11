@@ -23,6 +23,7 @@ class FilterArticlesServiceTest < ActiveSupport::TestCase
   private
 
     def filter_articles_service(categories_ids, status)
-      FilterArticlesService.process(categories_ids, status)
+      test_filter_articles_service = FilterArticlesService.new(categories_ids, status)
+      test_filter_articles_service.process
     end
 end

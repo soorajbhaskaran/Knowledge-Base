@@ -13,21 +13,21 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_every_category_should_have_one_author
-    get api_categories_path, headers: @headers
+    get api_categories_path, params: { query: "" }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["categories"].first["author_id"], @category.author.id
   end
 
   def test_should_list_all_categories
-    get api_categories_path, headers: @headers
+    get api_categories_path, params: { query: "" }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["categories"].length, @author.categories.count
   end
 
   def test_should_list_all_category_articles_by_article_status
-    get api_categories_path, headers: @headers
+    get api_categories_path, params: { query: "" }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["categories"].first["articles"]["published"].first["id"], @article2.id
@@ -35,7 +35,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_give_valid_articles_count
-    get api_categories_path, headers: @headers
+    get api_categories_path, params: { query: "" }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["categories"].first["articles_count"], @category.articles.count
@@ -97,7 +97,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     category1.update(position: 2)
     category2.update(position: 1)
     @category.update(position: 3)
-    get api_categories_path, headers: @headers
+    get api_categories_path, params: { query: "" }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["categories"][0]["id"], category2.id
@@ -107,7 +107,7 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
 
   def test_search_category_based_on_category_title
     category = create(:category, title: "Test category", author: @author)
-    get search_api_categories_path, params: { query: "test" }, headers: @headers
+    get api_categories_path, params: { query: "test" }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["categories"].last["id"], category.id

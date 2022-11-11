@@ -27,6 +27,7 @@ class DeleteCategoryServiceTest < ActiveSupport::TestCase
   private
 
     def delete_category_service(category_id, category)
-      DeleteCategoryService.process(category_id, category)
+      delete_category_service = DeleteCategoryService.new(category_id, category)
+      delete_category_service.process
     end
 end
