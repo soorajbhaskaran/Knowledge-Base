@@ -17,7 +17,7 @@ const Edit = ({ location, history }) => {
     try {
       const {
         data: { article },
-      } = await articlesApi.show({ id, path: "/articles/" });
+      } = await articlesApi.show(id);
       setArticle({
         id: article.id,
         slug: article.slug || "",

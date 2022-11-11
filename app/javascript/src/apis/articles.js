@@ -13,7 +13,7 @@ const update = (id, payload) => axios.put(`/articles/${id}`, payload);
 
 const destroy = (id) => axios.delete(`/articles/${id}`);
 
-const show = ({ id, path }) => axios.get(`${path}${id}`);
+const show = (id) => axios.get(`/articles/${id}`);
 
 const filter = ({ status, categories_ids }) => {
   const path = status

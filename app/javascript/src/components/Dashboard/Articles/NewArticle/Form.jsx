@@ -36,7 +36,7 @@ const Form = ({
     try {
       const {
         data: { categories },
-      } = await categoriesApi.fetch({ path: "/categories" });
+      } = await categoriesApi.fetch({});
       setCategory(buildSelectOptions(categories));
     } catch (error) {
       logger.error(error);

@@ -39,7 +39,7 @@ const Menu = ({
     try {
       const {
         data: { categories },
-      } = await categoriesApi.fetch({ path: "/categories" });
+      } = await categoriesApi.fetch({});
       setCategories(categories);
     } catch (error) {
       logger.error(error);

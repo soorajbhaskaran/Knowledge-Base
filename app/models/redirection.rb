@@ -22,6 +22,6 @@ class Redirection < ApplicationRecord
     end
 
     def check_redirection_not_possible_to_admin
-      errors.add(:to_path, t("redirections.not_cyclic")) if to_path.start_with?("/admin")
+      errors.add(:to_path, t("redirections.not_cyclic")) if to_path.start_with?("admin")
     end
 end

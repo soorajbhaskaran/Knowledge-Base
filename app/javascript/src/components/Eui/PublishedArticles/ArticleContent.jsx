@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Typography, Callout, PageLoader } from "neetoui";
 import { useParams, useHistory } from "react-router-dom";
 
-import articlesApi from "apis/articles";
+import articlesApi from "apis/public/articles";
 
 const ArticleContent = () => {
   const [article, setArticle] = useState({});
@@ -15,11 +15,7 @@ const ArticleContent = () => {
     try {
       const {
         data: { article },
-      } = await articlesApi.show({
-        identifier: slug,
-        path: "/public/articles/",
-        status: "published",
-      });
+      } = await articlesApi.show({ slug });
       setArticle({
         ...article,
         category: article.category.title,
