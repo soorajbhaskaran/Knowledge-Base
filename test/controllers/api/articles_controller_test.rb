@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "json"
 
 class ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
@@ -12,7 +13,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_all_articles
-    get api_articles_path, headers: @headers
+    get api_articles_path, params: { query: "" }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["articles"].length, @author.articles.count
@@ -42,7 +43,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_all_articles_based_on_status_and_categories_ids
-    get api_articles_path, params: { status: "published", categories_ids: [@category.id] }, headers: @headers
+    get api_articles_path, params: { status: "published", categories_ids: JSON.unparse([@category.id]), query: "" },
+      headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["articles"].length, @author.articles.count
@@ -50,15 +52,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_search_article_based_on_article_title
     article = create(:article, title: "Test article", author: @author, category: @category)
-    get search_api_articles_path, params: { query: "test" }, headers: @headers
-    assert_response :success
-    response_json = response.parsed_body
-    assert_equal response_json["articles"].last["title"], article.title
-  end
-
-  def test_search_article_based_on_article_title_and_category
-    article = create(:article, title: "Test article", author: @author, category: @category)
-    get search_api_articles_path, params: { query: "test", categories_ids: @category.id }, headers: @headers
+    get api_articles_path, params: { query: "test" }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["articles"].last["title"], article.title

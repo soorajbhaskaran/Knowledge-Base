@@ -26,8 +26,8 @@ const Header = ({
     try {
       const {
         data: { articles },
-      } = await articlesApi.search({
-        title,
+      } = await articlesApi.fetch({
+        query: title,
         status,
         categoriesIds: getCategoriesIdsFromCategoryObjects(categoryList),
       });

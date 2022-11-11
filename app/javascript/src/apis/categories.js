@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const fetch = ({ path }) => axios.get(path);
+const fetch = ({ path, query = "" }) => axios.get(`${path}?query=${query}`);
 const create = (payload) => axios.post("/categories", payload);
 const update = ({ id, payload }) => axios.put(`/categories/${id}`, payload);
 
@@ -13,7 +13,6 @@ const destroy = ({ id, newCategoryId }) => {
 };
 
 const sort = (payload) => axios.patch("/categories/sort", payload);
-const search = (query) => axios.get(`/categories/search?query=${query}`);
 
-const categoriesApi = { fetch, create, update, destroy, sort, search };
+const categoriesApi = { fetch, create, update, destroy, sort };
 export default categoriesApi;
