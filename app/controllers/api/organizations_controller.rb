@@ -2,11 +2,11 @@
 
 class API::OrganizationsController < ApplicationController
   def show
-    render json: { organization: organization }
+    @organization = current_organization
   end
 
   def update
-    organization.update!(organization_params)
+    current_organization.update!(organization_params)
     respond_with_success(t("successfully_updated", entity: "Your organization"))
   end
 

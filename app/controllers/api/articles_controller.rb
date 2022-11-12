@@ -18,6 +18,7 @@ class API::ArticlesController < ApplicationController
   end
 
   def show
+    render
   end
 
   def update
