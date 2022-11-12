@@ -7,12 +7,12 @@ class ApplicationController < ActionController::Base
 
   private
 
-    def organization
-      @_organization ||= Organization.first
+    def current_organization
+      @_current_organization ||= Organization.first
     end
 
     def current_user
-      @_current_user ||= organization.users.find_by(email: "oliver@example.com")
+      @_current_user ||= current_organization.users.first
     end
 
     def check_password_presence
