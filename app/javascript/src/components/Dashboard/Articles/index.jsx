@@ -93,7 +93,7 @@ const Articles = () => {
           <EmptyState
             image={EmptyArticleList}
             primaryAction={() => history.push("/admin/articles/new")}
-            primaryActionLabel="Add New Article"
+            primaryActionLabel="Add new article"
             subtitle="Add your first article to send out to your customers"
             title="Looks like you don't have any articles!"
           />

@@ -30,11 +30,11 @@ const App = () => {
     <Router>
       <ToastContainer />
       <Switch>
-        <Redirect exact from="/" to="/articles" />
-        <Route component={Eui} path="/articles" />
+        <Redirect exact from="/" to="/public/articles" />
+        <Route component={Eui} path="/public/articles" />
         <Route component={Dashboard} path="/admin" />
         <Route exact path="/:invalid">
-          <Redirect to="/articles/invalid" />
+          <Redirect to="/public/articles/invalid" />
         </Route>
       </Switch>
     </Router>

@@ -59,7 +59,7 @@ const Form = ({
       {({ isSubmitting, values }) => (
         <div className="border mx-64 my-20 flex flex-col border-gray-200 px-48 py-10 shadow-xs">
           <Typography className="mb-6" style="h2">
-            {isEdit ? "Edit Article" : "Add New Article"}
+            {isEdit ? "Edit Article" : "Add new article"}
           </Typography>
           <FormikForm className="w-full">
             <div className="my-4 flex">

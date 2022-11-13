@@ -8,10 +8,10 @@ export const ARTICLES_PATH = "/admin/articles";
 export const SETTINGS_PATH = "/admin/settings";
 export const NEW_ARTICLE_PATH = "/admin/articles/new";
 export const EDIT_ARTICLE_PATH = "/admin/articles/:identifier/edit";
-export const EUI_PATH = "/articles/";
-export const EUI_ARTICLE_PATH = "/articles/:slug";
-export const AUTH_PATH = "/articles/authenticate";
-export const INVALID_PATH = "/articles/invalid";
+export const EUI_PATH = "/public/articles/";
+export const EUI_ARTICLE_PATH = "/public/articles/:slug";
+export const AUTH_PATH = "/public/articles/authenticate";
+export const INVALID_PATH = "/public/articles/invalid";
 
 export const DASHBOARD_ROUTES = [
   {
