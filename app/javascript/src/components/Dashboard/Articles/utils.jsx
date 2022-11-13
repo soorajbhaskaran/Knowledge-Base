@@ -2,6 +2,7 @@ import React from "react";
 
 import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 
 import { ALPHABHET_REGEX } from "./constants";
@@ -58,13 +59,12 @@ export const buildArticleColumnData = ({
       title: "TITLE",
       hidden: !checkedColumns.title,
       render: (title, { id, slug, status }) => (
-        <Button
-          label={title}
-          style="link"
-          onClick={() =>
-            handleEditButton(status === "published" ? slug : id, status)
-          }
-        />
+        <Link
+          target="_blank"
+          to={`/public/articles/${status === "published" ? slug : id}`}
+        >
+          {title}
+        </Link>
       ),
     },
     {

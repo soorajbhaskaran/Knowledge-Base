@@ -22,7 +22,7 @@ const ArticleContent = () => {
       });
     } catch (error) {
       logger.error(error);
-      history.push("/articles/invalid");
+      history.push("/public/articles/invalid");
     } finally {
       setLoading(false);
     }
@@ -46,7 +46,7 @@ const ArticleContent = () => {
       </Typography>
       <div className="flex items-center">
         <Callout style="info">{article.category}</Callout>
-        <Typography className="ml-4" component="p" style="body1">
+        <Typography className="ml-4 text-gray-600" component="p" style="body1">
           {new Date(article.published_date).toDateString()}
         </Typography>
       </div>

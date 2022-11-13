@@ -74,7 +74,7 @@ const Eui = () => {
             <EmptyState
               {...props}
               image={EmptyArticleList}
-              primaryAction={() => history.push("/articles")}
+              primaryAction={() => history.push("/public/articles")}
               primaryActionLabel="Home"
               subtitle="The page you are looking for does not exist."
               title="Page Not Found"

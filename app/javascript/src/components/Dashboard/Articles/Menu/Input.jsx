@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Check } from "neetoicons";
+import { Check, Search } from "neetoicons";
 import { Input as NeetoUIInput, Button } from "neetoui";
 import PropTypes from "prop-types";
 
@@ -14,7 +14,8 @@ const Input = ({
   showAddInput,
   setShowAddInput,
   showSearchInput,
-  setShowSearchInput,
+  toggleSearch,
+  toggleAdd,
   title,
   setTitle,
 }) => {
@@ -36,10 +37,6 @@ const Input = ({
     }
   };
 
-  const handleBlur = (setState) => {
-    setState(false);
-  };
-
   const handleSubmit = () => {
     createCategory();
     setShowAddInput(false);
@@ -53,9 +50,10 @@ const Input = ({
           <NeetoUIInput
             autoFocus
             placeholder="Search Category"
+            prefix={<Search size={16} />}
             type="search"
             value={searchFieldText}
-            onBlur={() => handleBlur(setShowSearchInput)}
+            onBlur={toggleSearch}
             onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
@@ -65,9 +63,8 @@ const Input = ({
           <NeetoUIInput
             autoFocus
             placeholder="Add New Category"
-            type="search"
             value={title}
-            onBlur={() => handleBlur(setShowAddInput)}
+            onBlur={toggleAdd}
             onChange={(e) => setTitle(e.target.value)}
             onKeyPress={handleKeyPress}
           />
@@ -91,9 +88,10 @@ Input.propTypes = {
   showAddInput: PropTypes.bool,
   setShowAddInput: PropTypes.func,
   showSearchInput: PropTypes.bool,
-  setShowSearchInput: PropTypes.func,
   title: PropTypes.string,
   setTitle: PropTypes.func,
+  toggleSearch: PropTypes.func,
+  toggleAdd: PropTypes.func,
 };
 
 export default Input;

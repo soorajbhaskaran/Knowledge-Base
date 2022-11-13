@@ -25,7 +25,7 @@ const PasswordScreen = () => {
         authToken: response.data.authentication_token,
       });
       setAuthHeaders();
-      window.location.href = "/articles";
+      window.location.href = "/public/articles";
     } catch (error) {
       logger.error(error);
     } finally {

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { Search, Close, Plus } from "neetoicons";
-import { Typography, Tooltip } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 import PropTypes from "prop-types";
 import queryString from "query-string";
@@ -12,6 +10,7 @@ import categoriesApi from "apis/categories";
 
 import Category from "./Category";
 import Input from "./Input";
+import Subtitle from "./Subtitle";
 
 import {
   getCategoriesIdsFromCategoryObjects,
@@ -124,22 +123,31 @@ const Menu = ({
     }
   };
 
-  const toggleSearch = (event) => {
+  const preventOnBlurFromFiringWhenRelatedTargetIsNull = (event) => {
     const { _reactName: eventType, relatedTarget } = event;
     const hasClickedOnSearchIcon = !(relatedTarget === null);
-    const shouldPreventMultiToggle =
-      eventType === "onBlur" && hasClickedOnSearchIcon;
-    if (shouldPreventMultiToggle) return null;
+
+    return eventType === "onBlur" && hasClickedOnSearchIcon;
+  };
+
+  const toggleSearch = (event) => {
+    if (preventOnBlurFromFiringWhenRelatedTargetIsNull(event)) return null;
+
+    if (showSearchInput) {
+      fetchCategories();
+    }
     setShowAddInput(false);
     setSearchFieldText("");
 
-    return setShowSearchInput(!showSearchInput);
+    return setShowSearchInput((prevShowSearchInput) => !prevShowSearchInput);
   };
 
-  const toggleAdd = () => {
+  const toggleAdd = (event) => {
+    if (preventOnBlurFromFiringWhenRelatedTargetIsNull(event)) return null;
     setShowSearchInput(false);
-    setShowAddInput(!showAddInput);
-    setSearchFieldText("");
+    setTitle("");
+
+    return setShowAddInput((prevShowAddInput) => !prevShowAddInput);
   };
 
   useEffect(() => {
@@ -166,54 +174,24 @@ const Menu = ({
           onClick={() => handleStatusChange(value)}
         />
       ))}
-      <MenuBar.SubTitle
-        iconProps={[
-          {
-            icon: showSearchInput
-              ? () => <Close />
-              : () => (
-                  <Tooltip content="Search for category" position="bottom">
-                    <div>
-                      <Search />
-                    </div>
-                  </Tooltip>
-                ),
-            onClick: toggleSearch,
-          },
-          {
-            icon: showAddInput
-              ? () => <Close />
-              : () => (
-                  <Tooltip content="Add new category" position="bottom">
-                    <div>
-                      <Plus />
-                    </div>
-                  </Tooltip>
-                ),
-            onClick: toggleAdd,
-          },
-        ]}
-      >
-        <Typography
-          component="h4"
-          style="h5"
-          textTransform="uppercase"
-          weight="bold"
-        >
-          Categories
-        </Typography>
-      </MenuBar.SubTitle>
+      <Subtitle
+        showAddInput={showAddInput}
+        showSearchInput={showSearchInput}
+        toggleAdd={toggleAdd}
+        toggleSearch={toggleSearch}
+      />
       <Input
         createCategory={createCategory}
         searchFieldText={searchFieldText}
         setCategories={setCategories}
         setSearchFieldText={setSearchFieldText}
         setShowAddInput={setShowAddInput}
-        setShowSearchInput={setShowSearchInput}
         setTitle={setTitle}
         showAddInput={showAddInput}
         showSearchInput={showSearchInput}
         title={title}
+        toggleAdd={toggleAdd}
+        toggleSearch={toggleSearch}
       />
       {categories.map((categoryItem) => (
         <Category

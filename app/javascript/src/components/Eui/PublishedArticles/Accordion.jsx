@@ -31,9 +31,9 @@ const Accordion = ({ categories }) => {
               activeClassName="text-indigo-700"
               className="mr-3 block px-1 pt-1 text-sm leading-5 text-gray-500 active:text-indigo-700"
               key={id}
-              to={`/articles/${slug}`}
+              to={`/public/articles/${slug}`}
             >
-              {title}
+              <strong>{title}</strong>
             </NavLink>
           ))}
         </NeetoUIAccordion.Item>

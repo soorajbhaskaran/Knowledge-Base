@@ -23,6 +23,7 @@ const Header = ({
   const { status } = queryString.parse(location.search);
 
   const handleSearch = async (title) => {
+    setSearchArticle(title);
     try {
       const {
         data: { articles },
@@ -31,7 +32,6 @@ const Header = ({
         status,
         categoriesIds: getCategoriesIdsFromCategoryObjects(categoryList),
       });
-      setSearchArticle(title);
       setArticles(articles);
     } catch (error) {
       logger.error(error);
@@ -53,7 +53,7 @@ const Header = ({
             })}
           </Dropdown>
           <Button
-            label="Add New Article"
+            label="Add new article"
             onClick={() => history.push("/admin/articles/new")}
           />
         </>
@@ -101,6 +101,7 @@ Header.propTypes = {
   checkedColumns: PropTypes.object,
   setCheckedColumns: PropTypes.func,
   setArticles: PropTypes.func,
+  categoryList: PropTypes.array,
 };
 
 export default Header;
