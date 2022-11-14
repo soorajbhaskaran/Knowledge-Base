@@ -42,6 +42,13 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  def test_should_show_article
+    get api_article_path(@article.id), headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["article"]["title"], @article.title
+  end
+
   def test_should_list_all_articles_based_on_status_and_categories_ids
     get api_articles_path, params: { status: "published", categories_ids: JSON.unparse([@category.id]), query: "" },
       headers: @headers

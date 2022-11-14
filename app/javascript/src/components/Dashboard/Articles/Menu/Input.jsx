@@ -8,7 +8,7 @@ import categoriesApi from "apis/categories";
 
 const Input = ({
   searchFieldText,
-  createCategory,
+  fetchCategories,
   setSearchFieldText,
   setCategories,
   showAddInput,
@@ -20,11 +20,11 @@ const Input = ({
   setTitle,
 }) => {
   const handleSearch = async (title) => {
+    setSearchFieldText(title);
     try {
       const {
         data: { categories },
       } = await categoriesApi.fetch({ query: title });
-      setSearchFieldText(title);
       setCategories(categories);
     } catch (error) {
       logger.error(error);
@@ -34,6 +34,16 @@ const Input = ({
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSubmit();
+    }
+  };
+
+  const createCategory = async () => {
+    try {
+      await categoriesApi.create({ title });
+      fetchCategories();
+      setTitle("");
+    } catch (error) {
+      logger.error(error);
     }
   };
 
@@ -82,7 +92,7 @@ const Input = ({
 
 Input.propTypes = {
   searchFieldText: PropTypes.string,
-  createCategory: PropTypes.func,
+  fetchCategories: PropTypes.func,
   setSearchFieldText: PropTypes.func,
   setCategories: PropTypes.func,
   showAddInput: PropTypes.bool,
