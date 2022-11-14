@@ -9,8 +9,8 @@ const EditableCell = ({
   dataIndex,
   children,
   values,
-  resetForm,
   handleOnKeyPress,
+  resetForm,
   ...restProps
 }) => (
   <td {...restProps}>
@@ -30,7 +30,7 @@ const EditableCell = ({
           required
           name={dataIndex}
           placeholder="Enter path"
-          onKeyPress={(e) => handleOnKeyPress(e, values, resetForm)}
+          onKeyPress={(e) => handleOnKeyPress({ e, values, resetForm })}
         />
       </div>
     ) : (
