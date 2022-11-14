@@ -7,6 +7,12 @@ import * as yup from "yup";
 
 import { ALPHABHET_REGEX } from "./constants";
 
+const handleLinkClick = ({ status, slug }) => {
+  if (status === "published") {
+    localStorage.setItem("articleSlug", slug);
+  }
+};
+
 export const buildValidationSchemaForArticles = (categories) =>
   yup.object().shape({
     title: yup
@@ -58,10 +64,11 @@ export const buildArticleColumnData = ({
       key: "title",
       title: "TITLE",
       hidden: !checkedColumns.title,
-      render: (title, { id, slug, status }) => (
+      render: (title, { slug, status }) => (
         <Link
           target="_blank"
-          to={`/public/articles/${status === "published" ? slug : id}`}
+          to="/public/articles"
+          onClick={() => handleLinkClick({ status, slug })}
         >
           {title}
         </Link>
@@ -73,9 +80,9 @@ export const buildArticleColumnData = ({
       hidden: !checkedColumns.date,
       key: "date",
       title: "PUBLISHED DATE",
-      render: (date) => (
+      render: (date, { status }) => (
         <Typography style="body2">
-          {date ? new Date(date).toDateString() : "--"}
+          {status === "published" ? new Date(date).toDateString() : "--"}
         </Typography>
       ),
     },

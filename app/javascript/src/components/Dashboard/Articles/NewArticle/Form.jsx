@@ -4,7 +4,7 @@ import { Formik, Form as FormikForm } from "formik";
 import { Button, Typography, ActionDropdown } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { buildSelectOptions } from "utils";
 
 import categoriesApi from "apis/categories";
@@ -20,11 +20,11 @@ const Form = ({
   handleSubmit,
   initialArticleValue,
   newStatus = "draft",
+  history,
 }) => {
   const [submitted, setSubmitted] = useState(false);
   const [category, setCategory] = useState([]);
   const [status, setStatus] = useState(newStatus);
-  const history = useHistory();
 
   const handleKeyPress = (e, values, status) => {
     if (e.key === "Enter") {
@@ -142,4 +142,4 @@ Form.propTypes = {
   newStatus: PropTypes.string,
 };
 
-export default Form;
+export default withRouter(Form);

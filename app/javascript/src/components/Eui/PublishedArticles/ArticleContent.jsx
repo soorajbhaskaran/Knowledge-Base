@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 
 import { Typography, Callout, PageLoader } from "neetoui";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/public/articles";
 
-const ArticleContent = () => {
+const ArticleContent = ({ history }) => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
   const { slug } = useParams();
-  const history = useHistory();
 
-  const fetchArticle = async () => {
+  const fetchArticle = async ({ slug }) => {
     try {
       const {
         data: { article },
@@ -20,6 +19,7 @@ const ArticleContent = () => {
         ...article,
         category: article.category.title,
       });
+      localStorage.removeItem("articleSlug");
     } catch (error) {
       logger.error(error);
       history.push("/public/articles/invalid");
@@ -27,8 +27,18 @@ const ArticleContent = () => {
       setLoading(false);
     }
   };
+
+  const loadArticle = () => {
+    const articleSlug = localStorage.getItem("articleSlug");
+    if (articleSlug) {
+      history.push(`/public/articles/${articleSlug}`);
+      fetchArticle({ slug: articleSlug });
+    } else {
+      fetchArticle({ slug });
+    }
+  };
   useEffect(() => {
-    fetchArticle();
+    loadArticle();
   }, [slug]);
 
   if (loading) {
@@ -57,4 +67,4 @@ const ArticleContent = () => {
   );
 };
 
-export default ArticleContent;
+export default withRouter(ArticleContent);

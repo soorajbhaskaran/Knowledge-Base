@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Typography, PageLoader } from "neetoui";
 import { Container } from "neetoui/layouts";
 import queryString from "query-string";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 import EmptyState from "components/Common/EmptyState";
@@ -14,7 +14,7 @@ import MenuBar from "./Menu";
 import Table from "./Table";
 import { buildArticleStatusTabsWithCount } from "./utils";
 
-const Articles = () => {
+const Articles = ({ history }) => {
   const [checkedColumns, setCheckedColumns] = useState({
     title: true,
     category: true,
@@ -27,7 +27,6 @@ const Articles = () => {
   const [articleStatusTabs, setArticleStatusTabs] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
 
-  const history = useHistory();
   const location = useLocation();
   const { status } = queryString.parse(location.search);
 
@@ -103,4 +102,4 @@ const Articles = () => {
   );
 };
 
-export default Articles;
+export default withRouter(Articles);

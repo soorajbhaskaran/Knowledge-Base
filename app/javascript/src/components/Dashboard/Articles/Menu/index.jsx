@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { MenuBar } from "neetoui/layouts";
 import PropTypes from "prop-types";
 import queryString from "query-string";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
@@ -23,6 +23,7 @@ const Menu = ({
   articleStatusTabs,
   categoryList,
   setCategoryList,
+  history,
 }) => {
   const [showAddInput, setShowAddInput] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
@@ -30,7 +31,6 @@ const Menu = ({
   const [title, setTitle] = useState("");
   const [searchFieldText, setSearchFieldText] = useState("");
 
-  const history = useHistory();
   const location = useLocation();
   const { status, category } = queryString.parse(location.search);
 
@@ -208,4 +208,4 @@ Menu.propTypes = {
   setLoading: PropTypes.func.isRequired,
   setArticles: PropTypes.func.isRequired,
 };
-export default Menu;
+export default withRouter(Menu);
