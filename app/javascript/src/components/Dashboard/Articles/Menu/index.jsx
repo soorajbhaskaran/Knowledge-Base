@@ -59,16 +59,6 @@ const Menu = ({
     }
   };
 
-  const createCategory = async () => {
-    try {
-      await categoriesApi.create({ title });
-      fetchCategories();
-      setTitle("");
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
   const handleStatusChange = async (value) => {
     history.push({
       pathname: "/admin/articles",
@@ -181,7 +171,7 @@ const Menu = ({
         toggleSearch={toggleSearch}
       />
       <Input
-        createCategory={createCategory}
+        fetchCategories={fetchCategories}
         searchFieldText={searchFieldText}
         setCategories={setCategories}
         setSearchFieldText={setSearchFieldText}

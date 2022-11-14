@@ -9,17 +9,23 @@ class DeleteCategoryService < ApplicationService
   end
 
   def process
-    new_category_id = create_new_category_if_there_is_only_one
-    category.articles.update_all(category_id: new_category_id)
-    Category.update_counters(new_category_id, articles_count: category.articles_count)
-    category.reload.destroy!
+    category.articles_count.zero? ? category.destroy! : delete_category!
   end
 
-  def create_new_category_if_there_is_only_one
-    if current_user.categories.count == 1
-      current_user.categories.create!(title: "General")
-      return current_user.categories.where(title: "General").first.id
+  private
+
+    def delete_category!
+      new_category_id = create_new_category_if_there_is_only_one
+      category.articles.update_all(category_id: new_category_id)
+      Category.update_counters(new_category_id, articles_count: category.articles_count)
+      category.reload.destroy!
     end
-    category_id
-  end
+
+    def create_new_category_if_there_is_only_one
+      if current_user.categories.count == 1
+        current_user.categories.create!(title: "General")
+        return current_user.categories.where(title: "General").first.id
+      end
+      category_id
+    end
 end

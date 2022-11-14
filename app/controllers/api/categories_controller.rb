@@ -20,7 +20,7 @@ class API::CategoriesController < ApplicationController
 
   def destroy
     delete_category_service = DeleteCategoryService.new(params[:new_category_id], @category)
-    @category.articles_count.zero? ? @category.destroy! : delete_category_service.process
+    delete_category_service.process
     respond_with_success(t("successfully_deleted", entity: "Category"))
   end
 
