@@ -4,7 +4,7 @@ import { Dropdown, Checkbox, Button } from "neetoui";
 import { Header as NeetoUIHeader } from "neetoui/layouts";
 import PropTypes from "prop-types";
 import queryString from "query-string";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 
@@ -16,9 +16,9 @@ const Header = ({
   setCheckedColumns,
   setArticles,
   categoryList,
+  history,
 }) => {
   const [searchArticle, setSearchArticle] = useState("");
-  const history = useHistory();
   const location = useLocation();
   const { status } = queryString.parse(location.search);
 
@@ -104,4 +104,4 @@ Header.propTypes = {
   categoryList: PropTypes.array,
 };
 
-export default Header;
+export default withRouter(Header);

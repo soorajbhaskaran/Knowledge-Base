@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 
@@ -8,9 +8,7 @@ import Form from "./Form";
 
 import { ARTICLES_INITIAL_FORM_VALUES } from "../constants";
 
-const Create = () => {
-  const history = useHistory();
-
+const Create = ({ history }) => {
   const handleCreateArticle = async (values, status) => {
     try {
       await articlesApi.create({
@@ -36,4 +34,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default withRouter(Create);

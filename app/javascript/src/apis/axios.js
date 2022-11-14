@@ -33,13 +33,13 @@ const handleSuccessResponse = (response) => {
 };
 const handleErrorResponse = (axiosErrorObject) => {
   if (axiosErrorObject.response?.status === 401) {
-    setTimeout(() => (window.location.href = "/article"), 2000);
+    setTimeout(() => (window.location.href = "/"), 2000);
   }
   Toastr.error(
     axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION
   );
   if (axiosErrorObject.response?.status === 423) {
-    window.location.href = "/public/articles";
+    window.location.href = "/";
   }
 
   return Promise.reject(axiosErrorObject);

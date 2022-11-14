@@ -24,7 +24,7 @@ export const buildRedirectionColumn = ({
     key: "from_path",
     title: "FROM PATH",
     editable: true,
-    width: 290,
+    width: 350,
     render: (from_path) => (
       <div className="flex items-center">
         <Typography component="p" style="body2">
@@ -39,7 +39,7 @@ export const buildRedirectionColumn = ({
     key: "to_path",
     title: "TO PATH",
     editable: true,
-    width: 290,
+    width: 150,
     render: (to_path) => (
       <div className="flex items-center">
         <Typography component="p" style="body2">

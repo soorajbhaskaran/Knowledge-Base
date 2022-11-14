@@ -2,15 +2,13 @@ import React from "react";
 
 import { Table as NeetoUITable } from "neetoui";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 
 import { buildArticleColumnData } from "./utils";
 
-const Table = ({ articles, refetch, checkedColumns }) => {
-  const history = useHistory();
-
+const Table = ({ articles, refetch, checkedColumns, history }) => {
   const handleEditButton = (identifier, status, id) => {
     history.push({
       pathname: `/admin/articles/${identifier}/edit`,
@@ -49,4 +47,4 @@ Table.propTypes = {
   checkedColumns: PropTypes.object,
 };
 
-export default Table;
+export default withRouter(Table);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { either, isEmpty, isNil } from "ramda";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import categoriesApi from "apis/categories";
 import organizationApi from "apis/organization";
@@ -22,13 +22,11 @@ import {
   INVALID_PATH,
 } from "../routeConstants";
 
-const Eui = () => {
+const Eui = ({ history }) => {
   const [slugOfFirstArticle, setSlugOfFirstArticle] = useState("");
   const [organization, setOrganization] = useState({});
   const authToken = getFromLocalStorage("authToken");
   const isAuthenticated = !either(isNil, isEmpty)(authToken);
-
-  const history = useHistory();
 
   const fetchFirstArticle = async () => {
     try {
@@ -94,4 +92,4 @@ const Eui = () => {
     </div>
   );
 };
-export default Eui;
+export default withRouter(Eui);
