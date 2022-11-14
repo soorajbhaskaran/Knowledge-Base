@@ -24,11 +24,11 @@ const Table = () => {
   const isEditing = (record) => record.id === editingKey;
 
   const handleEditRedirectionButton = (record) => {
+    setEditingKey(record.id);
     setInitialValues({
       from_path: record.from_path,
       to_path: record.to_path,
     });
-    setEditingKey(record.id);
   };
 
   const fetchRedirections = async () => {
@@ -48,22 +48,23 @@ const Table = () => {
   const handleAddNewRedirection = () => {
     const newRedirection = {
       id: uuidv4().slice(0, 8),
-      fromPath: "",
-      toPath: "",
+      from_path: "",
+      to_path: "",
     };
+    setInitialValues({ from_path: "", to_path: "" });
     setRedirections((prevRedirection) => [...prevRedirection, newRedirection]);
     setEditingKey(newRedirection.id);
   };
 
-  const handleSubmitRedirection = async (values, resetForm) => {
+  const handleSubmitRedirection = async ({ values, resetForm }) => {
     if (editingKey.length === 8) {
       try {
         await redirectionsApi.create(values);
         fetchRedirections();
-        resetForm({ from_path: "", to_path: "" });
       } catch (error) {
         logger.error(error);
         handleDeleteRedirection(editingKey);
+        resetForm({ from_path: "", to_path: "" });
       }
     } else {
       try {
@@ -73,6 +74,7 @@ const Table = () => {
         logger.error(error);
       }
     }
+    setSubmitted(false);
     setEditingKey("");
   };
 
@@ -91,9 +93,9 @@ const Table = () => {
     }
   };
 
-  const handleOnKeyPress = (e, values, resetForm) => {
+  const handleOnKeyPress = ({ e, values, resetForm }) => {
     if (e.key === "Enter") {
-      handleSubmitRedirection(values, resetForm);
+      handleSubmitRedirection({ values, resetForm });
     }
   };
 
@@ -101,13 +103,15 @@ const Table = () => {
     fetchRedirections();
   }, []);
 
-  const mergedColumns = ({ isSubmitting, values, resetForm }) =>
+  const mergedColumns = ({ isSubmitting, values, submitForm, resetForm }) =>
     buildRedirectionColumn({
       isEditing,
       handleEditRedirectionButton,
       isSubmitting,
       setSubmitted,
+      submitForm,
       handleDeleteRedirection,
+      resetForm,
     }).map((col) => {
       if (!col.editable) {
         return { ...col, key: col.key };
@@ -138,16 +142,21 @@ const Table = () => {
         initialValues={initialValues}
         validateOnChange={submitted}
         onSubmit={(values, { resetForm }) =>
-          handleSubmitRedirection(values, resetForm)
+          handleSubmitRedirection({ values, resetForm })
         }
       >
-        {({ isSubmitting, values, resetForm }) => (
+        {({ isSubmitting, values, submitForm, resetForm }) => (
           <Form>
-            <div style={{ height: "60vh" }}>
+            <div style={{ height: "30vh" }}>
               <NeetoUITable
                 fixedHeight
-                columns={mergedColumns({ isSubmitting, values, resetForm })}
                 rowData={redirections}
+                columns={mergedColumns({
+                  isSubmitting,
+                  values,
+                  submitForm,
+                  resetForm,
+                })}
                 components={{
                   body: { cell: EditableCell },
                 }}

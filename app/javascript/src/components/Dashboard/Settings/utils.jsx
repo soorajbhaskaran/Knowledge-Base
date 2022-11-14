@@ -6,12 +6,18 @@ import * as yup from "yup";
 
 import { SETTINGS_NAVLINKS, ALPHANUMERIC_REGEX } from "./constants";
 
+const handleSubmit = (setSubmitted, submitForm) => {
+  setSubmitted(true);
+  submitForm();
+};
+
 export const buildRedirectionColumn = ({
   isEditing,
   handleEditRedirectionButton,
   isSubmitting,
   setSubmitted,
   handleDeleteRedirection,
+  submitForm,
 }) => [
   {
     dataIndex: "from_path",
@@ -65,8 +71,8 @@ export const buildRedirectionColumn = ({
               icon={Check}
               loading={isSubmitting}
               style="text"
-              type="submit"
-              onClick={() => setSubmitted(true)}
+              type="button"
+              onClick={() => handleSubmit(setSubmitted, submitForm)}
             />
           )}
           <Button

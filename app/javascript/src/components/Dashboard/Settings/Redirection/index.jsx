@@ -6,7 +6,7 @@ import Table from "./Table";
 
 const Redirection = () => (
   <div className="mx-auto mt-5 w-full">
-    <div className="mx-48">
+    <div className="mx-40">
       <Typography component="h3" style="h3">
         Redirections
       </Typography>
