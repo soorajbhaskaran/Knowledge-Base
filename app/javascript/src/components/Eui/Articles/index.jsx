@@ -5,11 +5,11 @@ import { PageLoader } from "neetoui";
 import categoriesApi from "apis/public/categories";
 
 import Accordion from "./Accordion";
-import ArticleContent from "./ArticleContent";
+import Article from "./Article";
 
 import { formatCategoriesWithTitleAndArticles } from "../utils";
 
-const PublishedArticles = () => {
+const Articles = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -41,10 +41,10 @@ const PublishedArticles = () => {
     <div className="w-full">
       <div className="flex">
         <Accordion categories={categories} />
-        <ArticleContent />
+        <Article />
       </div>
     </div>
   );
 };
 
-export default PublishedArticles;
+export default Articles;

@@ -10,9 +10,9 @@ import PrivateRoute from "components/Common/PrivateRoute";
 import EmptyArticleList from "images/EmptyArticleList";
 import { getFromLocalStorage } from "utils/storage";
 
+import Articles from "./Articles";
 import Header from "./Header";
 import PasswordScreen from "./PasswordScreen";
-import PublishedArticle from "./PublishedArticles";
 import { getFirstPublishedArticleFromCategories } from "./utils";
 
 import {
@@ -79,9 +79,9 @@ const Eui = ({ history }) => {
             />
           )}
         />
-        <Route exact component={PublishedArticle} path={EUI_ARTICLE_PATH} />
+        <Route exact component={Articles} path={EUI_ARTICLE_PATH} />
         <PrivateRoute
-          component={PublishedArticle}
+          component={Articles}
           condition={isAuthenticated}
           isPasswordProtected={organization.is_password_protection_enabled}
           path={EUI_PATH}
