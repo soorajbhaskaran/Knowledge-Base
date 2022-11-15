@@ -5,7 +5,7 @@ import { useParams, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/public/articles";
 
-const ArticleContent = ({ history }) => {
+const Article = ({ history }) => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
   const { slug } = useParams();
@@ -67,4 +67,4 @@ const ArticleContent = ({ history }) => {
   );
 };
 
-export default withRouter(ArticleContent);
+export default withRouter(Article);
