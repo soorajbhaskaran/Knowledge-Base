@@ -36,6 +36,12 @@ class API::ArticlesController < ApplicationController
     @articles = filter_articles_service.process
   end
 
+  def sort
+    params[:articles].each_with_index do |article, index|
+      current_user.articles.find(article[:id]).update!(position: index + 1)
+    end
+  end
+
   private
 
     def article_params

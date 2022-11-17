@@ -9,6 +9,7 @@ const fetch = ({ status = "", query = "", categoriesIds = [] }) =>
 
 const create = (payload) => axios.post("/articles", payload);
 const update = (id, payload) => axios.put(`/articles/${id}`, payload);
+const sort = (payload) => axios.patch("/articles/sort", payload);
 const destroy = (id) => axios.delete(`/articles/${id}`);
 const show = (id) => axios.get(`/articles/${id}`);
 const filter = ({ status, categories_ids }) => {
@@ -19,6 +20,6 @@ const filter = ({ status, categories_ids }) => {
   return axios.post(path, { categories_ids });
 };
 
-const articlesApi = { fetch, create, update, destroy, show, filter };
+const articlesApi = { fetch, create, update, destroy, show, filter, sort };
 
 export default articlesApi;

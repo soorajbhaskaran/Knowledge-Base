@@ -5,12 +5,15 @@ import { Typography, Dropdown, Input } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
+import articlesApi from "apis/articles";
+import categoriesApi from "apis/categories";
+
 import Article from "./Article";
 
 const { Menu, MenuItem } = Dropdown;
 const members = ["All", "Draft", "Published", "Archived"];
 
-const Articles = ({ articles, setArticles }) => (
+const Articles = ({ articles, setArticles, setCategories }) => (
   <Container>
     <Header
       title="Manage Articles"
@@ -45,6 +48,7 @@ const Articles = ({ articles, setArticles }) => (
       renderDragAndDrop({
         articles,
         setArticles,
+        setCategories,
       })
     ) : (
       <Typography component="p" style="body3">
@@ -54,7 +58,17 @@ const Articles = ({ articles, setArticles }) => (
   </Container>
 );
 
-const renderDragAndDrop = ({ articles, setArticles }) => {
+const renderDragAndDrop = ({ articles, setArticles, setCategories }) => {
+  const fetchCategories = async () => {
+    try {
+      const {
+        data: { categories },
+      } = await categoriesApi.fetch({});
+      setCategories(categories);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -63,17 +77,18 @@ const renderDragAndDrop = ({ articles, setArticles }) => {
     const items = Array.from(articles);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    // sortArticles(items);
+    sortArticles(items);
     setArticles(items);
   };
 
-  // const sortArticles = async (articles) => {
-  //   try {
-  //     await articlesApi.sort({ articles });
-  //   } catch (error) {
-  //     logger.error(error);
-  //   }
-  // };
+  const sortArticles = async (articles) => {
+    try {
+      await articlesApi.sort({ articles });
+      fetchCategories();
+    } catch (error) {
+      logger.error(error);
+    }
+  };
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>

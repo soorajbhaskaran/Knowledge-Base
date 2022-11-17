@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :articles, except: %i[new edit] do
         collection do
           post :filter
+          patch :sort
         end
       end
       resources :categories, except: %i[new edit show] do
