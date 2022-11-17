@@ -11,12 +11,15 @@ import categoriesApi from "apis/categories";
 import Category from "./Category";
 import DeleteAlert from "./DeleteAlert";
 
+import { getArticlesOrderByCreatedAt } from "../../utils";
+
 const Categories = ({
   categories,
   setCategories,
   fetchCategories,
   selectedCategory,
   setSelectedCategory,
+  setArticles,
 }) => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
@@ -67,6 +70,7 @@ const Categories = ({
         handleDeleteCategory,
         selectedCategory,
         setSelectedCategory,
+        setArticles,
       })}
       <DeleteAlert
         handleDeleteCategory={handleDeleteCategoryOnAlert}
@@ -88,6 +92,7 @@ const renderDragAndDrop = ({
   setSelectedCategory,
   handleEditCategory,
   handleDeleteCategory,
+  setArticles,
 }) => {
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -109,6 +114,11 @@ const renderDragAndDrop = ({
     }
   };
 
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    setArticles(getArticlesOrderByCreatedAt(category.articles));
+  };
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="categories">
@@ -124,7 +134,7 @@ const renderDragAndDrop = ({
                   <Category
                     active={selectedCategory.id === category.id}
                     articlesCount={category.articles_count}
-                    clicked={() => setSelectedCategory(category)}
+                    clicked={() => handleCategoryClick(category)}
                     handleDeleteCategory={handleDeleteCategory}
                     handleEditCategory={handleEditCategory}
                     id={category.id}

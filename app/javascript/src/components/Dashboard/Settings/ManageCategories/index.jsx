@@ -11,6 +11,7 @@ import { getArticlesOrderByCreatedAt } from "../utils";
 
 const ManageCategories = () => {
   const [categories, setCategories] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState({});
 
@@ -21,6 +22,7 @@ const ManageCategories = () => {
       } = await categoriesApi.fetch({});
       setCategories(categories);
       setSelectedCategory(categories[0]);
+      setArticles(getArticlesOrderByCreatedAt(categories[0].articles));
     } catch (error) {
       logger.error(error);
     } finally {
@@ -47,14 +49,13 @@ const ManageCategories = () => {
           categories={categories}
           fetchCategories={fetchCategories}
           selectedCategory={selectedCategory}
+          setArticles={setArticles}
           setCategories={setCategories}
           setSelectedCategory={setSelectedCategory}
         />
       </div>
       <div className="w-2/3">
-        <Articles
-          articles={getArticlesOrderByCreatedAt(selectedCategory.articles)}
-        />
+        <Articles articles={articles} setArticles={setArticles} />
       </div>
     </div>
   );
