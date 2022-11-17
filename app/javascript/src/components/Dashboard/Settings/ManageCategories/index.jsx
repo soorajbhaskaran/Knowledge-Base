@@ -7,7 +7,7 @@ import categoriesApi from "apis/categories";
 import Articles from "./Articles";
 import Categories from "./Categories";
 
-import { getArticlesOrderByCreatedAt } from "../utils";
+import { getArticlesOrderByPosition } from "../utils";
 
 const ManageCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -22,7 +22,7 @@ const ManageCategories = () => {
       } = await categoriesApi.fetch({});
       setCategories(categories);
       setSelectedCategory(categories[0]);
-      setArticles(getArticlesOrderByCreatedAt(categories[0].articles));
+      setArticles(getArticlesOrderByPosition(categories[0].articles));
     } catch (error) {
       logger.error(error);
     } finally {
@@ -55,7 +55,11 @@ const ManageCategories = () => {
         />
       </div>
       <div className="w-2/3">
-        <Articles articles={articles} setArticles={setArticles} />
+        <Articles
+          articles={articles}
+          setArticles={setArticles}
+          setCategories={setCategories}
+        />
       </div>
     </div>
   );

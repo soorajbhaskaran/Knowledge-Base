@@ -72,4 +72,11 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal response_json["articles"].last["id"], article.id
   end
+
+  def test_sorting_of_articles_based_on_articles_index
+    article1 = create(:article, title: "Test article 1", author: @author, category: @category)
+    articles = [article1.as_json, @article.as_json]
+    patch sort_api_articles_path, params: { articles: articles }, headers: @headers
+    assert_equal @article.reload.position, 2
+  end
 end

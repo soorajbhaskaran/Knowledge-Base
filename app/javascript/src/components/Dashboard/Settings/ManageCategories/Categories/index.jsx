@@ -11,7 +11,7 @@ import categoriesApi from "apis/categories";
 import Category from "./Category";
 import DeleteAlert from "./DeleteAlert";
 
-import { getArticlesOrderByCreatedAt } from "../../utils";
+import { getArticlesOrderByPosition } from "../../utils";
 
 const Categories = ({
   categories,
@@ -116,7 +116,7 @@ const renderDragAndDrop = ({
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    setArticles(getArticlesOrderByCreatedAt(category.articles));
+    setArticles(getArticlesOrderByPosition(category.articles));
   };
 
   return (
