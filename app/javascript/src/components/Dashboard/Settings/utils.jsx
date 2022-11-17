@@ -106,3 +106,12 @@ export const buildPreferanceValidationSchema = ({ isPasswordVisible }) => {
 
   return yup.object().shape(validationShape);
 };
+
+export const getArticlesOrderByCreatedAt = (articles) => {
+  let articlesList = articles.published.map((article) => article);
+  articlesList = articlesList.concat(articles.draft.map((article) => article));
+
+  return articlesList.sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+};

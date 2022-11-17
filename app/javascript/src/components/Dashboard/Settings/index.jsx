@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { PageLoader } from "neetoui";
-import { MenuBar, Container } from "neetoui/layouts";
+import { MenuBar } from "neetoui/layouts";
 import PropTypes from "prop-types";
 import queryString from "query-string";
 
@@ -48,9 +48,7 @@ const Settings = ({ history, location }) => {
           </div>
         ))}
       </MenuBar>
-      <Container>
-        <activeNavlink.component />
-      </Container>
+      <activeNavlink.component />
     </div>
   );
 };
