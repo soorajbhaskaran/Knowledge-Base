@@ -3,13 +3,14 @@ import React from "react";
 import { Search } from "neetoicons";
 import { Typography, Dropdown, Input } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import Article from "./Article";
 
 const { Menu, MenuItem } = Dropdown;
 const members = ["All", "Draft", "Published", "Archived"];
 
-const Articles = ({ articles }) => (
+const Articles = ({ articles, setArticles }) => (
   <Container>
     <Header
       title="Manage Articles"
@@ -40,11 +41,71 @@ const Articles = ({ articles }) => (
         <u>Don't show this info again.</u>
       </span>
     </Typography>
-    {articles.map(({ id, status, content, title }) => (
-      <Article content={content} key={id} status={status} title={title} />
-    ))}
+    {articles.length > 0 ? (
+      renderDragAndDrop({
+        articles,
+        setArticles,
+      })
+    ) : (
+      <Typography component="p" style="body3">
+        No articles found
+      </Typography>
+    )}
   </Container>
 );
+
+const renderDragAndDrop = ({ articles, setArticles }) => {
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+
+    if (result.destination.index === result.source.index) return;
+
+    const items = Array.from(articles);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    // sortArticles(items);
+    setArticles(items);
+  };
+
+  // const sortArticles = async (articles) => {
+  //   try {
+  //     await articlesApi.sort({ articles });
+  //   } catch (error) {
+  //     logger.error(error);
+  //   }
+  // };
+
+  return (
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <Droppable droppableId="articles">
+        {(provided) => (
+          <div
+            {...provided.droppableProps}
+            className="w-full"
+            ref={provided.innerRef}
+          >
+            {articles.map(({ id, status, content, title }, index) => (
+              <Draggable draggableId={id} index={index} key={id}>
+                {(provided) => (
+                  <Article
+                    content={content}
+                    id={id}
+                    innerRef={provided.innerRef}
+                    key={id}
+                    provided={provided}
+                    status={status}
+                    title={title}
+                  />
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
+  );
+};
 
 Articles.propTypes = {};
 

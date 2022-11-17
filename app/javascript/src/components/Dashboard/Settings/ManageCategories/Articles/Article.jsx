@@ -4,8 +4,13 @@ import classnames from "classnames";
 import { Clock } from "neetoicons";
 import { Button, Avatar, Tooltip, Typography, Checkbox } from "neetoui";
 
-const Article = ({ status, title, content }) => (
-  <div className="border mb-4 w-full border-gray-200 bg-white p-3 hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
+const Article = ({ status, title, content, innerRef, provided }) => (
+  <div
+    className="border mb-4 border-gray-200 bg-white p-3 hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+    ref={innerRef}
+    {...provided.draggableProps}
+    {...provided.dragHandleProps}
+  >
     <Checkbox checked id="checked" onChange={() => {}} />
     <Typography className="mt-2" component="h4" style="h4">
       {title}
