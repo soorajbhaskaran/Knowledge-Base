@@ -15,7 +15,8 @@ const Category = ({
   active,
   provided,
   clicked,
-  handleDeleteCategory,
+  handleDeleteButton,
+  handleEditButton,
 }) => (
   <div
     ref={innerRef}
@@ -40,10 +41,12 @@ const Category = ({
         </Typography>
       </div>
       <Dropdown buttonStyle="text" icon={MenuVertical}>
-        <MenuItem.Button>Edit</MenuItem.Button>
+        <MenuItem.Button onClick={() => handleEditButton(title)}>
+          Edit
+        </MenuItem.Button>
         <MenuItem.Button
           style="danger"
-          onClick={() => handleDeleteCategory({ id, articlesCount, title })}
+          onClick={() => handleDeleteButton({ id, articlesCount, title })}
         >
           Delete
         </MenuItem.Button>

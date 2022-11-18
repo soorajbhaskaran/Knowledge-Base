@@ -6,14 +6,13 @@ import { Header, Container } from "neetoui/layouts";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import articlesApi from "apis/articles";
-import categoriesApi from "apis/categories";
 
 import Article from "./Article";
 
 const { Menu, MenuItem } = Dropdown;
 const members = ["All", "Draft", "Published", "Archived"];
 
-const Articles = ({ articles, setArticles, setCategories }) => (
+const Articles = ({ articles, setArticles, fetchCategories }) => (
   <Container>
     <Header
       title="Manage Articles"
@@ -48,7 +47,7 @@ const Articles = ({ articles, setArticles, setCategories }) => (
       renderDragAndDrop({
         articles,
         setArticles,
-        setCategories,
+        fetchCategories,
       })
     ) : (
       <Typography component="p" style="body3">
@@ -58,17 +57,7 @@ const Articles = ({ articles, setArticles, setCategories }) => (
   </Container>
 );
 
-const renderDragAndDrop = ({ articles, setArticles, setCategories }) => {
-  const fetchCategories = async () => {
-    try {
-      const {
-        data: { categories },
-      } = await categoriesApi.fetch({});
-      setCategories(categories);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
+const renderDragAndDrop = ({ articles, setArticles, fetchCategories }) => {
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -84,7 +73,7 @@ const renderDragAndDrop = ({ articles, setArticles, setCategories }) => {
   const sortArticles = async (articles) => {
     try {
       await articlesApi.sort({ articles });
-      fetchCategories();
+      fetchCategories({ isFirstFetch: false });
     } catch (error) {
       logger.error(error);
     }

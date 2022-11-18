@@ -15,14 +15,16 @@ const ManageCategories = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState({});
 
-  const fetchCategories = async () => {
+  const fetchCategories = async ({ isFirstFetch }) => {
     try {
       const {
         data: { categories },
       } = await categoriesApi.fetch({});
       setCategories(categories);
-      setSelectedCategory(categories[0]);
-      setArticles(getArticlesOrderByPosition(categories[0].articles));
+      if (isFirstFetch) {
+        setSelectedCategory(categories[0]);
+        setArticles(getArticlesOrderByPosition(categories[0].articles));
+      }
     } catch (error) {
       logger.error(error);
     } finally {
@@ -31,7 +33,7 @@ const ManageCategories = () => {
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchCategories({ isFirstFetch: true });
   }, []);
 
   if (loading) {
@@ -57,8 +59,8 @@ const ManageCategories = () => {
       <div className="w-2/3">
         <Articles
           articles={articles}
+          fetchCategories={fetchCategories}
           setArticles={setArticles}
-          setCategories={setCategories}
         />
       </div>
     </div>
