@@ -113,3 +113,6 @@ export const getArticlesOrderByPosition = (articles) => {
 
   return articlesList.sort((a, b) => a.position - b.position);
 };
+
+export const getCategoriesTitleFromCategories = (categories) =>
+  categories.map((category) => ({ id: category.id, title: category.title }));

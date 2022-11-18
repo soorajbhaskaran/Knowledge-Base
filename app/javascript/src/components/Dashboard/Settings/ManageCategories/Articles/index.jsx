@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Search } from "neetoicons";
 import { Typography, Dropdown, Input } from "neetoui";
@@ -6,56 +6,97 @@ import { Header, Container } from "neetoui/layouts";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import articlesApi from "apis/articles";
+import categoriesApi from "apis/categories";
 
 import Article from "./Article";
 
-const { Menu, MenuItem } = Dropdown;
-const members = ["All", "Draft", "Published", "Archived"];
+import { getCategoriesTitleFromCategories } from "../../utils";
 
-const Articles = ({ articles, setArticles, fetchCategories }) => (
-  <Container>
-    <Header
-      title="Manage Articles"
-      actionBlock={
-        <Dropdown buttonStyle="secondary" closeOnSelect={false} label="Move to">
-          <div className="flex flex-col gap-y-1 rounded-md p-2">
-            <Input placeholder="Search categories" prefix={<Search />} />
-            <Typography style="body3">Results</Typography>
-            <Menu className="flex flex-col gap-y-1">
-              {members.map((item, idx) => (
-                <MenuItem.Button key={idx}>{item}</MenuItem.Button>
-              ))}
-            </Menu>
-          </div>
-        </Dropdown>
-      }
-    />
-    <Typography className="mb-4 bg-gray-200 p-2" component="p" style="body3">
-      You can reorder category or articles based on drag and drop here. You can
-      also multi-select articles and move them to another category that you have
-      created.{" "}
-      <span
-        className="cursor-pointer"
-        onClick={() => {
-          alert("Hello world");
-        }}
-      >
-        <u>Don't show this info again.</u>
-      </span>
-    </Typography>
-    {articles.length > 0 ? (
-      renderDragAndDrop({
-        articles,
-        setArticles,
-        fetchCategories,
-      })
-    ) : (
-      <Typography component="p" style="body3">
-        No articles found
+const { Menu, MenuItem } = Dropdown;
+
+const Articles = ({
+  articles,
+  setArticles,
+  categoriesList,
+  fetchCategories,
+  searchTerm,
+  setSearchTerm,
+}) => {
+  const [categories, setCategories] = useState(categoriesList);
+
+  const handleSearch = async ({ event }) => {
+    setSearchTerm(event.target.value);
+    try {
+      const {
+        data: { categories },
+      } = await categoriesApi.fetch({ query: event.target.value });
+      setCategories(categories);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  return (
+    <Container>
+      <Header
+        title="Manage Articles"
+        actionBlock={
+          <Dropdown
+            buttonStyle="secondary"
+            closeOnSelect={false}
+            label="Move to"
+          >
+            <div className="flex flex-col gap-y-1 rounded-md p-2">
+              <Input
+                autoFocus
+                placeholder="Search categories"
+                prefix={<Search />}
+                value={searchTerm}
+                onChange={(event) => handleSearch({ event })}
+              />
+              <Typography style="body3">Results</Typography>
+              {categories.length > 0 ? (
+                <Menu className="flex flex-col gap-y-1">
+                  {getCategoriesTitleFromCategories(categories).map(
+                    ({ title, id }) => (
+                      <MenuItem.Button key={id}>{title}</MenuItem.Button>
+                    )
+                  )}
+                </Menu>
+              ) : (
+                <Typography style="body3">No results found</Typography>
+              )}
+            </div>
+          </Dropdown>
+        }
+      />
+      <Typography className="mb-4 bg-gray-200 p-2" component="p" style="body3">
+        You can reorder category or articles based on drag and drop here. You
+        can also multi-select articles and move them to another category that
+        you have created.{" "}
+        <span
+          className="cursor-pointer"
+          onClick={() => {
+            alert("Hello world");
+          }}
+        >
+          <u>Don't show this info again.</u>
+        </span>
       </Typography>
-    )}
-  </Container>
-);
+      {articles.length > 0 ? (
+        renderDragAndDrop({
+          articles,
+          setArticles,
+          fetchCategories,
+        })
+      ) : (
+        <Typography component="p" style="body3">
+          No articles found
+        </Typography>
+      )}
+    </Container>
+  );
+};
 
 const renderDragAndDrop = ({ articles, setArticles, fetchCategories }) => {
   const handleOnDragEnd = (result) => {
