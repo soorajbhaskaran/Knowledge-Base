@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import "lib/dayjs"; // eslint-disable-line
 import {
   BrowserRouter as Router,
   Switch,

@@ -4,7 +4,19 @@ import classnames from "classnames";
 import { Clock } from "neetoicons";
 import { Button, Avatar, Tooltip, Typography, Checkbox } from "neetoui";
 
-const Article = ({ status, title, content, innerRef, provided }) => (
+import { formatDateRelativeToNow, formatDateWithDayAndTime } from "../utils";
+
+const Article = ({
+  status,
+  title,
+  content,
+  innerRef,
+  provided,
+  userName,
+  createdAt,
+  publishedDate,
+  category,
+}) => (
   <div
     className="border mb-4 border-gray-200 bg-white p-3 hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
     ref={innerRef}
@@ -25,24 +37,32 @@ const Article = ({ status, title, content, innerRef, provided }) => (
     <hr className="solid mt-3 mb-3" />
     <div className="flex justify-between">
       <Button
-        className="rounded-md border-solid border-gray-200 text-xs font-light"
-        label="Getting Started"
+        className="pointer-events-none rounded-md border-solid border-gray-200 text-xs font-light"
+        label={category.title}
         size="medium"
         style="text"
         type="button"
-        onClick={() => {}}
       />
       <div className="flex items-center">
         <Clock color="#1e1e20" size={20} />
-        <Tooltip content="Created 2 days ago" position="bottom-end">
+        <Tooltip
+          position="bottom-end"
+          content={
+            status === "published"
+              ? formatDateWithDayAndTime(publishedDate)
+              : formatDateWithDayAndTime(createdAt)
+          }
+        >
           <Typography className="mx-2" style="body3">
-            Created 2 days ago
+            {status === "published"
+              ? `Published ${formatDateRelativeToNow(publishedDate)}`
+              : `Drafted ${formatDateRelativeToNow(createdAt)}`}
           </Typography>
         </Tooltip>
         <Avatar
           size="medium"
           user={{
-            name: "John Doe",
+            name: userName,
           }}
           onClick={() => {}}
         />
