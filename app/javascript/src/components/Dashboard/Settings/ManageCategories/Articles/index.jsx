@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Search } from "neetoicons";
 import { Typography, Dropdown, Input } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
+import userApi from "apis/user";
 
-import Article from "./Article";
+import DragAndDrop from "./DragAndDrop";
 
 import { getCategoriesTitleFromCategories } from "../../utils";
 
@@ -21,8 +20,10 @@ const Articles = ({
   fetchCategories,
   searchTerm,
   setSearchTerm,
+  category,
 }) => {
   const [categories, setCategories] = useState(categoriesList);
+  const [user, setUser] = useState({});
 
   const handleSearch = async ({ event }) => {
     setSearchTerm(event.target.value);
@@ -35,6 +36,30 @@ const Articles = ({
       logger.error(error);
     }
   };
+
+  const fetchUser = async () => {
+    try {
+      const {
+        data: { user },
+      } = await userApi.show();
+      setUser(user);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const handleUpdateUserInfo = async () => {
+    try {
+      await userApi.update({ user: { info: false } });
+      fetchUser();
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <Container>
@@ -70,85 +95,34 @@ const Articles = ({
           </Dropdown>
         }
       />
-      <Typography className="mb-4 bg-gray-200 p-2" component="p" style="body3">
-        You can reorder category or articles based on drag and drop here. You
-        can also multi-select articles and move them to another category that
-        you have created.{" "}
-        <span
-          className="cursor-pointer"
-          onClick={() => {
-            alert("Hello world");
-          }}
+      {user.info && (
+        <Typography
+          className="mb-4 bg-gray-200 p-2"
+          component="p"
+          style="body3"
         >
-          <u>Don't show this info again.</u>
-        </span>
-      </Typography>
+          You can reorder category or articles based on drag and drop here. You
+          can also multi-select articles and move them to another category that
+          you have created.{" "}
+          <span className="cursor-pointer" onClick={handleUpdateUserInfo}>
+            <u>Don't show this info again.</u>
+          </span>
+        </Typography>
+      )}
       {articles.length > 0 ? (
-        renderDragAndDrop({
-          articles,
-          setArticles,
-          fetchCategories,
-        })
+        <DragAndDrop
+          articles={articles}
+          category={category}
+          fetchCategories={fetchCategories}
+          setArticles={setArticles}
+          userName={user.name}
+        />
       ) : (
         <Typography component="p" style="body3">
           No articles found
         </Typography>
       )}
     </Container>
-  );
-};
-
-const renderDragAndDrop = ({ articles, setArticles, fetchCategories }) => {
-  const handleOnDragEnd = (result) => {
-    if (!result.destination) return;
-
-    if (result.destination.index === result.source.index) return;
-
-    const items = Array.from(articles);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    sortArticles(items);
-    setArticles(items);
-  };
-
-  const sortArticles = async (articles) => {
-    try {
-      await articlesApi.sort({ articles });
-      fetchCategories({ isFirstFetch: false });
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
-  return (
-    <DragDropContext onDragEnd={handleOnDragEnd}>
-      <Droppable droppableId="articles">
-        {(provided) => (
-          <div
-            {...provided.droppableProps}
-            className="w-full"
-            ref={provided.innerRef}
-          >
-            {articles.map(({ id, status, content, title }, index) => (
-              <Draggable draggableId={id} index={index} key={id}>
-                {(provided) => (
-                  <Article
-                    content={content}
-                    id={id}
-                    innerRef={provided.innerRef}
-                    key={id}
-                    provided={provided}
-                    status={status}
-                    title={title}
-                  />
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
   );
 };
 

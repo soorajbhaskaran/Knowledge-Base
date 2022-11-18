@@ -61,6 +61,7 @@ const ManageCategories = () => {
         <Articles
           articles={articles}
           categoriesList={categories}
+          category={selectedCategory}
           fetchCategories={fetchCategories}
           searchTerm={searchTerm}
           setArticles={setArticles}

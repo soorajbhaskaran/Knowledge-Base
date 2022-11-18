@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       end
       resources :redirections, except: %i[new edit show]
       resource :organization, only: %i[update create show]
+      resource :user, only: %i[update show]
       namespace :public do
         resources :categories, only: %i[index]
         resource :session, only: %i[create]
