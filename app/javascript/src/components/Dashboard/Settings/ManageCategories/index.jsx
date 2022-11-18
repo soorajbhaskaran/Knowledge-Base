@@ -13,6 +13,7 @@ const ManageCategories = () => {
   const [categories, setCategories] = useState([]);
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState({});
 
   const fetchCategories = async ({ isFirstFetch }) => {
@@ -59,8 +60,11 @@ const ManageCategories = () => {
       <div className="w-2/3">
         <Articles
           articles={articles}
+          categoriesList={categories}
           fetchCategories={fetchCategories}
+          searchTerm={searchTerm}
           setArticles={setArticles}
+          setSearchTerm={setSearchTerm}
         />
       </div>
     </div>
