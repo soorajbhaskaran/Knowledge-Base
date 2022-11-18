@@ -10,6 +10,7 @@ import categoriesApi from "apis/categories";
 
 import Category from "./Category";
 import DeleteAlert from "./DeleteAlert";
+import Pane from "./Pane";
 
 import { getArticlesOrderByPosition } from "../../utils";
 
@@ -22,11 +23,14 @@ const Categories = ({
   setArticles,
 }) => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showPane, setShowPane] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [title, setTitle] = useState("");
 
   const deleteCategory = async ({ id, newCategoryId }) => {
     try {
       await categoriesApi.destroy({ id, newCategoryId });
-      fetchCategories();
+      fetchCategories({ isFirstFetch: false });
     } catch (error) {
       logger.error(error);
     }
@@ -35,10 +39,26 @@ const Categories = ({
   const handleEditCategory = async ({ id, payload }) => {
     try {
       await categoriesApi.update({ id, payload });
-      fetchCategories();
+      fetchCategories({ isFirstFetch: false });
     } catch (error) {
       logger.error(error);
     }
+  };
+
+  const handleSubmit = async (values) => {
+    if (isEdit) {
+      handleEditCategory({ id: selectedCategory.id, payload: values });
+    } else {
+      try {
+        await categoriesApi.create({ category: values });
+        fetchCategories({ isFirstFetch: false });
+      } catch (error) {
+        logger.error(error);
+      }
+    }
+    setShowPane(false);
+    setTitle("");
+    setIsEdit(false);
   };
 
   const handleDeleteCategoryOnAlert = async ({
@@ -49,25 +69,37 @@ const Categories = ({
     deleteCategory({ id: selectedCategory.id, newCategoryId });
   };
 
-  const handleDeleteCategory = async ({ id, articlesCount, title }) => {
+  const handleDeleteButton = async ({ id, articlesCount, title }) => {
     if (articlesCount !== 0) {
       setSelectedCategory({ title, id, articlesCount });
       setShowDeleteAlert(true);
     } else deleteCategory({ id });
   };
 
+  const handleEditButton = (title) => {
+    setShowPane(true);
+    setTitle(title);
+    setIsEdit(true);
+  };
+
   return (
     <div className="w-full border-r-2 pr-2 pl-6">
       <Header
-        actionBlock={<Button icon={Plus} style="secondary" />}
         className="mb-0"
         title="Manage Categories"
+        actionBlock={
+          <Button
+            icon={Plus}
+            style="secondary"
+            onClick={() => setShowPane(true)}
+          />
+        }
       />
       {renderDragAndDrop({
         categories,
         setCategories,
-        handleEditCategory,
-        handleDeleteCategory,
+        handleEditButton,
+        handleDeleteButton,
         selectedCategory,
         setSelectedCategory,
         setArticles,
@@ -81,6 +113,13 @@ const Categories = ({
           categories.filter((category) => category.id !== selectedCategory.id)
         )}
       />
+      <Pane
+        handleSubmit={handleSubmit}
+        isEdit={isEdit}
+        setShowPane={setShowPane}
+        showPane={showPane}
+        title={title}
+      />
     </div>
   );
 };
@@ -90,8 +129,8 @@ const renderDragAndDrop = ({
   setCategories,
   selectedCategory,
   setSelectedCategory,
-  handleEditCategory,
-  handleDeleteCategory,
+  handleEditButton,
+  handleDeleteButton,
   setArticles,
 }) => {
   const handleOnDragEnd = (result) => {
@@ -135,8 +174,8 @@ const renderDragAndDrop = ({
                     active={selectedCategory.id === category.id}
                     articlesCount={category.articles_count}
                     clicked={() => handleCategoryClick(category)}
-                    handleDeleteCategory={handleDeleteCategory}
-                    handleEditCategory={handleEditCategory}
+                    handleDeleteButton={handleDeleteButton}
+                    handleEditButton={handleEditButton}
                     id={category.id}
                     innerRef={provided.innerRef}
                     key={category.id}
