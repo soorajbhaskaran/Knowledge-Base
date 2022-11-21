@@ -6,6 +6,7 @@ import { Header, Container } from "neetoui/layouts";
 
 import categoriesApi from "apis/categories";
 import userApi from "apis/user";
+import EmptyArticleList from "images/EmptyArticleList";
 
 import DragAndDrop from "./DragAndDrop";
 
@@ -118,9 +119,17 @@ const Articles = ({
           userName={user.name}
         />
       ) : (
-        <Typography component="p" style="body3">
-          No articles found
-        </Typography>
+        <div className="m-auto">
+          <img
+            alt="Empty Article List"
+            height={325}
+            src={EmptyArticleList}
+            width={325}
+          />
+          <Typography className="text-center" component="h3" style="h3">
+            No articles found!
+          </Typography>
+        </div>
       )}
     </Container>
   );
