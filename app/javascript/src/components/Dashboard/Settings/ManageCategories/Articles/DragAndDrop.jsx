@@ -1,5 +1,6 @@
 import React from "react";
 
+import PropTypes from "prop-types";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import articlesApi from "apis/articles";
@@ -87,6 +88,14 @@ const DragAndDrop = ({
   );
 };
 
-DragAndDrop.propTypes = {};
+DragAndDrop.propTypes = {
+  articles: PropTypes.array,
+  checkedArticles: PropTypes.array,
+  fetchCategories: PropTypes.func,
+  selectedCategory: PropTypes.object,
+  setArticles: PropTypes.func,
+  setCheckedArticles: PropTypes.func,
+  userName: PropTypes.string,
+};
 
 export default DragAndDrop;

@@ -3,6 +3,7 @@ import React from "react";
 import classnames from "classnames";
 import { Clock } from "neetoicons";
 import { Button, Avatar, Tooltip, Typography, Checkbox } from "neetoui";
+import PropTypes from "prop-types";
 
 import { formatDateRelativeToNow, formatDateWithDayAndTime } from "../utils";
 
@@ -87,6 +88,19 @@ const Article = ({
   </div>
 );
 
-Article.propTypes = {};
+Article.propTypes = {
+  status: PropTypes.string,
+  title: PropTypes.string,
+  content: PropTypes.string,
+  innerRef: PropTypes.func,
+  provided: PropTypes.object,
+  id: PropTypes.number,
+  userName: PropTypes.string,
+  createdAt: PropTypes.string,
+  publishedDate: PropTypes.string,
+  selectedCategory: PropTypes.object,
+  checkedArticles: PropTypes.array,
+  handleCheckedColumn: PropTypes.func,
+};
 
 export default Article;
