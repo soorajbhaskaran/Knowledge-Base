@@ -6,8 +6,7 @@ import categoriesApi from "apis/categories";
 
 import Articles from "./Articles";
 import Categories from "./Categories";
-
-import { getArticlesOrderByPosition } from "../utils";
+import { getArticlesOrderedByPosition } from "./utils";
 
 const ManageCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -24,13 +23,17 @@ const ManageCategories = () => {
       setCategories(categories);
       if (isFirstFetch) {
         setSelectedCategory(categories[0]);
-        setArticles(getArticlesOrderByPosition(categories[0].articles));
+        setArticles(getArticlesOrderedByPosition(categories[0].articles));
       }
+
+      return categories;
     } catch (error) {
       logger.error(error);
     } finally {
       setLoading(false);
     }
+
+    return categories;
   };
 
   useEffect(() => {
@@ -61,9 +64,9 @@ const ManageCategories = () => {
         <Articles
           articles={articles}
           categoriesList={categories}
-          category={selectedCategory}
           fetchCategories={fetchCategories}
           searchTerm={searchTerm}
+          selectedCategory={selectedCategory}
           setArticles={setArticles}
           setSearchTerm={setSearchTerm}
         />

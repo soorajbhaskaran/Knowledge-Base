@@ -4,13 +4,17 @@ import { Search } from "neetoicons";
 import { Typography, Dropdown, Input } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
 
+import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 import userApi from "apis/user";
 import EmptyArticleList from "images/EmptyArticleList";
 
 import DragAndDrop from "./DragAndDrop";
 
-import { getCategoriesTitleFromCategories } from "../../utils";
+import {
+  getCategoriesTitleFromCategories,
+  getArticlesOrderedByPosition,
+} from "../utils";
 
 const { Menu, MenuItem } = Dropdown;
 
@@ -21,10 +25,11 @@ const Articles = ({
   fetchCategories,
   searchTerm,
   setSearchTerm,
-  category,
+  selectedCategory,
 }) => {
   const [categories, setCategories] = useState(categoriesList);
   const [user, setUser] = useState({});
+  const [checkedArticles, setCheckedArticles] = useState([]);
 
   const handleSearch = async ({ event }) => {
     setSearchTerm(event.target.value);
@@ -58,6 +63,27 @@ const Articles = ({
     }
   };
 
+  const handleCategoryChange = async (id) => {
+    if (id !== selectedCategory.id) {
+      try {
+        await articlesApi.changeCategory({
+          articles_ids: checkedArticles,
+          category_id: id,
+        });
+        const categories = await fetchCategories({ isFirstFetch: false });
+        setArticles(
+          getArticlesOrderedByPosition(
+            categories.find((category) => category.id === selectedCategory.id)
+              .articles
+          )
+        );
+      } catch (error) {
+        logger.error(error);
+      }
+    }
+    setCheckedArticles([]);
+  };
+
   useEffect(() => {
     fetchUser();
   }, []);
@@ -69,7 +95,7 @@ const Articles = ({
         actionBlock={
           <Dropdown
             buttonStyle="secondary"
-            closeOnSelect={false}
+            disabled={checkedArticles.length === 0}
             label="Move to"
           >
             <div className="flex flex-col gap-y-1 rounded-md p-2">
@@ -85,7 +111,12 @@ const Articles = ({
                 <Menu className="flex flex-col gap-y-1">
                   {getCategoriesTitleFromCategories(categories).map(
                     ({ title, id }) => (
-                      <MenuItem.Button key={id}>{title}</MenuItem.Button>
+                      <MenuItem.Button
+                        key={id}
+                        onClick={() => handleCategoryChange(id)}
+                      >
+                        {title}
+                      </MenuItem.Button>
                     )
                   )}
                 </Menu>
@@ -113,9 +144,11 @@ const Articles = ({
       {articles.length > 0 ? (
         <DragAndDrop
           articles={articles}
-          category={category}
+          checkedArticles={checkedArticles}
           fetchCategories={fetchCategories}
+          selectedCategory={selectedCategory}
           setArticles={setArticles}
+          setCheckedArticles={setCheckedArticles}
           userName={user.name}
         />
       ) : (

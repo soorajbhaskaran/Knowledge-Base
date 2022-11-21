@@ -42,6 +42,13 @@ class API::ArticlesController < ApplicationController
     end
   end
 
+  def change_category
+    params[:articles_ids].each do |article_id|
+      current_user.articles.find(article_id).update!(category_id: params[:category_id])
+    end
+    respond_with_success(t("successfully_updated", entity: "Article"))
+  end
+
   private
 
     def article_params
