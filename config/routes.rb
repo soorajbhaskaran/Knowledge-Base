@@ -7,6 +7,7 @@ Rails.application.routes.draw do
         collection do
           post :filter
           patch :sort
+          patch :change_category
         end
       end
       resources :categories, except: %i[new edit show] do

@@ -12,10 +12,13 @@ const Article = ({
   content,
   innerRef,
   provided,
+  id,
   userName,
   createdAt,
   publishedDate,
-  category,
+  selectedCategory,
+  checkedArticles,
+  handleCheckedColumn,
 }) => (
   <div
     className="border mb-4 border-gray-200 bg-white p-3 hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
@@ -23,7 +26,11 @@ const Article = ({
     {...provided.draggableProps}
     {...provided.dragHandleProps}
   >
-    <Checkbox checked id="checked" onChange={() => {}} />
+    <Checkbox
+      checked={checkedArticles.includes(id)}
+      id="checked"
+      onChange={() => handleCheckedColumn(id)}
+    />
     <Typography className="mt-2" component="h4" style="h4">
       {title}
     </Typography>
@@ -38,7 +45,7 @@ const Article = ({
     <div className="flex justify-between">
       <Button
         className="pointer-events-none rounded-md border-solid border-gray-200 text-xs font-light"
-        label={category.title}
+        label={selectedCategory.title}
         size="medium"
         style="text"
         type="button"
@@ -69,7 +76,7 @@ const Article = ({
         <Typography
           style="body3"
           className={classnames("mx-2 rounded-xl p-1", {
-            "bg-indigo-100": status === "published",
+            "bg-yellow-100": status === "published",
             "bg-red-100": status === "draft",
           })}
         >

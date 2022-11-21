@@ -12,7 +12,7 @@ import Category from "./Category";
 import DeleteAlert from "./DeleteAlert";
 import Pane from "./Pane";
 
-import { getArticlesOrderByPosition } from "../../utils";
+import { getArticlesOrderedByPosition } from "../utils";
 
 const Categories = ({
   categories,
@@ -155,7 +155,7 @@ const renderDragAndDrop = ({
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    setArticles(getArticlesOrderByPosition(category.articles));
+    setArticles(getArticlesOrderedByPosition(category.articles));
   };
 
   return (

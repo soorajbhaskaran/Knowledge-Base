@@ -11,7 +11,9 @@ const DragAndDrop = ({
   setArticles,
   fetchCategories,
   userName,
-  category,
+  selectedCategory,
+  checkedArticles,
+  setCheckedArticles,
 }) => {
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -34,6 +36,14 @@ const DragAndDrop = ({
     }
   };
 
+  const handleCheckedColumn = (id) => {
+    if (checkedArticles.includes(id)) {
+      setCheckedArticles(checkedArticles.filter((item) => item !== id));
+    } else {
+      setCheckedArticles([...checkedArticles, id]);
+    }
+  };
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="articles">
@@ -51,14 +61,16 @@ const DragAndDrop = ({
                 <Draggable draggableId={id} index={index} key={id}>
                   {(provided) => (
                     <Article
-                      category={category}
+                      checkedArticles={checkedArticles}
                       content={content}
                       createdAt={created_at}
+                      handleCheckedColumn={handleCheckedColumn}
                       id={id}
                       innerRef={provided.innerRef}
                       key={id}
                       provided={provided}
                       publishedDate={published_date}
+                      selectedCategory={selectedCategory}
                       status={status}
                       title={title}
                       userName={userName}

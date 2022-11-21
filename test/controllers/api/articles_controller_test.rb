@@ -79,4 +79,13 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     patch sort_api_articles_path, params: { articles: articles }, headers: @headers
     assert_equal @article.reload.position, 2
   end
+
+  def test_changing_category_of_articles
+    article1 = create(:article, title: "Test article 1", author: @author, category: @category)
+    articles_ids = [article1.id, @article.id]
+    patch change_category_api_articles_path, params: { articles_ids: articles_ids, category_id: @category.id },
+      headers: @headers
+    assert_response :success
+    assert_equal @article.reload.category_id, @category.id
+  end
 end
