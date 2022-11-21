@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
 import { Plus } from "neetoicons";
-import { Button } from "neetoui";
+import { Button, Tooltip } from "neetoui";
 import { Header } from "neetoui/layouts";
+import PropTypes from "prop-types";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { buildSelectOptions } from "utils";
 
@@ -86,13 +87,15 @@ const Categories = ({
     <div className="w-full border-r-2 pr-2 pl-6">
       <Header
         className="mb-0"
-        title="Manage Categories"
+        title="Manage categories"
         actionBlock={
-          <Button
-            icon={Plus}
-            style="secondary"
-            onClick={() => setShowPane(true)}
-          />
+          <Tooltip content="Create new category" position="top">
+            <Button
+              icon={Plus}
+              style="secondary"
+              onClick={() => setShowPane(true)}
+            />
+          </Tooltip>
         }
       />
       {renderDragAndDrop({
@@ -191,6 +194,15 @@ const renderDragAndDrop = ({
       </Droppable>
     </DragDropContext>
   );
+};
+
+Categories.propTypes = {
+  categories: PropTypes.array,
+  setCategories: PropTypes.func,
+  fetchCategories: PropTypes.func,
+  selectedCategory: PropTypes.object,
+  setSelectedCategory: PropTypes.func,
+  setArticles: PropTypes.func,
 };
 
 export default Categories;

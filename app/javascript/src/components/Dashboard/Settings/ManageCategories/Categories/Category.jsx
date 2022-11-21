@@ -60,6 +60,11 @@ Category.propTypes = {
   refetch: PropTypes.func,
   innerRef: PropTypes.func,
   provided: PropTypes.object,
+  active: PropTypes.bool,
+  clicked: PropTypes.func,
+  handleDeleteButton: PropTypes.func,
+  handleEditButton: PropTypes.func,
+  articlesCount: PropTypes.number,
 };
 
 export default Category;

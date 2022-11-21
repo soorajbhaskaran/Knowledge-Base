@@ -13,5 +13,16 @@ export const getArticlesOrderedByPosition = (articles) => {
   return articlesList.sort((a, b) => a.position - b.position);
 };
 
-export const getCategoriesTitleFromCategories = (categories) =>
-  categories.map((category) => ({ id: category.id, title: category.title }));
+export const getCategoriesTitleFromCategories = ({
+  categories,
+  selectedCategoryId,
+}) => {
+  const filteredCategories = categories.filter(
+    (category) => category.id !== selectedCategoryId
+  );
+
+  return filteredCategories.map((category) => ({
+    id: category.id,
+    title: category.title,
+  }));
+};

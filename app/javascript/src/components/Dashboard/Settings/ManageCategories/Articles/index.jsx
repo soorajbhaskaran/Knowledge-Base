@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Search } from "neetoicons";
 import { Typography, Dropdown, Input } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
+import PropTypes from "prop-types";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
@@ -91,7 +92,7 @@ const Articles = ({
   return (
     <Container>
       <Header
-        title="Manage Articles"
+        title="Manage articles"
         actionBlock={
           <Dropdown
             buttonStyle="secondary"
@@ -109,16 +110,17 @@ const Articles = ({
               <Typography style="body3">Results</Typography>
               {categories.length > 0 ? (
                 <Menu className="flex flex-col gap-y-1">
-                  {getCategoriesTitleFromCategories(categories).map(
-                    ({ title, id }) => (
-                      <MenuItem.Button
-                        key={id}
-                        onClick={() => handleCategoryChange(id)}
-                      >
-                        {title}
-                      </MenuItem.Button>
-                    )
-                  )}
+                  {getCategoriesTitleFromCategories({
+                    categories,
+                    selectedCategoryId: selectedCategory.id,
+                  }).map(({ title, id }) => (
+                    <MenuItem.Button
+                      key={id}
+                      onClick={() => handleCategoryChange(id)}
+                    >
+                      {title}
+                    </MenuItem.Button>
+                  ))}
                 </Menu>
               ) : (
                 <Typography style="body3">No results found</Typography>
@@ -168,6 +170,14 @@ const Articles = ({
   );
 };
 
-Articles.propTypes = {};
+Articles.propTypes = {
+  articles: PropTypes.array,
+  categoriesList: PropTypes.array,
+  fetchCategories: PropTypes.func,
+  selectedCategory: PropTypes.object,
+  searchTerm: PropTypes.string,
+  setArticles: PropTypes.func,
+  setSearchTerm: PropTypes.func,
+};
 
 export default Articles;
