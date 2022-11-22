@@ -14,12 +14,6 @@ const Pane = ({
 }) => {
   const [submitted, setSubmitted] = useState(false);
 
-  const handleOnKeyUp = (e, values) => {
-    if (e.key === "Enter") {
-      handleSubmit(values);
-    }
-  };
-
   return (
     <Formik
       enableReinitialize
@@ -28,7 +22,7 @@ const Pane = ({
       validateOnChange={submitted}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, values }) => (
+      {({ isSubmitting }) => (
         <NeetoUIPane isOpen={showPane} onClose={() => setShowPane(false)}>
           <NeetoUIPane.Header>
             <Typography style="h2" weight="semibold">
@@ -44,7 +38,6 @@ const Pane = ({
                 label="Category title"
                 name="title"
                 placeholder="Enter category title"
-                onKeyUp={(e) => handleOnKeyUp(e, values)}
               />
             </NeetoUIPane.Body>
             <NeetoUIPane.Footer>
