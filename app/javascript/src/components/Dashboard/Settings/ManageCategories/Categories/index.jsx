@@ -38,7 +38,8 @@ const Categories = ({
   const handleEditCategory = async ({ id, payload }) => {
     try {
       await categoriesApi.update({ id, payload });
-      fetchCategories({ isFirstFetch: false });
+      const categories = await fetchCategories({ isFirstFetch: false });
+      setSelectedCategory(categories.find((category) => category.id === id));
     } catch (error) {
       logger.error(error);
     }

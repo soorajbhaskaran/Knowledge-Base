@@ -2,7 +2,7 @@ import React from "react";
 
 import classnames from "classnames";
 import { Clock } from "neetoicons";
-import { Button, Avatar, Tooltip, Typography, Checkbox } from "neetoui";
+import { Avatar, Tooltip, Typography, Checkbox } from "neetoui";
 import PropTypes from "prop-types";
 
 import { formatDateRelativeToNow, formatDateWithDayAndTime } from "../utils";
@@ -43,14 +43,10 @@ const Article = ({
       {content}
     </Typography>
     <hr className="solid mt-3 mb-3" />
-    <div className="flex justify-between">
-      <Button
-        className="pointer-events-none rounded-md border-solid border-gray-200 text-xs font-light"
-        label={selectedCategory.title}
-        size="medium"
-        style="text"
-        type="button"
-      />
+    <div className="flex items-center justify-between">
+      <Typography className="border rounded-md border-solid border-gray-200 p-2 text-xs font-light">
+        {selectedCategory.title}
+      </Typography>
       <div className="flex items-center">
         <Clock color="#1e1e20" size={20} />
         <Tooltip
@@ -76,9 +72,9 @@ const Article = ({
         />
         <Typography
           style="body3"
-          className={classnames("mx-2 rounded-xl p-1", {
-            "bg-yellow-100": status === "published",
-            "bg-red-100": status === "draft",
+          className={classnames("border mx-2 rounded-md p-2", {
+            "border-yellow-200 bg-yellow-100": status === "published",
+            "border-red-200 bg-red-100": status === "draft",
           })}
         >
           {status}

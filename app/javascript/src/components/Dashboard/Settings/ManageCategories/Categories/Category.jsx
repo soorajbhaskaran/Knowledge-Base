@@ -14,7 +14,7 @@ const Category = ({
   innerRef,
   active,
   provided,
-  clicked,
+  onClick,
   handleDeleteButton,
   handleEditButton,
 }) => (
@@ -30,7 +30,7 @@ const Category = ({
           "bg-gray-200": active,
         }
       )}
-      onClick={clicked}
+      onClick={onClick}
     >
       <div>
         <Typography component="h4" style="h4">
