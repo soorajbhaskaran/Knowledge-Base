@@ -57,13 +57,13 @@ const ManageCategories = () => {
           selectedCategory={selectedCategory}
           setArticles={setArticles}
           setCategories={setCategories}
+          setSearchTerm={setSearchTerm}
           setSelectedCategory={setSelectedCategory}
         />
       </div>
       <div className="w-2/3">
         <Articles
           articles={articles}
-          categoriesList={categories}
           fetchCategories={fetchCategories}
           searchTerm={searchTerm}
           selectedCategory={selectedCategory}

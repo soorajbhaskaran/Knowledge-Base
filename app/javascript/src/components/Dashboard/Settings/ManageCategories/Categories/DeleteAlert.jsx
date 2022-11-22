@@ -63,7 +63,7 @@ const DeleteAlert = ({
                 options={updatedSelectOptions}
                 placeholder="Choose category"
                 defaultValue={{
-                  value: "jdlkdf",
+                  value: "general12345",
                   label: "General",
                 }}
               />
@@ -73,8 +73,8 @@ const DeleteAlert = ({
                   style="danger"
                 >
                   <Typography className="ml-2" style="body2">
-                    Since there are no availale categories, the articles will be
-                    moved into <strong>General</strong> category
+                    Since there are no available categories, the articles will
+                    be moved into <strong>General</strong> category
                   </Typography>
                 </Callout>
               )}

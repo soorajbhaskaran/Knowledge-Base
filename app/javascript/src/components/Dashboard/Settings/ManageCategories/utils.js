@@ -7,10 +7,10 @@ const formatDateWithDayAndTime = (dateTime) =>
 export { formatDateRelativeToNow, formatDateWithDayAndTime };
 
 export const getArticlesOrderedByPosition = (articles) => {
-  let articlesList = articles.published.map((article) => article);
-  articlesList = articlesList.concat(articles.draft.map((article) => article));
+  let articleList = articles.published.map((article) => article);
+  articleList = articleList.concat(articles.draft.map((article) => article));
 
-  return articlesList.sort((a, b) => a.position - b.position);
+  return articleList.sort((a, b) => a.position - b.position);
 };
 
 export const getCategoriesTitleFromCategories = ({

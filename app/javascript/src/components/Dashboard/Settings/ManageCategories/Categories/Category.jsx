@@ -40,17 +40,19 @@ const Category = ({
           {articlesCount} articles
         </Typography>
       </div>
-      <Dropdown buttonStyle="text" icon={MenuVertical}>
-        <MenuItem.Button onClick={() => handleEditButton(title)}>
-          Edit
-        </MenuItem.Button>
-        <MenuItem.Button
-          style="danger"
-          onClick={() => handleDeleteButton({ id, articlesCount, title })}
-        >
-          Delete
-        </MenuItem.Button>
-      </Dropdown>
+      {title.toLowerCase() !== "general" && (
+        <Dropdown buttonStyle="text" icon={MenuVertical}>
+          <MenuItem.Button onClick={() => handleEditButton(title)}>
+            Edit
+          </MenuItem.Button>
+          <MenuItem.Button
+            style="danger"
+            onClick={() => handleDeleteButton({ id, articlesCount, title })}
+          >
+            Delete
+          </MenuItem.Button>
+        </Dropdown>
+      )}
     </div>
   </div>
 );
