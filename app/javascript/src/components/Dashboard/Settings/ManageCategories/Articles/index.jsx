@@ -22,13 +22,12 @@ const { Menu, MenuItem } = Dropdown;
 const Articles = ({
   articles,
   setArticles,
-  categoriesList,
   fetchCategories,
   searchTerm,
   setSearchTerm,
   selectedCategory,
 }) => {
-  const [categories, setCategories] = useState(categoriesList);
+  const [categories, setCategories] = useState([]);
   const [user, setUser] = useState({});
   const [checkedArticles, setCheckedArticles] = useState([]);
 
@@ -65,29 +64,37 @@ const Articles = ({
   };
 
   const handleCategoryChange = async (id) => {
-    if (id !== selectedCategory.id) {
-      try {
-        await articlesApi.changeCategory({
-          articles_ids: checkedArticles,
-          category_id: id,
-        });
-        const categories = await fetchCategories({ isFirstFetch: false });
-        setArticles(
-          getArticlesOrderedByPosition(
-            categories.find((category) => category.id === selectedCategory.id)
-              .articles
-          )
-        );
-      } catch (error) {
-        logger.error(error);
-      }
+    try {
+      await articlesApi.changeCategory({
+        articles_ids: checkedArticles,
+        category_id: id,
+      });
+      const categories = await fetchCategories({ isFirstFetch: false });
+      setArticles(
+        getArticlesOrderedByPosition(
+          categories.find((category) => category.id === selectedCategory.id)
+            .articles
+        )
+      );
+    } catch (error) {
+      logger.error(error);
     }
+
     setCheckedArticles([]);
+  };
+
+  const resetCategoriesOnChangingSelectedCategory = async () => {
+    const categories = await fetchCategories({ isFirstFetch: false });
+    setCategories(categories);
   };
 
   useEffect(() => {
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    resetCategoriesOnChangingSelectedCategory();
+  }, [selectedCategory]);
 
   return (
     <Container>
@@ -172,7 +179,6 @@ const Articles = ({
 
 Articles.propTypes = {
   articles: PropTypes.array,
-  categoriesList: PropTypes.array,
   fetchCategories: PropTypes.func,
   selectedCategory: PropTypes.object,
   searchTerm: PropTypes.string,
