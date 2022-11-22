@@ -24,7 +24,7 @@ export const SETTINGS_NAVLINKS = [
   },
   {
     key: "manage-categories",
-    label: "Manage Categories",
+    label: "Manage categories",
     icon: Seo,
     description: "Edit and reorder KB structure",
     path: "/admin/settings?tab=manage-categories",

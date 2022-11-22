@@ -60,7 +60,6 @@ export const buildArticleColumnData = ({
   [
     {
       dataIndex: "title",
-      align: "center",
       key: "title",
       title: "TITLE",
       hidden: !checkedColumns.title,
@@ -76,7 +75,6 @@ export const buildArticleColumnData = ({
     },
     {
       dataIndex: "date",
-      align: "center",
       hidden: !checkedColumns.date,
       key: "date",
       title: "PUBLISHED DATE",
@@ -90,21 +88,18 @@ export const buildArticleColumnData = ({
       dataIndex: "author",
       hidden: !checkedColumns.author,
       key: "author",
-      align: "center",
       title: "AUTHOR",
     },
     {
       dataIndex: "category",
       hidden: !checkedColumns.category,
       key: "category",
-      align: "center",
       title: "CATEGORY",
     },
     {
       dataIndex: "status",
       hidden: !checkedColumns.status,
       key: "status",
-      align: "center",
       title: "STATUS",
     },
     {

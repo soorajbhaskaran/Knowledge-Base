@@ -60,7 +60,6 @@ const DragAndDrop = ({
                   <Category
                     active={selectedCategory.id === category.id}
                     articlesCount={category.articles_count}
-                    clicked={() => handleCategoryClick(category)}
                     handleDeleteButton={handleDeleteButton}
                     handleEditButton={handleEditButton}
                     id={category.id}
@@ -68,6 +67,7 @@ const DragAndDrop = ({
                     key={category.id}
                     provided={provided}
                     title={category.title}
+                    onClick={() => handleCategoryClick(category)}
                   />
                 )}
               </Draggable>
