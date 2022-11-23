@@ -35,11 +35,7 @@ const Article = ({
     <Typography className="mt-2" component="h4" style="h4">
       {title}
     </Typography>
-    <Typography
-      className="text-ellipsis h-10 overflow-hidden"
-      component="p"
-      style="body2"
-    >
+    <Typography className="line-clamp" component="p" style="body2">
       {content}
     </Typography>
     <hr className="solid mt-3 mb-3" />
