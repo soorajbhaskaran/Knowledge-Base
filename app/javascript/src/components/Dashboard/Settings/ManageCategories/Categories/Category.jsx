@@ -63,7 +63,7 @@ Category.propTypes = {
   innerRef: PropTypes.func,
   provided: PropTypes.object,
   active: PropTypes.bool,
-  clicked: PropTypes.func,
+  onClick: PropTypes.func,
   handleDeleteButton: PropTypes.func,
   handleEditButton: PropTypes.func,
   articlesCount: PropTypes.number,
