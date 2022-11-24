@@ -3,6 +3,11 @@
 class API::Public::ArticlesController < ApplicationController
   before_action :load_article!, :check_password_presence, only: [:show]
 
+  def index
+    @published_articles = Article.where(status: "published")
+    @published_articles = @published_articles.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
+  end
+
   def show
     render
   end
