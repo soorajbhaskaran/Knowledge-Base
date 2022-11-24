@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Typography, Callout, PageLoader } from "neetoui";
+import { Typography, PageLoader } from "neetoui";
 import { useParams, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/public/articles";
@@ -51,16 +51,22 @@ const Article = ({ history }) => {
 
   return (
     <div className="mt-4 w-3/4">
-      <Typography className="mb-4 tracking-wider" component="h2" style="h2">
+      <Typography className="mb-4 text-3xl font-bold" component="h2" style="h2">
         {article.title}
       </Typography>
       <div className="flex items-center">
-        <Callout style="info">{article.category}</Callout>
-        <Typography className="ml-4 text-gray-600" component="p" style="body1">
+        <Typography className="border rounded-lg border-blue-400 bg-blue-200 p-1 font-bold">
+          {article.category}
+        </Typography>
+        <Typography className="ml-4 text-gray-600" component="h4" style="h4">
           {new Date(article.published_date).toDateString()}
         </Typography>
       </div>
-      <Typography className="mt-10 pr-16 leading-7" component="p" style="body1">
+      <Typography
+        className="mt-10 pr-16 leading-7 "
+        component="p"
+        style="body1"
+      >
         {article.content}
       </Typography>
     </div>

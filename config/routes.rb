@@ -21,7 +21,7 @@ Rails.application.routes.draw do
       namespace :public do
         resources :categories, only: %i[index]
         resource :session, only: %i[create]
-        resources :articles, only: %i[show], param: :slug
+        resources :articles, only: %i[show index], param: :slug
       end
     end
   end

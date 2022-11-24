@@ -6,6 +6,7 @@ module.exports = {
       apis: "src/apis",
       utils: "src/utils",
       common: "src/common",
+      hooks: "src/hooks",
       lib: "src/lib",
       components: "src/components",
       neetoui: "@bigbinary/neetoui",

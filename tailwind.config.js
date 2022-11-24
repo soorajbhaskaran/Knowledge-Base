@@ -35,5 +35,7 @@ module.exports = {
   },
   variants: {
     borderWidth: ["last"],
+    textColor: ["responsive", "hover", "focus", "group-hover"],
+    backgroundColor: ["responsive", "hover", "focus", "group-hover"],
   },
 };
