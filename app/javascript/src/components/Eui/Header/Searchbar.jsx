@@ -14,12 +14,12 @@ import Card from "./Card";
 const Searchbar = ({ showModal, setShowModal, history }) => {
   const [articles, setArticles] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [cursor, setCursor] = useState(0);
+  const [hovered, setHovered] = useState(undefined);
   const downPress = useKeyPress("ArrowDown");
   const upPress = useKeyPress("ArrowUp");
   const enterPress = useKeyPress("Enter");
   const escapePress = useKeyPress("Escape");
-  const [cursor, setCursor] = useState(0);
-  const [hovered, setHovered] = useState(undefined);
 
   const fetchArticles = async ({ event = null }) => {
     try {

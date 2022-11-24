@@ -13,7 +13,6 @@ const Header = ({ title }) => {
       <Input
         className="top-2 relative ml-4 w-1/4 max-w-xs"
         placeholder="Search for article title"
-        onChange={() => setShowModal(true)}
         onFocus={() => setShowModal(true)}
       />
       <Typography
