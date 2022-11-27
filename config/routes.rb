@@ -16,6 +16,11 @@ Rails.application.routes.draw do
         end
       end
       resources :redirections, except: %i[new edit show]
+      resources :versions, only: %i[index show] do
+        member do
+          patch :restore
+        end
+      end
       resource :organization, only: %i[update create show]
       resource :user, only: %i[update show]
       namespace :public do

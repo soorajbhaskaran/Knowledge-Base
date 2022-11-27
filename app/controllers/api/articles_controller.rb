@@ -52,7 +52,7 @@ class API::ArticlesController < ApplicationController
   private
 
     def article_params
-      params.require(:article).permit(:title, :content, :category_id, :status)
+      params.require(:article).permit(:title, :content, :category_id, :status, :restored_from).merge(restored_from: nil)
     end
 
     def load_article!

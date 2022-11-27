@@ -7,6 +7,7 @@ class Article < ApplicationRecord
   belongs_to :category, counter_cache: true, foreign_key: "category_id", class_name: "Category"
   belongs_to :author, foreign_key: "author_id", class_name: "User"
   acts_as_list scope: :category
+  has_paper_trail on: [:update], ignore: [:position]
 
   enum status: { draft: "draft", published: "published" }
 
