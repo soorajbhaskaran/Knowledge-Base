@@ -1,6 +1,6 @@
 import Articles from "components/Dashboard/Articles";
-import Create from "components/Dashboard/Articles/NewArticle/Create";
-import Edit from "components/Dashboard/Articles/NewArticle/Edit";
+import Create from "components/Dashboard/Articles/Article/Create";
+import Edit from "components/Dashboard/Articles/Article/Edit";
 import Settings from "components/Dashboard/Settings";
 
 export const DASHBOARD_PATH = "/admin";

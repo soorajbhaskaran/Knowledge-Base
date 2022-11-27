@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_18_191023) do
+ActiveRecord::Schema.define(version: 2022_11_25_091439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2022_11_18_191023) do
     t.string "slug"
     t.datetime "published_date"
     t.integer "position", default: 0
+    t.integer "restored_from"
     t.index ["category_id"], name: "index_articles_on_category_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
@@ -73,6 +74,17 @@ ActiveRecord::Schema.define(version: 2022_11_18_191023) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "info", default: true
     t.index ["email"], name: "index_users_on_email"
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.string "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.jsonb "object"
+    t.jsonb "object_changes"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   add_foreign_key "articles", "categories"

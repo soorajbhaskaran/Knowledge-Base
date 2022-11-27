@@ -22,6 +22,7 @@ gem "responders"
 gem "acts_as_list"
 gem "bcrypt", "~> 3.1.13"
 gem "minitest-bisect"
+gem "paper_trail"
 gem "react-rails"
 gem "simplecov", require: false, group: :test
 gem "uglifier"

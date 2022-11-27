@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 
+import { PageLoader } from "neetoui";
 import PropTypes from "prop-types";
 import queryString from "query-string";
 import { buildSelectOptions } from "utils";
 
 import articlesApi from "apis/articles";
+import versionsApi from "apis/versions";
 
+import Article from "./Article";
 import Form from "./Form";
 
 const Edit = ({ location, history }) => {
   const [article, setArticle] = useState({});
+  const [versions, setVersions] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { status } = queryString.parse(location.search);
   const { id } = location.state;
 
@@ -19,12 +24,20 @@ const Edit = ({ location, history }) => {
         data: { article },
       } = await articlesApi.show(id);
       setArticle({
-        id: article.id,
-        slug: article.slug || "",
-        title: article.title,
-        content: article.content,
+        ...article,
         category: { ...buildSelectOptions([article.category])[0] },
       });
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const fetchVersions = async () => {
+    try {
+      const {
+        data: { versions },
+      } = await versionsApi.fetch(id);
+      setVersions(versions);
     } catch (error) {
       logger.error(error);
     }
@@ -42,22 +55,42 @@ const Edit = ({ location, history }) => {
       logger.error(error);
     }
   };
+
+  const loadArticle = async () => {
+    setLoading(true);
+    await Promise.all([fetchArticle(), fetchVersions()]);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    fetchArticle();
+    loadArticle();
   }, []);
 
+  if (loading) {
+    return <PageLoader />;
+  }
+
   return (
-    <Form
+    <Article
       isEdit
-      currentStatus={status}
-      handleSubmit={handleEditArticle}
-      initialArticleValue={article}
-      newStatus={status === "published" ? "draft" : "published"}
-    />
+      article={article}
+      fetchArticle={fetchArticle}
+      fetchVersions={fetchVersions}
+      versions={versions}
+    >
+      <Form
+        isEdit
+        currentStatus={status}
+        handleSubmit={handleEditArticle}
+        initialArticleValue={article}
+        newStatus={status === "published" ? "draft" : "published"}
+      />
+    </Article>
   );
 };
 Edit.propTypes = {
   location: PropTypes.object,
+  history: PropTypes.object,
 };
 
 export default Edit;

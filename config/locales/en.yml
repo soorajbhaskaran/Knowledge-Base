@@ -36,6 +36,7 @@ en:
   successfully_created: "%{entity} was successfully created!"
   successfully_updated: "%{entity} was successfully updated!"
   successfully_deleted: "%{entity} was successfully deleted!"
+  successfully_restored: "%{entity} was successfully restored!"
   not_found: "Couldn't find %{entity}"
   article:
     slug:
