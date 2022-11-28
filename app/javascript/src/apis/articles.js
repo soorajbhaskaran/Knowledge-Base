@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const fetch = ({ status = "", query = "", categoriesIds = [] }) =>
+const fetch = ({ status = "", query = "", categoriesIds = [], page = 1 }) =>
   axios.get(
-    `/articles?status=${status}&query=${query}&categories_ids=${JSON.stringify(
+    `/articles/page/${page}?status=${status}&query=${query}&categories_ids=${JSON.stringify(
       categoriesIds
     )}`
   );

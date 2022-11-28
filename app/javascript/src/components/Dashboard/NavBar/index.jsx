@@ -22,6 +22,7 @@ const NavBar = () => (
             </Link>
             <NavItem name="Articles" path="/admin/articles" />
             <NavItem name="Settings" path="/admin/settings?tab=general" />
+            <NavItem name="Analytics" path="/admin/analytics" />
           </div>
         </div>
         <div className="flex items-center justify-end gap-x-4">

@@ -3,23 +3,20 @@
 Rails.application.routes.draw do
   constraints(lambda { |req| req.format == :json }) do
     namespace :api do
-      resources :articles, except: %i[new edit] do
+      resources :articles, except: %i[new edit index] do
         collection do
           post :filter
           patch :sort
           patch :change_category
+          get "page/:page", action: :index
         end
       end
       resources :categories, except: %i[new edit show] do
-        collection do
-          patch :sort
-        end
+        patch :sort, on: :collection
       end
       resources :redirections, except: %i[new edit show]
       resources :versions, only: %i[index show] do
-        member do
-          patch :restore
-        end
+        patch :restore, on: :member
       end
       resource :organization, only: %i[update create show]
       resource :user, only: %i[update show]

@@ -6,10 +6,10 @@ class API::ArticlesController < ApplicationController
   before_action :load_article!, only: %i[update show destroy]
 
   def index
-    @articles = current_user.articles.includes(:category).where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
+    @articles = current_user.articles.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
     params[:status].present? && @articles = @articles.where(status: params[:status])
     params[:categories_ids].present? && categories_ids = JSON.parse(params[:categories_ids])
-    categories_ids.present? && @articles = @articles.select { |article| categories_ids.include?(article.category_id) }
+    categories_ids.present? && @articles = @articles.where(category_id: categories_ids)
   end
 
   def create
