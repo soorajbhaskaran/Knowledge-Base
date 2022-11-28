@@ -37,4 +37,17 @@ class API::Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_public_article_path(@article.slug), headers: headers(@organization.reload, "X-Auth-Token" => "invalid")
     assert_response :unauthorized
   end
+
+  def test_visits_count_should_be_incremented_when_user_access_article
+    assert_difference "@article.reload.visits", 1 do
+      get api_public_article_path(@article.slug), headers: @headers
+    end
+  end
+
+  def test_searching_article_based_on_title
+    get api_public_articles_path, params: { query: @article.title }, headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["articles"].length, 1
+  end
 end
