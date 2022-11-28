@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class OrganizationsControllerTest < ActionDispatch::IntegrationTest
+class API::OrganizationsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization)
     @author = create(:user, organization: @organization)

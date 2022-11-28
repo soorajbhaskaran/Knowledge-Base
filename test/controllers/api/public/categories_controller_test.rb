@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
+class API::Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization, password: "password12345")
     @author = create(:user, organization: @organization)

@@ -3,7 +3,7 @@
 require "test_helper"
 require "json"
 
-class ArticlesControllerTest < ActionDispatch::IntegrationTest
+class API::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization)
     @author = create(:user, organization: @organization)
