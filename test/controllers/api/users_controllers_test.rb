@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
-class UsersControllerTest < ActionDispatch::IntegrationTest
+class API::UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization)
     @user = create(:user, organization: @organization)

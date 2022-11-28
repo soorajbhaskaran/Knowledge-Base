@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Public::SessionsControllerTest < ActionDispatch::IntegrationTest
+class API::Public::SessionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @current_organization = create(:organization, password: "password12345", is_password_protection_enabled: true)
     @headers = headers(@current_organization)

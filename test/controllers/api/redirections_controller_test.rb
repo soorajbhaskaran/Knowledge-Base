@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class RedirectionsControllerTest < ActionDispatch::IntegrationTest
+class API::RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization)
     @author = create(:user, organization: @organization)
