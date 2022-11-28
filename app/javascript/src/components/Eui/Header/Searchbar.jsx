@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import { useKeyPress, useDebounce } from "hooks";
 import { Search } from "neetoicons";
 import { Input, Typography } from "neetoui";
 import PropTypes from "prop-types";
@@ -7,7 +8,6 @@ import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/public/articles";
 import Backdrop from "components/Common/Backdrop";
-import { useKeyPress } from "hooks/useKeyPress";
 
 import Card from "./Card";
 
@@ -21,27 +21,22 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
   const enterPress = useKeyPress("Enter");
   const escapePress = useKeyPress("Escape");
 
-  const fetchArticles = async ({ event = null }) => {
+  const fetchArticles = async () => {
     try {
       const {
         data: { articles },
-      } = await articlesApi.fetch(event ? { query: event.target.value } : {});
+      } = await articlesApi.fetch({ query: searchTerm });
       setArticles(articles);
     } catch (error) {
       logger.error(error);
     }
   };
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-    fetchArticles({ event });
-  };
-
   const handleArticleClick = (article) => {
     setShowModal(false);
     setCursor(0);
     setSearchTerm("");
-    fetchArticles({});
+    fetchArticles();
     history.push(`/public/articles/${article.slug}`);
   };
 
@@ -77,8 +72,10 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
   }, [escapePress]);
 
   useEffect(() => {
-    fetchArticles({});
+    fetchArticles();
   }, []);
+
+  useDebounce(searchTerm, fetchArticles);
 
   return (
     <Backdrop setShowModal={setShowModal} showModal={showModal}>
@@ -90,7 +87,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
         size="large"
         style={{ fontWeight: "bold", fontSize: "1.2rem" }}
         value={searchTerm}
-        onChange={(event) => handleSearch(event)}
+        onChange={(event) => setSearchTerm(event.target.value)}
         onKeyDown={(event) => handleKeyDown(event)}
       />
       <div className="mt-2 items-center justify-center rounded-sm bg-white py-2">
