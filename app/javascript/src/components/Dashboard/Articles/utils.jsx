@@ -30,21 +30,24 @@ export const buildValidationSchemaForArticles = (categories) =>
     content: yup.string().required("Content is required"),
   });
 
-export const buildArticleStatusTabsWithCount = (articles) => [
+export const buildArticleStatusTabsWithCount = (
+  published_articles,
+  drafted_articles
+) => [
   {
     label: "All",
     value: "all",
-    count: articles.length,
+    count: published_articles + drafted_articles,
   },
   {
     label: "Published",
     value: "published",
-    count: articles.filter((article) => article.status === "published").length,
+    count: published_articles,
   },
   {
     label: "Draft",
     value: "draft",
-    count: articles.filter((article) => article.status === "draft").length,
+    count: drafted_articles,
   },
 ];
 
@@ -140,4 +143,12 @@ export const getArticlesCountFromCategoryBasedOnStatus = (category, status) => {
   }
 
   return category.articles_count;
+};
+
+export const getArticlesCountFromStatus = (articleStatusTabs, status) => {
+  if (status) {
+    return articleStatusTabs.find((tab) => tab.value === status).count;
+  }
+
+  return articleStatusTabs[0].count;
 };

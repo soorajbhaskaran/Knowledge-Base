@@ -21,6 +21,7 @@ gem "responders"
 # Build react components
 gem "acts_as_list"
 gem "bcrypt", "~> 3.1.13"
+gem "kaminari"
 gem "minitest-bisect"
 gem "paper_trail"
 gem "react-rails"

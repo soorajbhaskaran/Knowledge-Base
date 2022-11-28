@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
-  MAX_ARTICLE_TITLE_LENGTH = 25
+  MAX_ARTICLE_TITLE_LENGTH = 50
   MAX_ARTICLE_CONTENT_LENGTH = 1000
 
   belongs_to :category, counter_cache: true, foreign_key: "category_id", class_name: "Category"
   belongs_to :author, foreign_key: "author_id", class_name: "User"
   acts_as_list scope: :category
   has_paper_trail on: [:update], ignore: [:position]
+  paginates_per 9
 
   enum status: { draft: "draft", published: "published" }
 

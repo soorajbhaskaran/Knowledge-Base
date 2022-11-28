@@ -12,7 +12,10 @@ import EmptyArticleList from "images/EmptyArticleList";
 import Header from "./Header";
 import MenuBar from "./Menu";
 import Table from "./Table";
-import { buildArticleStatusTabsWithCount } from "./utils";
+import {
+  buildArticleStatusTabsWithCount,
+  getArticlesCountFromStatus,
+} from "./utils";
 
 const Articles = ({ history }) => {
   const [checkedColumns, setCheckedColumns] = useState({
@@ -34,10 +37,12 @@ const Articles = ({ history }) => {
     setLoading(true);
     try {
       const {
-        data: { articles },
+        data: { articles, published_articles, draft_articles },
       } = await articlesApi.fetch({ status });
       setArticles(articles);
-      setArticleStatusTabs(buildArticleStatusTabsWithCount(articles));
+      setArticleStatusTabs(
+        buildArticleStatusTabsWithCount(published_articles, draft_articles)
+      );
     } catch (error) {
       logger.error(error);
     } finally {
@@ -86,6 +91,10 @@ const Articles = ({ history }) => {
               articles={articles}
               checkedColumns={checkedColumns}
               refetch={fetchArticles}
+              totalRecords={getArticlesCountFromStatus(
+                articleStatusTabs,
+                status
+              )}
             />
           </>
         ) : (
