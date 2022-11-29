@@ -2,15 +2,12 @@
 
 class Article < ApplicationRecord
   MAX_ARTICLE_TITLE_LENGTH = 50
-  MAX_ARTICLE_CONTENT_LENGTH = 1000
+  MAX_ARTICLE_CONTENT_LENGTH = 10000
+
+  enum status: { draft: "draft", published: "published" }
 
   belongs_to :category, counter_cache: true, foreign_key: "category_id", class_name: "Category"
   belongs_to :author, foreign_key: "author_id", class_name: "User"
-  acts_as_list scope: :category
-  has_paper_trail on: [:update], ignore: [:position]
-  paginates_per 9
-
-  enum status: { draft: "draft", published: "published" }
 
   validates :title, presence: true, length: { maximum: MAX_ARTICLE_TITLE_LENGTH }
   validates :content, presence: true, length: { maximum: MAX_ARTICLE_CONTENT_LENGTH }
@@ -19,6 +16,10 @@ class Article < ApplicationRecord
 
   before_create :update_published_date_when_status_changes_to_published, :set_slug_if_article_is_published
   before_update :update_published_date_when_status_changes_to_published, :set_slug_if_article_is_published
+
+  acts_as_list scope: :category
+  has_paper_trail on: [:update], ignore: [:position]
+  paginates_per 9
 
   private
 
