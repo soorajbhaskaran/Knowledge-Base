@@ -14,6 +14,8 @@ const Table = ({
   checkedColumns,
   history,
   totalRecords,
+  pageNo,
+  setPageNo,
 }) => {
   const handleEditButton = (identifier, status, id) => {
     history.push({
@@ -29,6 +31,11 @@ const Table = ({
     } catch (error) {
       logger.error(error);
     }
+  };
+
+  const handlePageChange = (page) => {
+    setPageNo(page);
+    refetch(page);
   };
 
   return (
@@ -47,8 +54,8 @@ const Table = ({
         <Pagination
           className="float-right"
           count={totalRecords}
-          navigate={function noRefCheck() {}}
-          pageNo={1}
+          navigate={(page) => handlePageChange(page)}
+          pageNo={pageNo}
           pageSize={9}
         />
       </div>

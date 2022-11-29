@@ -13,6 +13,7 @@ const sort = (payload) => axios.patch("/articles/sort", payload);
 const destroy = (id) => axios.delete(`/articles/${id}`);
 const changeCategory = (payload) =>
   axios.patch("/articles/change_category", payload);
+
 const show = (id) => axios.get(`/articles/${id}`);
 const filter = ({ status, categories_ids }) => {
   const path = status

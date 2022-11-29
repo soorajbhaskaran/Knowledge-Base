@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { useDebounce } from "hooks";
 import { Dropdown, Checkbox, Button } from "neetoui";
 import { Header as NeetoUIHeader } from "neetoui/layouts";
 import PropTypes from "prop-types";
@@ -18,27 +17,28 @@ const Header = ({
   setArticles,
   categoryList,
   history,
+  pageNo,
 }) => {
   const [searchArticle, setSearchArticle] = useState("");
   const location = useLocation();
   const { status } = queryString.parse(location.search);
 
-  const fetchArticles = async () => {
+  const handleSearch = async (title) => {
+    setSearchArticle(title);
     try {
       const {
         data: { articles },
       } = await articlesApi.fetch({
-        query: searchArticle,
+        query: title,
         status,
         categoriesIds: getCategoriesIdsFromCategoryObjects(categoryList),
+        page: pageNo,
       });
       setArticles(articles);
     } catch (error) {
       logger.error(error);
     }
   };
-
-  useDebounce(searchArticle, fetchArticles);
 
   return (
     <NeetoUIHeader
@@ -61,7 +61,7 @@ const Header = ({
         </>
       }
       searchProps={{
-        onChange: (event) => setSearchArticle(event.target.value),
+        onChange: (event) => handleSearch(event.target.value),
         placeholder: "Search article title",
         value: searchArticle,
       }}
@@ -104,6 +104,8 @@ Header.propTypes = {
   setCheckedColumns: PropTypes.func,
   setArticles: PropTypes.func,
   categoryList: PropTypes.array,
+  history: PropTypes.object,
+  pageNo: PropTypes.number,
 };
 
 export default withRouter(Header);

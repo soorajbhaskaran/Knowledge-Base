@@ -29,16 +29,16 @@ const Articles = ({ history }) => {
   const [articles, setArticles] = useState([]);
   const [articleStatusTabs, setArticleStatusTabs] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-
+  const [pageNo, setPageNo] = useState(1);
   const location = useLocation();
   const { status } = queryString.parse(location.search);
 
-  const fetchArticles = async () => {
+  const fetchArticles = async (page = 1) => {
     setLoading(true);
     try {
       const {
         data: { articles, published_articles, draft_articles },
-      } = await articlesApi.fetch({ status });
+      } = await articlesApi.fetch({ status, page });
       setArticles(articles);
       setArticleStatusTabs(
         buildArticleStatusTabsWithCount(published_articles, draft_articles)
@@ -71,12 +71,13 @@ const Articles = ({ history }) => {
         setArticles={setArticles}
         setCategoryList={setCategoryList}
         setLoading={setLoading}
+        setPageNo={setPageNo}
       />
       <Container>
         <Header
           categoryList={categoryList}
           checkedColumns={checkedColumns}
-          fetchArticles={fetchArticles}
+          pageNo={pageNo}
           setArticles={setArticles}
           setCheckedColumns={setCheckedColumns}
         />
@@ -90,7 +91,9 @@ const Articles = ({ history }) => {
             <Table
               articles={articles}
               checkedColumns={checkedColumns}
+              pageNo={pageNo}
               refetch={fetchArticles}
+              setPageNo={setPageNo}
               totalRecords={getArticlesCountFromStatus(
                 articleStatusTabs,
                 status
