@@ -15,7 +15,6 @@ import { buildValidationSchemaForArticles } from "../utils";
 const { Menu, MenuItem } = ActionDropdown;
 
 const Form = ({
-  currentStatus,
   isEdit = false,
   handleSubmit,
   initialArticleValue,
@@ -80,11 +79,6 @@ const Form = ({
             placeholder="Type your content"
             rows={2}
           />
-          {isEdit && (
-            <Typography className="my-4 italic" style="h6">
-              The article is currently in <strong>{currentStatus}</strong> state
-            </Typography>
-          )}
           <div className="flex">
             <TooltipWrapper
               content="Article values have not changed "
@@ -125,7 +119,6 @@ const Form = ({
   );
 };
 Form.propTypes = {
-  currentStatus: PropTypes.string,
   isEdit: PropTypes.bool,
   handleSubmit: PropTypes.func,
   initialArticleValue: PropTypes.object,

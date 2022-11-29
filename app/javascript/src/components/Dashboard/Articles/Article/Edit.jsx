@@ -7,6 +7,7 @@ import { buildSelectOptions } from "utils";
 
 import articlesApi from "apis/articles";
 import versionsApi from "apis/versions";
+import { useStatusDispatch } from "contexts/status";
 
 import Article from "./Article";
 import Form from "./Form";
@@ -16,6 +17,7 @@ const Edit = ({ location, history }) => {
   const [versions, setVersions] = useState([]);
   const [loading, setLoading] = useState(false);
   const { status } = queryString.parse(location.search);
+  const statusDispatch = useStatusDispatch();
   const { id } = location.state;
 
   const fetchArticle = async () => {
@@ -66,6 +68,14 @@ const Edit = ({ location, history }) => {
     loadArticle();
   }, []);
 
+  useEffect(() => {
+    statusDispatch({ type: "SET_STATUS", status });
+
+    return () => {
+      statusDispatch({ type: "RESET_STATUS" });
+    };
+  }, []);
+
   if (loading) {
     return <PageLoader />;
   }
@@ -80,7 +90,6 @@ const Edit = ({ location, history }) => {
     >
       <Form
         isEdit
-        currentStatus={status}
         handleSubmit={handleEditArticle}
         initialArticleValue={article}
         newStatus={status === "published" ? "draft" : "published"}

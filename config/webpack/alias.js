@@ -7,6 +7,8 @@ module.exports = {
       utils: "src/utils",
       common: "src/common",
       hooks: "src/hooks",
+      contexts: "src/contexts",
+      reducers: "src/reducers",
       lib: "src/lib",
       components: "src/components",
       neetoui: "@bigbinary/neetoui",
