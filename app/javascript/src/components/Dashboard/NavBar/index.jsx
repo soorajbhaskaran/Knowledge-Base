@@ -38,9 +38,9 @@ const NavBar = () => {
                 component="p"
                 style="body2"
                 className={classnames(
-                  "border rounded-md border-red-400 bg-red-200 p-1 text-xs font-semibold",
+                  "rounded-md bg-orange-500 p-1 text-xs font-bold text-white",
                   {
-                    "border-green-400 bg-green-200": status === "published",
+                    "bg-green-800 text-white": status === "published",
                   }
                 )}
               >

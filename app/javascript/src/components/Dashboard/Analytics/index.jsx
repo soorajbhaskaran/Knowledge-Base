@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Table, Pagination, PageLoader } from "neetoui";
+import { Table, Pagination, PageLoader, Typography } from "neetoui";
 
 import articlesApi from "apis/articles";
 
@@ -41,6 +41,9 @@ const Analytics = () => {
 
   return (
     <div className="w-full px-32 pt-10">
+      <Typography className="text-gray-800" style="h2" weight="bold">
+        Analytics
+      </Typography>
       <Table
         className="mx-16"
         columnData={buildAnalyticsColumnData()}

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Typography } from "neetoui";
+import { Link } from "react-router-dom";
 
 export const buildAnalyticsColumnData = () => [
   {
@@ -8,6 +9,11 @@ export const buildAnalyticsColumnData = () => [
     key: "title",
     title: "TITLE",
     width: "30",
+    render: (title, { slug }) => (
+      <Link target="_blank" to={`/public/articles/${slug}`}>
+        {title}
+      </Link>
+    ),
   },
   {
     dataIndex: "date",

@@ -51,7 +51,11 @@ const Article = ({ history }) => {
 
   return (
     <div className="mt-4 w-3/4">
-      <Typography className="mb-4 text-3xl font-bold" component="h2" style="h2">
+      <Typography
+        className="mb-4 text-3xl font-bold text-gray-800"
+        component="h2"
+        style="h2"
+      >
         {article.title}
       </Typography>
       <div className="flex items-center">

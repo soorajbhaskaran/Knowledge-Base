@@ -20,7 +20,7 @@ const Accordion = ({ categories }) => {
 
   return (
     <NeetoUIAccordion
-      className="mx-8 w-1/4 border-r-2 font-bold"
+      className="mx-8 h-screen w-1/4 border-r-2 bg-gray-100 font-bold"
       defaultActiveKey={getActiveCategoryIndexFromSlug(categories)}
     >
       {categories.map(({ id, articles, title }) => (

@@ -99,10 +99,10 @@ const Form = ({
               >
                 <Menu>
                   <MenuItem.Button onClick={() => setStatus("draft")}>
-                    Draft
+                    Save as Draft
                   </MenuItem.Button>
                   <MenuItem.Button onClick={() => setStatus("published")}>
-                    Published
+                    Publish
                   </MenuItem.Button>
                 </Menu>
               </ActionDropdown>
