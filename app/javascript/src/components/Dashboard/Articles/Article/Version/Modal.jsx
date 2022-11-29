@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { buildSelectOptions } from "utils";
 
 import versionsApi from "apis/versions";
+import { useStatusDispatch } from "contexts/status";
 
 const Modal = ({
   articleId,
@@ -18,6 +19,7 @@ const Modal = ({
 }) => {
   const [submitted, setSubmitted] = useState(false);
   const [version, setVersion] = useState({});
+  const statusDispatch = useStatusDispatch();
 
   const showVersion = async () => {
     try {
@@ -46,6 +48,11 @@ const Modal = ({
       await Promise.all([fetchArticle(), fetchVersions()]);
     } catch (error) {
       logger.error(error);
+    } finally {
+      statusDispatch({
+        type: "SET_STATUS",
+        status: "draft",
+      });
     }
   };
 

@@ -18,6 +18,7 @@ const Edit = ({ location, history }) => {
   const [loading, setLoading] = useState(false);
   const { status } = queryString.parse(location.search);
   const statusDispatch = useStatusDispatch();
+
   const { id } = location.state;
 
   const fetchArticle = async () => {
@@ -92,7 +93,6 @@ const Edit = ({ location, history }) => {
         isEdit
         handleSubmit={handleEditArticle}
         initialArticleValue={article}
-        newStatus={status === "published" ? "draft" : "published"}
       />
     </Article>
   );

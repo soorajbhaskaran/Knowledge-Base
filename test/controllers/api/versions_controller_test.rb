@@ -36,4 +36,11 @@ class API::VersionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal @article.reload.title, @article.versions.find(test_version_id).reify.title
   end
+
+  def test_restored_version_should_be_draft
+    test_version_id = @article.versions.last.id
+    patch restore_api_version_path(test_version_id), params: { article_id: @article.id }, headers: @headers
+    assert_response :success
+    assert_equal "draft", @article.reload.status
+  end
 end

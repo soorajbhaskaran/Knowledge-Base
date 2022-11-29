@@ -9,6 +9,7 @@ import { buildSelectOptions } from "utils";
 
 import categoriesApi from "apis/categories";
 import TooltipWrapper from "components/Common/TooltipWrapper";
+import { useStatusState } from "contexts/status";
 
 import { buildValidationSchemaForArticles } from "../utils";
 
@@ -18,12 +19,14 @@ const Form = ({
   isEdit = false,
   handleSubmit,
   initialArticleValue,
-  newStatus = "draft",
   history,
 }) => {
   const [submitted, setSubmitted] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [status, setStatus] = useState(newStatus);
+  const { status: currentStatus } = useStatusState();
+  const [status, setStatus] = useState(
+    currentStatus === "published" ? "draft" : "published"
+  );
 
   const fetchCategories = async () => {
     try {
@@ -122,7 +125,6 @@ Form.propTypes = {
   isEdit: PropTypes.bool,
   handleSubmit: PropTypes.func,
   initialArticleValue: PropTypes.object,
-  newStatus: PropTypes.string,
 };
 
 export default withRouter(Form);
