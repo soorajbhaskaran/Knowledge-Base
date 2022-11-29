@@ -1,5 +1,6 @@
 import React from "react";
 
+import { useDebounce } from "hooks";
 import { Check, Search } from "neetoicons";
 import { Input as NeetoUIInput, Button } from "neetoui";
 import PropTypes from "prop-types";
@@ -19,12 +20,11 @@ const Input = ({
   title,
   setTitle,
 }) => {
-  const handleSearch = async (title) => {
-    setSearchFieldText(title);
+  const getCategoriesSearch = async () => {
     try {
       const {
         data: { categories },
-      } = await categoriesApi.fetch({ query: title });
+      } = await categoriesApi.fetch({ query: searchFieldText });
       setCategories(categories);
     } catch (error) {
       logger.error(error);
@@ -53,6 +53,8 @@ const Input = ({
     setSearchFieldText("");
   };
 
+  useDebounce(searchFieldText, getCategoriesSearch);
+
   return (
     <>
       {showSearchInput && (
@@ -64,7 +66,7 @@ const Input = ({
             type="search"
             value={searchFieldText}
             onBlur={toggleSearch}
-            onChange={(e) => handleSearch(e.target.value)}
+            onChange={(e) => setSearchFieldText(e.target.value)}
           />
         </div>
       )}

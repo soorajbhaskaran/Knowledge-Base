@@ -24,6 +24,7 @@ const Menu = ({
   categoryList,
   setCategoryList,
   history,
+  setPageNo,
 }) => {
   const [showAddInput, setShowAddInput] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
@@ -68,13 +69,16 @@ const Menu = ({
     try {
       const {
         data: { articles },
-      } = await articlesApi.fetch({ status: value !== "all" ? value : "" });
+      } = await articlesApi.fetch({
+        status: value !== "all" ? value : "",
+      });
       setArticles(articles);
     } catch (error) {
       logger.error(error);
     } finally {
       setLoading(false);
       setCategoryList([]);
+      setPageNo(1);
     }
   };
 
