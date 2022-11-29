@@ -12,17 +12,17 @@ const Version = ({ handleVersionClick, article, fetchVersions, versions }) => {
   }, []);
 
   return (
-    <Container>
-      <div className="border mx-auto mt-5 w-full p-2">
+    <div className="border mx-auto h-screen w-1/4 overflow-y-scroll bg-gray-100 p-1">
+      <Container>
         <Typography
-          className="mt-4 w-full text-center"
+          className="mt-4 w-full text-left text-gray-800"
           component="h2"
           style="h2"
         >
           Version history
         </Typography>
         <Typography
-          className="mt-1 w-full text-center text-gray-600"
+          className="mt-1 w-full text-left text-gray-600"
           component="p"
           style="body2"
         >
@@ -30,8 +30,8 @@ const Version = ({ handleVersionClick, article, fetchVersions, versions }) => {
         </Typography>
         {versions &&
           versions.map(({ id, updated_at, status, restored_from }) => (
-            <div className="mt-2 flex w-full" key={id}>
-              <Typography className="mr-3 text-left text-sm font-bold text-gray-600">
+            <div className="mt-2 flex" key={id}>
+              <Typography className="mr-3 text-sm font-bold text-gray-600">
                 {formatDateWithDayAndTime(updated_at)}
               </Typography>
               {restored_from ? (
@@ -51,35 +51,24 @@ const Version = ({ handleVersionClick, article, fetchVersions, versions }) => {
               )}
             </div>
           ))}
-        <div className="mt-2 flex w-full items-center">
-          <Typography className="mr-3 text-sm font-bold text-gray-600">
+        <div className="mt-2 flex items-center">
+          <Typography className="text-sm font-bold text-gray-600">
             {formatDateWithDayAndTime(article.updated_at)}
           </Typography>
           {article.restored_from ? (
-            <Button
-              className="mr-2"
-              label="Article restored"
-              style="link"
-              onClick={handleVersionClick}
-            />
+            <Typography className="ml-3 text-sm font-semibold text-gray-800">
+              Article restored
+            </Typography>
           ) : (
-            <Button
-              className="mr-2"
-              style="link"
-              label={
-                article.status === "draft"
-                  ? "Article drafted"
-                  : "Article published"
-              }
-              onClick={handleVersionClick}
-            />
+            <Typography className="ml-3 text-sm font-semibold text-gray-800">
+              {article.status === "draft"
+                ? "Article drafted"
+                : "Article published"}
+            </Typography>
           )}
-          <div className="border rounded-full border-blue-400 bg-blue-200 p-1 text-xs font-semibold">
-            current
-          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

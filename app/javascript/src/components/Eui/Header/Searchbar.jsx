@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import classnames from "classnames";
 import { useKeyPress, useDebounce } from "hooks";
 import { Search } from "neetoicons";
 import { Input, Typography } from "neetoui";
@@ -90,7 +91,14 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
         onChange={(event) => setSearchTerm(event.target.value)}
         onKeyDown={(event) => handleKeyDown(event)}
       />
-      <div className="mt-2 items-center justify-center rounded-sm bg-white py-2">
+      <div
+        className={classnames(
+          "mt-2 items-center justify-center rounded-sm bg-white py-2",
+          {
+            "h-64 overflow-y-scroll": articles.length > 0,
+          }
+        )}
+      >
         {articles.length > 0 ? (
           articles.map((article, index) => (
             <Card
@@ -102,7 +110,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
             />
           ))
         ) : (
-          <Typography component="h4" style="h4">
+          <Typography className="text-center" component="h4" style="h4">
             No matching article found!
           </Typography>
         )}

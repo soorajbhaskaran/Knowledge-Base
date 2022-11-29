@@ -31,7 +31,7 @@ const Article = ({
   return (
     <div className="flex">
       <div
-        className={classnames("flex w-2/3 flex-col px-32 py-10", {
+        className={classnames("flex w-3/4 flex-col px-32 py-10", {
           "w-full": !isEdit,
         })}
       >
