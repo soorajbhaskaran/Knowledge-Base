@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Check, Close } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { Input } from "neetoui/formik";
-import PropTypes from "prop-types";
 
 import { ALPHANUMERIC_REGEX } from "../constants";
 
@@ -68,10 +67,6 @@ const Password = ({ setFieldValue }) => {
       </div>
     </>
   );
-};
-
-Password.propTypes = {
-  setFieldValue: PropTypes.func,
 };
 
 export default Password;

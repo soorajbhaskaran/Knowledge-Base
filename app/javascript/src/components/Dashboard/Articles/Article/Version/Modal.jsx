@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { Modal as NeetoUIModal, Typography, Button } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
-import PropTypes from "prop-types";
 import { buildSelectOptions } from "utils";
 
 import versionsApi from "apis/versions";
@@ -120,15 +119,6 @@ const Modal = ({
       </Formik>
     </NeetoUIModal>
   );
-};
-
-Modal.propTypes = {
-  articleId: PropTypes.number,
-  showModal: PropTypes.bool,
-  versionId: PropTypes.number,
-  onClose: PropTypes.func,
-  fetchArticle: PropTypes.func,
-  fetchVersions: PropTypes.func,
 };
 
 export default Modal;

@@ -1,7 +1,6 @@
 import React from "react";
 
 import { MenuBar } from "neetoui/layouts";
-import PropTypes from "prop-types";
 
 const Category = ({
   id,
@@ -38,14 +37,6 @@ const Category = ({
       }
     />
   );
-};
-
-Category.propTypes = {
-  articles_count: PropTypes.number,
-  category: PropTypes.string,
-  categoryList: PropTypes.array,
-  id: PropTypes.string,
-  setCategoryList: PropTypes.func,
 };
 
 export default Category;

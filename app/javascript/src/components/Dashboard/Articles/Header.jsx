@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDebounce } from "hooks";
 import { Dropdown, Checkbox, Button } from "neetoui";
 import { Header as NeetoUIHeader } from "neetoui/layouts";
-import PropTypes from "prop-types";
 import queryString from "query-string";
 import { useLocation, withRouter } from "react-router-dom";
 
@@ -119,15 +118,6 @@ const renderColumnActionDropdown = ({ checkedColumns, setCheckedColumns }) => {
       ))}
     </Menu>
   );
-};
-
-Header.propTypes = {
-  checkedColumns: PropTypes.object,
-  setCheckedColumns: PropTypes.func,
-  setArticles: PropTypes.func,
-  categoryList: PropTypes.array,
-  history: PropTypes.object,
-  pageNo: PropTypes.number,
 };
 
 export default withRouter(Header);

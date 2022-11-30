@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { Search } from "neetoicons";
 import { Typography, Input } from "neetoui";
-import PropTypes from "prop-types";
 import { either, isNil, isEmpty } from "ramda";
 
 import { getFromLocalStorage } from "utils/storage";
@@ -39,10 +38,6 @@ const Header = ({ title }) => {
       </div>
     </>
   );
-};
-
-Header.propTypes = {
-  title: PropTypes.string,
 };
 
 export default Header;

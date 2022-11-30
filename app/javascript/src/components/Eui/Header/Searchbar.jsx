@@ -4,7 +4,6 @@ import classnames from "classnames";
 import { useKeyPress, useDebounce } from "hooks";
 import { Search } from "neetoicons";
 import { Input, Typography } from "neetoui";
-import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/public/articles";
@@ -116,10 +115,6 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
       </div>
     </Backdrop>
   );
-};
-Searchbar.propTypes = {
-  setShowModal: PropTypes.func,
-  showModal: PropTypes.bool,
 };
 
 export default withRouter(Searchbar);

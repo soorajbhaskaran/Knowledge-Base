@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import { Pane as NeetoUIPane, Button, Typography } from "neetoui";
 import { Input } from "neetoui/formik";
-import PropTypes from "prop-types";
 
 const Pane = ({
   showPane,
@@ -63,14 +62,6 @@ const Pane = ({
       )}
     </Formik>
   );
-};
-
-Pane.propTypes = {
-  showPane: PropTypes.bool,
-  setShowPane: PropTypes.func,
-  isEdit: PropTypes.bool,
-  handleSubmit: PropTypes.func,
-  title: PropTypes.string,
 };
 
 export default Pane;

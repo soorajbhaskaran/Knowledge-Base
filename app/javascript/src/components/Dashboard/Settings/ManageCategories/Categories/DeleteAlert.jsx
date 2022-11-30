@@ -4,7 +4,6 @@ import { Formik, Form } from "formik";
 import { Warning } from "neetoicons";
 import { Modal, Typography, Button, Callout } from "neetoui";
 import { Select } from "neetoui/formik";
-import PropTypes from "prop-types";
 
 const DeleteAlert = ({
   showModal,
@@ -100,14 +99,6 @@ const DeleteAlert = ({
       )}
     </Formik>
   );
-};
-
-DeleteAlert.propTypes = {
-  showModal: PropTypes.bool,
-  setShowModal: PropTypes.func,
-  selectOptions: PropTypes.array,
-  selectedCategory: PropTypes.object,
-  handleDeleteCategory: PropTypes.func,
 };
 
 export default DeleteAlert;
