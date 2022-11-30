@@ -2,7 +2,6 @@ import React from "react";
 
 import { Typography } from "neetoui";
 import { Input } from "neetoui/formik";
-import PropTypes from "prop-types";
 
 const EditableCell = ({
   editing,
@@ -38,14 +37,5 @@ const EditableCell = ({
     )}
   </td>
 );
-
-EditableCell.propTypes = {
-  editing: PropTypes.bool,
-  dataIndex: PropTypes.string,
-  children: PropTypes.node,
-  values: PropTypes.object,
-  resetForm: PropTypes.func,
-  handleOnKeyPress: PropTypes.func,
-};
 
 export default EditableCell;

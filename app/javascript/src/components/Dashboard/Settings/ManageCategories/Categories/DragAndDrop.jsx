@@ -1,6 +1,5 @@
 import React from "react";
 
-import PropTypes from "prop-types";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/categories";
@@ -78,17 +77,6 @@ const DragAndDrop = ({
       </Droppable>
     </DragDropContext>
   );
-};
-
-DragAndDrop.propTypes = {
-  categories: PropTypes.array,
-  handleDeleteButton: PropTypes.func,
-  handleEditButton: PropTypes.func,
-  selectedCategory: PropTypes.object,
-  setSelectedCategory: PropTypes.func,
-  setArticles: PropTypes.func,
-  setCategories: PropTypes.func,
-  setSearchTerm: PropTypes.func,
 };
 
 export default DragAndDrop;

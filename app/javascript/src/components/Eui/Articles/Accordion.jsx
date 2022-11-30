@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Accordion as NeetoUIAccordion } from "neetoui";
-import PropTypes from "prop-types";
 import { useParams, NavLink } from "react-router-dom";
 
 const DEFAULT_SELECTED_CATEGORY_INDEX = 0;
@@ -40,10 +39,6 @@ const Accordion = ({ categories }) => {
       ))}
     </NeetoUIAccordion>
   );
-};
-
-Accordion.propTypes = {
-  categories: PropTypes.array.isRequired,
 };
 
 export default Accordion;

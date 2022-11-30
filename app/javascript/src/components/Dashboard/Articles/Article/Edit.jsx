@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { PageLoader } from "neetoui";
-import PropTypes from "prop-types";
 import queryString from "query-string";
 import { buildSelectOptions } from "utils";
 
@@ -96,10 +95,6 @@ const Edit = ({ location, history }) => {
       />
     </Article>
   );
-};
-Edit.propTypes = {
-  location: PropTypes.object,
-  history: PropTypes.object,
 };
 
 export default Edit;

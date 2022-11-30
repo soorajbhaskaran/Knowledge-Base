@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Search } from "neetoicons";
 import { Typography, Dropdown, Input } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
-import PropTypes from "prop-types";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
@@ -175,15 +174,6 @@ const Articles = ({
       )}
     </Container>
   );
-};
-
-Articles.propTypes = {
-  articles: PropTypes.array,
-  fetchCategories: PropTypes.func,
-  selectedCategory: PropTypes.object,
-  searchTerm: PropTypes.string,
-  setArticles: PropTypes.func,
-  setSearchTerm: PropTypes.func,
 };
 
 export default Articles;

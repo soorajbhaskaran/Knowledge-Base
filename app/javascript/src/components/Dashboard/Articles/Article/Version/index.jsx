@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 
 import { Typography, Button } from "neetoui";
 import { Container } from "neetoui/layouts";
-import PropTypes from "prop-types";
 
 import { formatDateWithDayAndTime } from "./utils";
 
@@ -70,13 +69,6 @@ const Version = ({ handleVersionClick, article, fetchVersions, versions }) => {
       </Container>
     </div>
   );
-};
-
-Version.propTypes = {
-  article: PropTypes.object,
-  fetchVersions: PropTypes.func,
-  handleVersionClick: PropTypes.func,
-  versions: PropTypes.array,
 };
 
 export default Version;

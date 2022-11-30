@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { PageLoader } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
-import PropTypes from "prop-types";
 import queryString from "query-string";
 
 import { SETTINGS_NAVLINKS } from "./constants";
@@ -51,10 +50,6 @@ const Settings = ({ history, location }) => {
       <activeNavlink.component />
     </div>
   );
-};
-Settings.propTypes = {
-  history: PropTypes.object,
-  location: PropTypes.object,
 };
 
 export default Settings;

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Plus } from "neetoicons";
 import { Button, Tooltip } from "neetoui";
 import { Header } from "neetoui/layouts";
-import PropTypes from "prop-types";
 import { buildSelectOptions } from "utils";
 
 import categoriesApi from "apis/categories";
@@ -125,16 +124,6 @@ const Categories = ({
       />
     </div>
   );
-};
-
-Categories.propTypes = {
-  categories: PropTypes.array,
-  setCategories: PropTypes.func,
-  fetchCategories: PropTypes.func,
-  selectedCategory: PropTypes.object,
-  setSelectedCategory: PropTypes.func,
-  setArticles: PropTypes.func,
-  setSearchTerm: PropTypes.func,
 };
 
 export default Categories;

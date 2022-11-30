@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Table as NeetoUITable, Pagination } from "neetoui";
-import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
@@ -63,12 +62,6 @@ const Table = ({
       </div>
     </>
   );
-};
-
-Table.propTypes = {
-  articles: PropTypes.array,
-  refetch: PropTypes.func,
-  checkedColumns: PropTypes.object,
 };
 
 export default withRouter(Table);
