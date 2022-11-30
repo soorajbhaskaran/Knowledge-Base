@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
+import { useCountState } from "contexts/count";
 
 import { buildArticleColumnData } from "./utils";
 
@@ -13,10 +14,11 @@ const Table = ({
   refetch,
   checkedColumns,
   history,
-  totalRecords,
   pageNo,
   setPageNo,
 }) => {
+  const { count } = useCountState();
+
   const handleEditButton = (identifier, status, id) => {
     history.push({
       pathname: `/admin/articles/${identifier}/edit`,
@@ -53,7 +55,7 @@ const Table = ({
       <div className="relative mt-2 w-full">
         <Pagination
           className="float-right"
-          count={totalRecords}
+          count={count}
           navigate={(page) => handlePageChange(page)}
           pageNo={pageNo}
           pageSize={9}

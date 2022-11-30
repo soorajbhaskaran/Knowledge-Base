@@ -1,11 +1,15 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
-const useDebounce = (value, trigerringFunction, delay = 350) => {
+const useDebounce = (value, delay = 350) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
   useEffect(() => {
-    const handler = setTimeout(() => trigerringFunction(), delay);
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
 
     return () => clearTimeout(handler);
   }, [value]);
+
+  return debouncedValue;
 };
 
 export default useDebounce;

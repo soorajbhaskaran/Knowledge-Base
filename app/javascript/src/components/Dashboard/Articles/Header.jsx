@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
+import { useDebounce } from "hooks";
 import { Dropdown, Checkbox, Button } from "neetoui";
 import { Header as NeetoUIHeader } from "neetoui/layouts";
 import PropTypes from "prop-types";
@@ -7,6 +8,7 @@ import queryString from "query-string";
 import { useLocation, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
+import { useCountDispatch } from "contexts/count";
 
 import { getCategoriesIdsFromCategoryObjects } from "./utils";
 
@@ -21,24 +23,44 @@ const Header = ({
 }) => {
   const [searchArticle, setSearchArticle] = useState("");
   const location = useLocation();
+  const debouncedSearchTerm = useDebounce(searchArticle);
+  const dispatch = useCountDispatch();
   const { status } = queryString.parse(location.search);
 
-  const handleSearch = async (title) => {
-    setSearchArticle(title);
+  const getArticlesSearch = async () => {
     try {
       const {
         data: { articles },
       } = await articlesApi.fetch({
-        query: title,
+        query: searchArticle,
         status,
         categoriesIds: getCategoriesIdsFromCategoryObjects(categoryList),
         page: pageNo,
       });
       setArticles(articles);
+
+      return articles.length;
     } catch (error) {
       logger.error(error);
     }
+
+    return null;
   };
+
+  const loadArticles = async () => {
+    const count = await getArticlesSearch();
+    dispatch({ type: "SET_COUNT", count });
+  };
+
+  const isMounted = useRef(false);
+  useEffect(() => {
+    if (isMounted.current) {
+      loadArticles();
+    } else {
+      isMounted.current = true;
+      getArticlesSearch();
+    }
+  }, [debouncedSearchTerm]);
 
   return (
     <NeetoUIHeader
@@ -61,7 +83,7 @@ const Header = ({
         </>
       }
       searchProps={{
-        onChange: (event) => handleSearch(event.target.value),
+        onChange: (event) => setSearchArticle(event.target.value),
         placeholder: "Search article title",
         value: searchArticle,
       }}

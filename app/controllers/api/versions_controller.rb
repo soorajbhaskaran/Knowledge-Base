@@ -14,7 +14,7 @@ class API::VersionsController < ApplicationController
 
   def restore
     article_version = @version.reify
-    article_version.attributes = set_restored_attributes
+    article_version.attributes = set_restore_attributes
     article_version.save!
     respond_with_success(t("successfully_restored", entity: "Article"))
   end
@@ -29,7 +29,7 @@ class API::VersionsController < ApplicationController
       @version = @article.versions.find(params[:id])
     end
 
-    def set_restored_attributes
+    def set_restore_attributes
       { restored_from: @version.id, slug: @article.slug, status: :draft }
     end
 end
