@@ -3,7 +3,6 @@ import React from "react";
 import { Search, Plus, Close } from "neetoicons";
 import { Tooltip, Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
-import PropTypes from "prop-types";
 
 const Subtitle = ({
   showSearchInput,
@@ -49,12 +48,5 @@ const Subtitle = ({
     </Typography>
   </MenuBar.SubTitle>
 );
-
-Subtitle.propTypes = {
-  showSearchInput: PropTypes.bool,
-  showAddInput: PropTypes.bool,
-  toggleSearch: PropTypes.func,
-  toggleAdd: PropTypes.func,
-};
 
 export default Subtitle;

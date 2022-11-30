@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { Search } from "neetoicons";
 import { Typography, Input } from "neetoui";
 import PropTypes from "prop-types";
 import { either, isNil, isEmpty } from "ramda";
@@ -21,6 +22,7 @@ const Header = ({ title }) => {
         <Input
           className="absolute ml-4 w-1/4 py-4"
           placeholder="Search for article title"
+          prefix={<Search size={16} />}
           onFocus={() => setShowModal(true)}
         />
       )}

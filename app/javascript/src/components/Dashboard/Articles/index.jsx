@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { Typography, PageLoader } from "neetoui";
 import { Container } from "neetoui/layouts";
@@ -7,6 +7,7 @@ import { useLocation, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 import EmptyState from "components/Common/EmptyState";
+import { useCountDispatch } from "contexts/count";
 import EmptyArticleList from "images/EmptyArticleList";
 
 import Header from "./Header";
@@ -31,6 +32,7 @@ const Articles = ({ history }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const location = useLocation();
+  const dispatch = useCountDispatch();
   const { status } = queryString.parse(location.search);
 
   const fetchArticles = async (page = 1) => {
@@ -40,19 +42,43 @@ const Articles = ({ history }) => {
         data: { articles, published_articles, draft_articles },
       } = await articlesApi.fetch({ status, page });
       setArticles(articles);
-      setArticleStatusTabs(
-        buildArticleStatusTabsWithCount(published_articles, draft_articles)
-      );
+
+      return [published_articles, draft_articles];
     } catch (error) {
       logger.error(error);
     } finally {
       setLoading(false);
     }
+
+    return [0, 0];
+  };
+
+  const loadArticles = async () => {
+    const [publishedArticles, draftArticles] = await fetchArticles();
+    dispatch({
+      type: "SET_COUNT",
+      count: publishedArticles + draftArticles,
+    });
+    setArticleStatusTabs(
+      buildArticleStatusTabsWithCount(publishedArticles, draftArticles)
+    );
   };
 
   useEffect(() => {
-    fetchArticles();
+    loadArticles();
   }, []);
+
+  const isMounted = useRef(false);
+  useEffect(() => {
+    if (isMounted.current) {
+      dispatch({
+        type: "SET_COUNT",
+        count: getArticlesCountFromStatus(articleStatusTabs, status),
+      });
+    } else {
+      isMounted.current = true;
+    }
+  }, [status]);
 
   if (loading) {
     return (
@@ -94,10 +120,6 @@ const Articles = ({ history }) => {
               pageNo={pageNo}
               refetch={fetchArticles}
               setPageNo={setPageNo}
-              totalRecords={getArticlesCountFromStatus(
-                articleStatusTabs,
-                status
-              )}
             />
           </>
         ) : (

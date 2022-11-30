@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { MenuBar } from "neetoui/layouts";
-import PropTypes from "prop-types";
 import queryString from "query-string";
 import { useLocation, withRouter } from "react-router-dom";
 
@@ -35,11 +34,11 @@ const Menu = ({
   const location = useLocation();
   const { status, category } = queryString.parse(location.search);
 
-  const fetchCategories = async () => {
+  const fetchCategories = async (query = "") => {
     try {
       const {
         data: { categories },
-      } = await categoriesApi.fetch({});
+      } = await categoriesApi.fetch({ query });
       setCategories(categories);
     } catch (error) {
       logger.error(error);
@@ -53,11 +52,15 @@ const Menu = ({
         data: { articles },
       } = await articlesApi.fetch({ status });
       setArticles(articles);
+
+      return articles.length;
     } catch (error) {
       logger.error(error);
     } finally {
       setLoading(false);
     }
+
+    return null;
   };
 
   const handleStatusChange = async (value) => {
@@ -114,6 +117,7 @@ const Menu = ({
       logger.error(error);
     } finally {
       setLoading(false);
+      setPageNo(1);
     }
   };
 
@@ -177,7 +181,6 @@ const Menu = ({
       <Input
         fetchCategories={fetchCategories}
         searchFieldText={searchFieldText}
-        setCategories={setCategories}
         setSearchFieldText={setSearchFieldText}
         setShowAddInput={setShowAddInput}
         setTitle={setTitle}
@@ -205,11 +208,4 @@ const Menu = ({
   );
 };
 
-Menu.propTypes = {
-  articleStatusTabs: PropTypes.array.isRequired,
-  categoryList: PropTypes.array.isRequired,
-  setCategoryList: PropTypes.func.isRequired,
-  setLoading: PropTypes.func.isRequired,
-  setArticles: PropTypes.func.isRequired,
-};
 export default withRouter(Menu);

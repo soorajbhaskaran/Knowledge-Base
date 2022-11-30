@@ -13,6 +13,7 @@ import { setAuthHeaders, registerIntercepts } from "apis/axios";
 import { initializeLogger } from "common/logger";
 import Dashboard from "components/Dashboard";
 import Eui from "components/Eui";
+import { CountProvider } from "contexts/count";
 import { StatusProvider } from "contexts/status";
 
 const App = () => {
@@ -30,17 +31,19 @@ const App = () => {
 
   return (
     <StatusProvider>
-      <Router>
-        <ToastContainer />
-        <Switch>
-          <Redirect exact from="/" to="/public/articles" />
-          <Route component={Eui} path="/public/articles" />
-          <Route component={Dashboard} path="/admin" />
-          <Route exact path="/:invalid">
-            <Redirect to="/public/articles/invalid" />
-          </Route>
-        </Switch>
-      </Router>
+      <CountProvider>
+        <Router>
+          <ToastContainer />
+          <Switch>
+            <Redirect exact from="/" to="/public/articles" />
+            <Route component={Eui} path="/public/articles" />
+            <Route component={Dashboard} path="/admin" />
+            <Route exact path="/:invalid">
+              <Redirect to="/public/articles/invalid" />
+            </Route>
+          </Switch>
+        </Router>
+      </CountProvider>
     </StatusProvider>
   );
 };

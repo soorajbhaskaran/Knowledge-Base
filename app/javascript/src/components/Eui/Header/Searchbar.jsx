@@ -21,6 +21,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
   const upPress = useKeyPress("ArrowUp");
   const enterPress = useKeyPress("Enter");
   const escapePress = useKeyPress("Escape");
+  const debouncedSearchTerm = useDebounce(searchTerm);
 
   const fetchArticles = async () => {
     try {
@@ -74,9 +75,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
 
   useEffect(() => {
     fetchArticles();
-  }, []);
-
-  useDebounce(searchTerm, fetchArticles);
+  }, [debouncedSearchTerm]);
 
   return (
     <Backdrop setShowModal={setShowModal} showModal={showModal}>
