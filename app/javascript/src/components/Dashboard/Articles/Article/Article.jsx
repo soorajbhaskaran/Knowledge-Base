@@ -4,8 +4,8 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 import { isNil } from "ramda";
 
-import Version from "./Version";
-import Modal from "./Version/Modal";
+import Version from "./Versions";
+import Modal from "./Versions/Modal";
 
 const Article = ({
   isEdit,
