@@ -96,6 +96,14 @@ const Modal = ({
               name="content"
               rows={2}
             />
+            <Typography
+              className="mb-6 font-bold italic"
+              component="p"
+              style="body3"
+            >
+              The article will be changed to <strong>draft</strong> state after
+              restoring
+            </Typography>
             <div className="flex">
               <Button
                 disabled={isSubmitting}
