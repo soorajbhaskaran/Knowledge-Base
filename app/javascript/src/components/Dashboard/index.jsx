@@ -11,7 +11,7 @@ import {
 import NavBar from "./NavBar";
 
 const Dashboard = () => (
-  <div className="h-screen w-full">
+  <div className="flex h-screen w-full flex-col">
     <NavBar />
     <Switch>
       {DASHBOARD_ROUTES.map(({ path, component }) => (

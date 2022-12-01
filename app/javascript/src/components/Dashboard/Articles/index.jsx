@@ -89,7 +89,7 @@ const Articles = ({ history }) => {
   }
 
   return (
-    <div className="relative z-0 flex items-start">
+    <div className="flex w-full ">
       <MenuBar
         articleStatusTabs={articleStatusTabs}
         categoryList={categoryList}

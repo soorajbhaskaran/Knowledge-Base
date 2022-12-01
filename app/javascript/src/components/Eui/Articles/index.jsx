@@ -31,18 +31,16 @@ const Articles = () => {
   }, []);
   if (loading) {
     return (
-      <div className="h-screen w-full ">
+      <div className="h-screen w-full">
         <PageLoader />
       </div>
     );
   }
 
   return (
-    <div className="w-full">
-      <div className="flex">
-        <Accordion categories={categories} />
-        <Article />
-      </div>
+    <div className="flex w-full flex-1">
+      <Accordion categories={categories} />
+      <Article />
     </div>
   );
 };

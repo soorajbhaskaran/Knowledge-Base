@@ -14,49 +14,43 @@ const NavBar = () => {
   const { status } = useStatusState();
 
   return (
-    <nav className="shadow relative z-10 bg-white">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className="flex h-16 justify-between">
-          <div className="flex px-2 lg:px-0">
-            <div className="hidden lg:flex">
-              <Link
-                exact
-                activeClassName="text-indigo-700"
-                className="mr-3 inline-flex items-center px-1 pt-1 text-sm font-semibold leading-5"
-                to="/admin/articles"
-              >
-                Scribble
-              </Link>
-              {NAVBAR_LINKS.map(({ name, path }) => (
-                <NavItem key={path} name={name} path={path} />
-              ))}
-            </div>
-          </div>
-          <div className="flex items-center justify-end gap-x-4">
-            {status && (
-              <Typography
-                component="p"
-                style="body2"
-                className={classnames(
-                  "rounded-md bg-orange-500 p-1 text-xs font-bold text-white",
-                  {
-                    "bg-green-800 text-white": status === "published",
-                  }
-                )}
-              >
-                {status}
-              </Typography>
+    <nav className="flex h-16 justify-between border-b-2 border-gray-200 bg-white p-3">
+      <div>
+        <Link
+          exact
+          activeClassName="text-indigo-700"
+          className="mr-3 inline-flex items-center px-1 pt-1 text-sm font-semibold leading-5"
+          to="/admin/articles"
+        >
+          Scribble
+        </Link>
+        {NAVBAR_LINKS.map(({ name, path }) => (
+          <NavItem key={path} name={name} path={path} />
+        ))}
+      </div>
+      <div className="flex">
+        {status && (
+          <Typography
+            component="p"
+            style="body2"
+            className={classnames(
+              "my-1 flex items-center rounded-md bg-orange-400 p-1 text-xs font-bold",
+              {
+                "bg-green-800 text-white": status === "published",
+              }
             )}
-            <Link target="_blank" to="/public/articles">
-              <div className="flex rounded-md bg-gray-300 py-2 px-4">
-                <Typography component="h4" style="body2">
-                  Preview
-                </Typography>
-                <ExternalLink className="ml-2" size={20} />
-              </div>
-            </Link>
+          >
+            {status}
+          </Typography>
+        )}
+        <Link target="_blank" to="/public/articles">
+          <div className="ml-2 flex rounded-md bg-gray-300 py-2 px-4">
+            <Typography component="h4" style="body2">
+              Preview
+            </Typography>
+            <ExternalLink className="ml-2" size={20} />
           </div>
-        </div>
+        </Link>
       </div>
     </nav>
   );

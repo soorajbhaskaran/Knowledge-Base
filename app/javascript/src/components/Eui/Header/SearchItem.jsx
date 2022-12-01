@@ -5,7 +5,7 @@ import { RightArrow } from "neetoicons";
 import { Typography } from "neetoui";
 import PropTypes from "prop-types";
 
-const Card = ({ article, active, setHovered, handleArticleClick }) => (
+const SearchItem = ({ article, active, setHovered, handleArticleClick }) => (
   <div className="group">
     <div
       className={classnames(
@@ -35,11 +35,11 @@ const Card = ({ article, active, setHovered, handleArticleClick }) => (
   </div>
 );
 
-Card.propTypes = {
+SearchItem.propTypes = {
   article: PropTypes.object,
   active: PropTypes.bool,
   setHovered: PropTypes.func,
   handleArticleClick: PropTypes.func,
 };
 
-export default Card;
+export default SearchItem;

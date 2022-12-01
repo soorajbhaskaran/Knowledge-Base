@@ -19,8 +19,9 @@ const Accordion = ({ categories }) => {
 
   return (
     <NeetoUIAccordion
-      className="mx-8 w-1/4 border-r-2 bg-gray-100 font-bold"
+      className="col mr-8 w-1/4 border-r-2 pl-2 font-bold"
       defaultActiveKey={getActiveCategoryIndexFromSlug(categories)}
+      style="secondary"
     >
       {categories.map(({ id, articles, title }) => (
         <NeetoUIAccordion.Item key={id} title={title}>

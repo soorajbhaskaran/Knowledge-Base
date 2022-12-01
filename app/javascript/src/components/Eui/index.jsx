@@ -61,7 +61,7 @@ const Eui = ({ history }) => {
   }, []);
 
   return (
-    <div className="h-screen w-full">
+    <div className="flex h-screen w-full flex-col">
       <Header title={organization.name} />
       <Switch>
         <Route exact component={PasswordScreen} path={AUTH_PATH} />
