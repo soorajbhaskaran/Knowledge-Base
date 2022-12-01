@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 
-import { Typography, Button } from "neetoui";
+import { Typography } from "neetoui";
 import { Container } from "neetoui/layouts";
 
 import { formatDateWithDayAndTime } from "./utils";
+import Version from "./Version";
 
-const Version = ({ handleVersionClick, article, fetchVersions, versions }) => {
+const Versions = ({ handleVersionClick, article, fetchVersions, versions }) => {
   useEffect(() => {
     fetchVersions();
   }, []);
 
   return (
-    <div className="border mx-auto h-screen w-1/4 overflow-y-scroll bg-gray-100 p-1">
+    <div className="border mx-auto flex w-1/4 flex-col bg-gray-100 p-1">
       <Container>
         <Typography
           className="mt-4 w-full text-left text-gray-800"
@@ -27,48 +28,39 @@ const Version = ({ handleVersionClick, article, fetchVersions, versions }) => {
         >
           Version history of the article
         </Typography>
-        {versions &&
-          versions.map(({ id, updated_at, status, restored_from }) => (
-            <div className="mt-2 flex" key={id}>
-              <Typography className="mr-3 text-sm font-bold text-gray-600">
-                {formatDateWithDayAndTime(updated_at)}
-              </Typography>
-              {restored_from ? (
-                <Button
-                  label="Article restored"
-                  style="link"
-                  onClick={() => handleVersionClick({ id })}
-                />
-              ) : (
-                <Button
-                  style="link"
-                  label={
-                    status === "draft" ? "Article drafted" : "Article published"
-                  }
-                  onClick={() => handleVersionClick({ id })}
-                />
-              )}
-            </div>
-          ))}
-        <div className="mt-2 flex items-center">
-          <Typography className="text-sm font-bold text-gray-600">
-            {formatDateWithDayAndTime(article.updated_at)}
-          </Typography>
-          {article.restored_from ? (
-            <Typography className="ml-3 text-sm font-semibold text-gray-800">
-              Article restored
-            </Typography>
-          ) : (
-            <Typography className="ml-3 text-sm font-semibold text-gray-800">
-              {article.status === "draft"
-                ? "Article drafted"
-                : "Article published"}
-            </Typography>
-          )}
-        </div>
+        <Version
+          active
+          article={article}
+          info={
+            article.restored_from_timestamp &&
+            `Restored from ${formatDateWithDayAndTime(
+              article.restored_from_timestamp
+            )}`
+          }
+          onClick={null}
+        />
+        {versions && (
+          <div className="w-full overflow-auto">
+            {versions.map((version) => (
+              <Version
+                article={version}
+                key={version.id}
+                info={
+                  version.restored_from_timestamp
+                    ? `Restored from ${formatDateWithDayAndTime(
+                        version.restored_from_timestamp
+                      )}`
+                    : null
+                }
+                onClick={() => handleVersionClick({ id: version.id })}
+              />
+            ))}
+          </div>
+        )}
+        <div className="mt-2 flex items-center" />
       </Container>
     </div>
   );
 };
 
-export default Version;
+export default Versions;

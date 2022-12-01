@@ -30,6 +30,6 @@ class API::VersionsController < ApplicationController
     end
 
     def set_restore_attributes
-      { restored_from: @version.id, slug: @article.slug, status: :draft }
+      { restored_from_timestamp: @version.created_at, slug: @article.slug, status: :draft }
     end
 end

@@ -6,6 +6,7 @@ import { Input, Textarea, Select } from "neetoui/formik";
 import { buildSelectOptions } from "utils";
 
 import versionsApi from "apis/versions";
+import TooltipWrapper from "components/Common/TooltipWrapper";
 import { useStatusDispatch } from "contexts/status";
 
 const Modal = ({
@@ -105,14 +106,19 @@ const Modal = ({
               restoring
             </Typography>
             <div className="flex">
-              <Button
-                disabled={isSubmitting}
-                label="Restore changes"
-                loading={isSubmitting}
-                size="large"
-                type="submit"
-                onClick={() => setSubmitted(true)}
-              />
+              <TooltipWrapper
+                content="Restored article cannot be restored again"
+                disabled={version.restored_from_timestamp}
+              >
+                <Button
+                  disabled={isSubmitting || version.restored_from_timestamp}
+                  label="Restore changes"
+                  loading={isSubmitting}
+                  size="large"
+                  type="submit"
+                  onClick={() => setSubmitted(true)}
+                />
+              </TooltipWrapper>
               <Button
                 className="border mx-4 border-gray-300"
                 label="Cancel"

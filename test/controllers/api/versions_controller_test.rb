@@ -43,4 +43,12 @@ class API::VersionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal "draft", @article.reload.status
   end
+
+  def test_versions_are_retrieved_in_desc_order
+    get api_versions_path, params: { article_id: @article.id }, headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal @article.reload.versions.count, response_json["versions"].length
+    assert_equal @article.versions.last.id, response_json["versions"].first["id"]
+  end
 end
