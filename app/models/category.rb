@@ -3,7 +3,7 @@
 class Category < ApplicationRecord
   MAX_CATEGORY_TITLE_LENGTH = 50
 
-  has_many :articles, foreign_key: "category_id", class_name: "Article"
+  has_many :articles
   belongs_to :author, class_name: "User", foreign_key: "author_id"
 
   validates :title, presence: true, uniqueness: true, length: { maximum: MAX_CATEGORY_TITLE_LENGTH }

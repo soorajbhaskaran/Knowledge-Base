@@ -32,10 +32,8 @@ const Versions = ({ handleVersionClick, article, fetchVersions, versions }) => {
           active
           article={article}
           info={
-            article.restored_from_timestamp &&
-            `Restored from ${formatDateWithDayAndTime(
-              article.restored_from_timestamp
-            )}`
+            article.restored_from &&
+            `Restored from ${formatDateWithDayAndTime(article.restored_from)}`
           }
           onClick={null}
         />
@@ -46,9 +44,9 @@ const Versions = ({ handleVersionClick, article, fetchVersions, versions }) => {
                 article={version}
                 key={version.id}
                 info={
-                  version.restored_from_timestamp
+                  version.restored_from
                     ? `Restored from ${formatDateWithDayAndTime(
-                        version.restored_from_timestamp
+                        version.restored_from
                       )}`
                     : null
                 }

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_01_093620) do
+ActiveRecord::Schema.define(version: 2022_11_28_064028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(version: 2022_12_01_093620) do
     t.string "slug"
     t.datetime "published_date"
     t.integer "position", default: 0
+    t.datetime "restored_from"
     t.integer "visits", default: 0
-    t.datetime "restored_from_timestamp"
     t.index ["category_id"], name: "index_articles_on_category_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
@@ -56,11 +56,11 @@ ActiveRecord::Schema.define(version: 2022_12_01_093620) do
   create_table "redirections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "from_path", null: false
     t.string "to_path", null: false
-    t.uuid "author_id", null: false
+    t.uuid "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["author_id"], name: "index_redirections_on_author_id"
     t.index ["from_path"], name: "index_redirections_on_from_path", unique: true
+    t.index ["user_id"], name: "index_redirections_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -91,6 +91,6 @@ ActiveRecord::Schema.define(version: 2022_12_01_093620) do
   add_foreign_key "articles", "categories"
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "categories", "users", column: "author_id"
-  add_foreign_key "redirections", "users", column: "author_id"
+  add_foreign_key "redirections", "users"
   add_foreign_key "users", "organizations"
 end

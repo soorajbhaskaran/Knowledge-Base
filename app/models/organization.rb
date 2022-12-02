@@ -4,7 +4,7 @@ class Organization < ApplicationRecord
   MINIMUM_ORGANIZATION_PASSWORD_LENGTH = 6
   VALID_PASSWORD_REGEX = /([a-z]+[0-9]+)|([0-9]+[a-z]+)/i
 
-  has_many :users, foreign_key: "organization_id", class_name: "User"
+  has_many :users
 
   validates :name, presence: true
   validates :password,

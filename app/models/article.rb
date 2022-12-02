@@ -6,7 +6,7 @@ class Article < ApplicationRecord
 
   enum status: { draft: "draft", published: "published" }
 
-  belongs_to :category, counter_cache: true, foreign_key: "category_id", class_name: "Category"
+  belongs_to :category, counter_cache: true
   belongs_to :author, foreign_key: "author_id", class_name: "User"
 
   validates :title, presence: true, length: { maximum: MAX_ARTICLE_TITLE_LENGTH }

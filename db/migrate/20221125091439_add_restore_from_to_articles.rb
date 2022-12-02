@@ -2,6 +2,6 @@
 
 class AddRestoreFromToArticles < ActiveRecord::Migration[6.1]
   def change
-    add_column :articles, :restored_from, :integer, default: nil
+    add_column :articles, :restored_from, :datetime, default: nil
   end
 end
