@@ -108,10 +108,10 @@ const Modal = ({
             <div className="flex">
               <TooltipWrapper
                 content="Restored article cannot be restored again"
-                disabled={version.restored_from_timestamp}
+                disabled={version.restored_from}
               >
                 <Button
-                  disabled={isSubmitting || version.restored_from_timestamp}
+                  disabled={isSubmitting || version.restored_from}
                   label="Restore changes"
                   loading={isSubmitting}
                   size="large"
