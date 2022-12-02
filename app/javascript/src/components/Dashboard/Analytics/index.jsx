@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import { Table, Pagination, PageLoader, Typography } from "neetoui";
+import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 
 import { buildAnalyticsColumnData } from "./utils";
 
-const Analytics = () => {
+const Analytics = ({ history }) => {
   const [articles, setArticles] = useState([]);
   const [publishedArticlesCount, setPublishedArticlesCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -30,6 +31,10 @@ const Analytics = () => {
   useEffect(() => {
     fetchArticles();
   }, [pageNo]);
+
+  useEffect(() => {
+    history.push("/admin/analytics");
+  }, []);
 
   if (loading) {
     return (
@@ -64,4 +69,4 @@ const Analytics = () => {
   );
 };
 
-export default Analytics;
+export default withRouter(Analytics);

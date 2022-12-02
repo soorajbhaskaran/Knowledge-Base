@@ -9,7 +9,8 @@ import { withRouter } from "react-router-dom";
 import articlesApi from "apis/public/articles";
 import Backdrop from "components/Common/Backdrop";
 
-import Card from "./Card";
+import KeyboardKeys from "./KeyboardKeys";
+import SearchItem from "./SearchItem";
 
 const Searchbar = ({ showModal, setShowModal, history }) => {
   const [articles, setArticles] = useState([]);
@@ -80,7 +81,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
     <Backdrop setShowModal={setShowModal} showModal={showModal}>
       <Input
         autoFocus
-        className="mt-56 rounded-none text-lg font-black"
+        className="mt-56 rounded-t-sm text-lg font-black"
         placeholder="Search for article"
         prefix={<Search size={25} />}
         size="large"
@@ -99,7 +100,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
       >
         {articles.length > 0 ? (
           articles.map((article, index) => (
-            <Card
+            <SearchItem
               active={index === cursor}
               article={article}
               handleArticleClick={() => handleArticleClick(article)}
@@ -113,6 +114,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
           </Typography>
         )}
       </div>
+      <KeyboardKeys />
     </Backdrop>
   );
 };
