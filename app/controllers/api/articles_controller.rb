@@ -3,7 +3,7 @@
 require "json"
 
 class API::ArticlesController < ApplicationController
-  before_action :load_article!, only: %i[update show destroy]
+  before_action :load_article!, only: %i[update show destroy visits]
 
   def index
     @articles = current_user.articles.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
@@ -47,6 +47,10 @@ class API::ArticlesController < ApplicationController
       current_user.articles.find(article_id).update!(category_id: params[:category_id])
     end
     respond_with_success(t("successfully_updated", entity: "Article"))
+  end
+
+  def visits
+    @visits = @article.visits
   end
 
   private

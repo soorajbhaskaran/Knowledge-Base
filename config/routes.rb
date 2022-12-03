@@ -10,6 +10,7 @@ Rails.application.routes.draw do
           patch :change_category
           get "page/:page", action: :index
         end
+        get :visits, on: :member
       end
       resources :categories, except: %i[new edit show] do
         patch :sort, on: :collection

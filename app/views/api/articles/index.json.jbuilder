@@ -1,9 +1,9 @@
   # frozen_string_literal: true
 
-  json.articles @articles.order(visits: :desc).page params[:page] do |article|
+  json.articles @articles.page params[:page] do |article|
     json.partial! "api/articles/article", article: article
     json.date article.published_date
-    json.visits article.visits
+    json.visits article.visits.sum(:count)
     json.category article.category.title
     json.author "#{article.author.first_name} #{article.author.last_name}"
   end

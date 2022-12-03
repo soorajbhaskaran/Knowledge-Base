@@ -38,8 +38,14 @@ class API::Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  def test_visits_count_should_be_incremented_when_user_access_article
-    assert_difference "@article.reload.visits", 1 do
+  def test_total_visit_count_should_be_increased_when_user_access_article
+    assert_difference "@article.visits.sum(:count)", 1 do
+      get api_public_article_path(@article.slug), headers: @headers
+    end
+  end
+
+  def test_new_visit_should_be_created_when_user_access_article_for_the_first_time_in_a_day
+    assert_difference "Visit.count", 1 do
       get api_public_article_path(@article.slug), headers: @headers
     end
   end

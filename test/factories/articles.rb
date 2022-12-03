@@ -7,6 +7,5 @@ FactoryBot.define do
     association :author, factory: :user
     association :category, factory: :category
     status { "draft" }
-    visits { 0 }
   end
 end
