@@ -9,12 +9,13 @@ const fetch = ({ status = "", query = "", categoriesIds = [], page = 1 }) =>
 
 const create = (payload) => axios.post("/articles", payload);
 const update = (id, payload) => axios.put(`/articles/${id}`, payload);
-const sort = (payload) => axios.patch("/articles/sort", payload);
+const show = (id) => axios.get(`/articles/${id}`);
 const destroy = (id) => axios.delete(`/articles/${id}`);
+const sort = (payload) => axios.patch("/articles/sort", payload);
 const changeCategory = (payload) =>
   axios.patch("/articles/change_category", payload);
 
-const show = (id) => axios.get(`/articles/${id}`);
+const visits = (id) => axios.get(`/articles/${id}/visits`);
 const filter = ({ status, categories_ids }) => {
   const path = status
     ? `/articles/filter?status=${status}`
@@ -32,6 +33,7 @@ const articlesApi = {
   filter,
   sort,
   changeCategory,
+  visits,
 };
 
 export default articlesApi;

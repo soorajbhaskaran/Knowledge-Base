@@ -5,12 +5,14 @@ import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 
-import { buildAnalyticsColumnData } from "./utils";
+import { buildAnalyticsColumnData, buildVisitsColumnData } from "./utils";
 
 const Analytics = ({ history }) => {
   const [articles, setArticles] = useState([]);
   const [publishedArticlesCount, setPublishedArticlesCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [expandedRowIds, setExpandedRowIds] = useState([]);
+  const [visits, setVisits] = useState([]);
   const [pageNo, setPageNo] = useState(1);
 
   const fetchArticles = async () => {
@@ -25,6 +27,25 @@ const Analytics = ({ history }) => {
       logger.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchVisits = async (id) => {
+    try {
+      const {
+        data: { visits },
+      } = await articlesApi.visits(id);
+      setVisits(visits);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const handleRowExpand = ({ expandable, id }) => {
+    setExpandedRowIds([id]);
+    fetchVisits(id);
+    if (!expandable) {
+      setExpandedRowIds([]);
     }
   };
 
@@ -53,6 +74,17 @@ const Analytics = ({ history }) => {
         className="mx-16"
         columnData={buildAnalyticsColumnData()}
         rowData={articles}
+        expandable={{
+          expandedRowKeys: expandedRowIds,
+          onExpand: (expandable, { id }) => handleRowExpand({ expandable, id }),
+          rowExpandable: ({ visits }) => visits > 0,
+          expandRowByClick: true,
+          expandedRowRender: () => (
+            <div className="w-56">
+              <Table columnData={buildVisitsColumnData()} rowData={visits} />
+            </div>
+          ),
+        }}
         onRowClick={() => {}}
         onRowSelect={() => {}}
       />

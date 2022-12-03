@@ -8,6 +8,7 @@ class Article < ApplicationRecord
 
   belongs_to :category, counter_cache: true
   belongs_to :author, foreign_key: "author_id", class_name: "User"
+  has_many :visits, dependent: :destroy
 
   validates :title, presence: true, length: { maximum: MAX_ARTICLE_TITLE_LENGTH }
   validates :content, presence: true, length: { maximum: MAX_ARTICLE_CONTENT_LENGTH }
@@ -20,6 +21,16 @@ class Article < ApplicationRecord
   acts_as_list scope: :category
   has_paper_trail on: [:update], ignore: [:position]
   paginates_per 9
+
+  def visited
+    if self.visits.empty?
+      self.visits.create! count: 1
+    elsif self.visits.last.created_at.to_date == Time.zone.now.to_date
+      self.visits.last.increment!(:count)
+    else
+      self.visits.create! count: 1
+    end
+  end
 
   private
 

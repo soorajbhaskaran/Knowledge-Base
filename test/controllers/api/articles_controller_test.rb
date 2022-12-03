@@ -9,6 +9,7 @@ class API::ArticlesControllerTest < ActionDispatch::IntegrationTest
     @author = create(:user, organization: @organization)
     @category = create(:category, author: @author)
     @article = create(:article, author: @author, category: @category, status: "published")
+    @visits = create(:visit, article: @article)
     @headers = headers(@organization)
   end
 
@@ -87,5 +88,12 @@ class API::ArticlesControllerTest < ActionDispatch::IntegrationTest
       headers: @headers
     assert_response :success
     assert_equal @article.reload.category_id, @category.id
+  end
+
+  def test_should_list_every_visit_of_an_article
+    get visits_api_article_path(@article.id), headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["visits"].length, @article.visits.count
   end
 end

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_28_064028) do
+ActiveRecord::Schema.define(version: 2022_12_02_175721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 2022_11_28_064028) do
     t.datetime "published_date"
     t.integer "position", default: 0
     t.datetime "restored_from"
-    t.integer "visits", default: 0
     t.index ["category_id"], name: "index_articles_on_category_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
@@ -88,9 +87,18 @@ ActiveRecord::Schema.define(version: 2022_11_28_064028) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  create_table "visits", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "article_id", null: false
+    t.integer "count", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["article_id"], name: "index_visits_on_article_id"
+  end
+
   add_foreign_key "articles", "categories"
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "categories", "users", column: "author_id"
   add_foreign_key "redirections", "users"
   add_foreign_key "users", "organizations"
+  add_foreign_key "visits", "articles"
 end
