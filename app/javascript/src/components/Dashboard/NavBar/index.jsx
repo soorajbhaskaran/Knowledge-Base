@@ -1,8 +1,7 @@
 import React from "react";
 
-import classnames from "classnames";
 import { ExternalLink } from "neetoicons";
-import { Typography } from "neetoui";
+import { Typography, Tag } from "neetoui";
 import { Link } from "react-router-dom";
 
 import { useStatusState } from "contexts/status";
@@ -30,18 +29,11 @@ const NavBar = () => {
       </div>
       <div className="flex">
         {status && (
-          <Typography
-            component="p"
-            style="body2"
-            className={classnames(
-              "my-1 flex items-center rounded-md bg-orange-400 p-1 text-xs font-bold",
-              {
-                "bg-green-800 text-white": status === "published",
-              }
-            )}
-          >
-            {status}
-          </Typography>
+          <Tag
+            label={status}
+            style={status === "published" ? "success" : "info"}
+            type="solid"
+          />
         )}
         <Link target="_blank" to="/public/articles">
           <div className="ml-2 flex rounded-md bg-gray-300 py-2 px-4">
