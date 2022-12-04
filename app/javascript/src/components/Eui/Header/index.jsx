@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import { useKeyPress } from "hooks";
-import { Search, Keyboard } from "neetoicons";
-import { Typography, Input } from "neetoui";
+import { Search } from "neetoicons";
+import { Typography, Input, Kbd } from "neetoui";
 import { either, isNil, isEmpty } from "ramda";
 
 import { getFromLocalStorage } from "utils/storage";
@@ -34,8 +34,8 @@ const Header = ({ title }) => {
           prefix={<Search size={16} />}
           suffix={
             <div className="flex items-center">
-              <Keyboard size={20} />
-              <Typography className="font-semibold">K</Typography>
+              <Kbd className="mr-1" keyName="⌘" />
+              <Kbd keyName="K" />
             </div>
           }
           onFocus={() => setShowModal(true)}

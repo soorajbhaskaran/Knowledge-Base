@@ -1,33 +1,28 @@
 import React from "react";
 
-import { UpArrow, DownArrow } from "neetoicons";
-import { Typography } from "neetoui";
+import { Typography, Kbd } from "neetoui";
 
 const KeyboardKeys = () => (
   <footer className="flex h-10  items-center rounded-b-sm bg-gray-400 p-1">
-    <UpArrow className="ml-2 rounded-lg bg-white shadow-sm" size={20} />
-    <DownArrow className="ml-2 rounded-lg bg-white shadow-sm" size={20} />
-    <Typography className="ml-2 font-semibold" component="p" style="body2">
+    <Kbd className="mx-1 text-xs" keyName="↑" />
+    <Kbd className="mr-2 text-xs" keyName="↓" />
+    <Typography
+      className="mr-4 text-sm font-semibold"
+      component="p"
+      style="body2"
+    >
       to navigate
     </Typography>
+    <Kbd className="mx-2 text-xs" keyName="Enter" />
     <Typography
-      className="ml-6 rounded-lg bg-white p-1 shadow-sm"
-      component="h5"
-      style="h5"
+      className="mr-4 text-sm font-semibold"
+      component="p"
+      style="body2"
     >
-      Enter
-    </Typography>
-    <Typography className="ml-2 font-semibold" component="p" style="body2">
       to select
     </Typography>
-    <Typography
-      className="ml-6 rounded-lg bg-white p-1 shadow-sm"
-      component="h5"
-      style="h5"
-    >
-      Escape
-    </Typography>
-    <Typography className="ml-2 font-semibold" component="p" style="body2">
+    <Kbd className="mx-2 text-xs" keyName="Escape" />
+    <Typography className="font-semibold" component="p" style="body2">
       to close
     </Typography>
   </footer>
