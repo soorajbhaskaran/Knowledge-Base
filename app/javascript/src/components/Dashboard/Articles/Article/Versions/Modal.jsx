@@ -31,7 +31,9 @@ const Modal = ({
       });
       setVersion({
         ...version,
-        category: { ...buildSelectOptions([version.category])[0] },
+        category: version.category && {
+          ...buildSelectOptions([version.category])[0],
+        },
       });
     } catch (error) {
       logger.error(error);
@@ -97,27 +99,36 @@ const Modal = ({
               name="content"
               rows={2}
             />
-            <Typography
-              className="mb-6 font-bold italic"
-              component="p"
-              style="body3"
-            >
-              The article will be changed to <strong>draft</strong> state after
-              restoring
-            </Typography>
+            {!version.restored_from && version.category && (
+              <Typography
+                className="mb-6 font-bold italic"
+                component="p"
+                style="body3"
+              >
+                The article will be changed to <strong>draft</strong> state
+                after restoring
+              </Typography>
+            )}
             <div className="flex">
               <TooltipWrapper
                 content="Restored article cannot be restored again"
                 disabled={version.restored_from}
               >
-                <Button
-                  disabled={isSubmitting || version.restored_from}
-                  label="Restore changes"
-                  loading={isSubmitting}
-                  size="large"
-                  type="submit"
-                  onClick={() => setSubmitted(true)}
-                />
+                <TooltipWrapper
+                  content="Cannot be restored as category is deleted"
+                  disabled={version.category === null}
+                >
+                  <Button
+                    label="Restore changes"
+                    loading={isSubmitting}
+                    size="large"
+                    type="submit"
+                    disabled={
+                      isSubmitting || version.restored_from || !version.category
+                    }
+                    onClick={() => setSubmitted(true)}
+                  />
+                </TooltipWrapper>
               </TooltipWrapper>
               <Button
                 className="border mx-4 border-gray-300"
