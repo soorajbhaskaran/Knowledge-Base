@@ -50,6 +50,20 @@ class API::Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_visiting_article_should_create_a_new_field_once_in_a_day
+    article = create(
+      :article, created_at: Time.zone.at(946684800.0), updated_at: Time.zone.at(946684800.0),
+      status: "published")
+    create(
+      :visit, article: article, created_at: Time.zone.at(946684800.0), updated_at: Time.zone.at(946684800.0),
+      count: 5)
+    get api_public_article_path(article.slug), headers: @headers
+    get api_public_article_path(article.slug), headers: @headers
+    get api_public_article_path(article.slug), headers: @headers
+    get api_public_article_path(article.slug), headers: @headers
+    assert_equal article.visits.count, 2
+  end
+
   def test_searching_article_based_on_title
     get api_public_articles_path, params: { query: @article.title }, headers: @headers
     assert_response :success

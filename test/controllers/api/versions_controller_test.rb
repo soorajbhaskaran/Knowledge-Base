@@ -51,4 +51,19 @@ class API::VersionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @article.reload.versions.count, response_json["versions"].length
     assert_equal @article.versions.last.id, response_json["versions"].first["id"]
   end
+
+  def test_versions_cannot_be_restored_if_category_is_not_present
+    patch api_article_path(@article.id), params: { article: { title: "Updated title" }
+    }, headers: @headers
+    test_version_id = @article.versions.last.id
+    category = create(:category, author: @author)
+    patch change_category_api_articles_path, params: { articles_ids: [@article.id], category_id: category.id },
+      headers: @headers
+    assert_response :success
+    @category.destroy
+    assert_difference "Article.count", 0 do
+      patch restore_api_version_path(test_version_id), params: { article_id: @article.id }, headers: @headers
+    end
+    assert_response :not_found
+  end
 end

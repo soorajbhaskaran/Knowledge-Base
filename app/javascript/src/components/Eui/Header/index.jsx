@@ -12,6 +12,7 @@ import Searchbar from "./Searchbar";
 const Header = ({ title }) => {
   const [showModal, setShowModal] = useState(false);
   const commandPress = useKeyPress("Meta");
+  const controlPress = useKeyPress("Control");
   const kPress = useKeyPress("k");
 
   const isAuthenticated = !either(
@@ -20,10 +21,10 @@ const Header = ({ title }) => {
   )(getFromLocalStorage("authToken"));
 
   useEffect(() => {
-    if (commandPress && kPress) {
+    if ((commandPress || controlPress) && kPress) {
       setShowModal(true);
     }
-  }, [commandPress, kPress]);
+  }, [commandPress, kPress, controlPress]);
 
   return (
     <>

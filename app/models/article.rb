@@ -3,6 +3,7 @@
 class Article < ApplicationRecord
   MAX_ARTICLE_TITLE_LENGTH = 50
   MAX_ARTICLE_CONTENT_LENGTH = 10000
+  MAX_ARTICLES_PER_PAGE = 9
 
   enum status: { draft: "draft", published: "published" }
 
@@ -20,16 +21,21 @@ class Article < ApplicationRecord
 
   acts_as_list scope: :category
   has_paper_trail on: [:update], ignore: [:position]
-  paginates_per 9
+  paginates_per MAX_ARTICLES_PER_PAGE
 
   def visited
     if self.visits.empty?
       self.visits.create! count: 1
-    elsif self.visits.last.created_at.to_date == Time.zone.now.to_date
+    elsif self.visits.order(created_at: :desc).first.created_at.to_date == Time.zone.now.to_date
       self.visits.last.increment!(:count)
     else
       self.visits.create! count: 1
     end
+  end
+
+  def preserve_slug_and_add_restore_attributes(slug)
+    self.attributes = { slug: slug, restored_from: self.updated_at, status: :draft }
+    self
   end
 
   private
@@ -70,8 +76,6 @@ class Article < ApplicationRecord
     end
 
     def update_published_date_when_status_changes_to_published
-      if status_changed? && published?
-        self.published_date = Time.zone.now
-      end
+      self.published_date = Time.zone.now if published?
     end
 end

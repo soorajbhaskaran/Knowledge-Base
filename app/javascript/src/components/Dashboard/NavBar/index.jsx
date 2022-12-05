@@ -13,7 +13,7 @@ const NavBar = () => {
   const { status } = useStatusState();
 
   return (
-    <nav className="flex h-16 justify-between border-b-2 border-gray-200 bg-white p-3">
+    <nav className="h-1/5 flex justify-between border-b-2 border-gray-200 bg-white p-3">
       <div>
         <Link
           exact
