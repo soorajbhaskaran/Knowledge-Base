@@ -12,7 +12,7 @@ const Version = ({ active, article, onClick, info }) => (
       "border my-2 flex h-20 w-full flex-col justify-center rounded-md border-gray-400 p-2 text-center",
       {
         "sticky border-blue-400 bg-blue-200": active,
-        "hover:bg-gray-300": !active,
+        "bg-white shadow-xs hover:bg-gray-300": !active,
       }
     )}
   >
