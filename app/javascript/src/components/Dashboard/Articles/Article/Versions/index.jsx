@@ -37,7 +37,8 @@ const Versions = ({ handleVersionClick, article, fetchVersions, versions }) => {
           }
           onClick={null}
         />
-        {versions && (
+        <hr className="solid bg-gray-100" />
+        {versions.length > 0 ? (
           <div className="w-full overflow-auto">
             {versions.map((version) => (
               <Version
@@ -54,8 +55,15 @@ const Versions = ({ handleVersionClick, article, fetchVersions, versions }) => {
               />
             ))}
           </div>
+        ) : (
+          <Typography
+            className="mt-4 w-full text-center font-semibold italic text-gray-600"
+            component="p"
+            style="body2"
+          >
+            The article has no previous versions
+          </Typography>
         )}
-        <div className="mt-2 flex items-center" />
       </Container>
     </div>
   );

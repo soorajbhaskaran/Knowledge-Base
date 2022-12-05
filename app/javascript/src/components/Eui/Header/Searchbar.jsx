@@ -94,7 +94,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
         className={classnames(
           "mt-2 items-center justify-center rounded-sm bg-white py-2",
           {
-            "h-64 overflow-y-scroll": articles.length > 0,
+            "h-64 overflow-auto": articles.length > 0,
           }
         )}
       >
