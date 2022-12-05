@@ -10,16 +10,11 @@ class Category < ApplicationRecord
 
   acts_as_list
 
-  def self.split_category_articles_based_on_status
-    Category.includes(:articles).map do |category|
-     category.attributes.merge(
-       {
-         articles: {
-           published: category.articles.of_status(:published),
-           draft: category.articles.of_status(:draft)
-         }
-       })
-   end
+  def split_category_articles_based_on_status
+    articles = {
+      published: self.articles.of_status(:published),
+      draft: self.articles.of_status(:draft)
+    }
  end
 
   def self.show_category_with_published_articles

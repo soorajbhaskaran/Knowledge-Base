@@ -2,7 +2,7 @@
 
 class API::OrganizationsController < ApplicationController
   def show
-    @organization = current_organization
+    current_organization
   end
 
   def update

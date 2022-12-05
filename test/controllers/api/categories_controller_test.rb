@@ -12,13 +12,6 @@ class API::CategoriesControllerTest < ActionDispatch::IntegrationTest
     @headers = headers(@organization)
   end
 
-  def test_every_category_should_have_one_author
-    get api_categories_path, params: { query: "" }, headers: @headers
-    assert_response :success
-    response_json = response.parsed_body
-    assert_equal response_json["categories"].first["author_id"], @category.author.id
-  end
-
   def test_should_list_all_categories
     get api_categories_path, params: { query: "" }, headers: @headers
     assert_response :success

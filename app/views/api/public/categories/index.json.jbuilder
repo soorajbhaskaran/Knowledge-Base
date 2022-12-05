@@ -1,2 +1,2 @@
 
-json.categories @public_categories
+json.categories @categories
