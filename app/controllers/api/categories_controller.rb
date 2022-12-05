@@ -5,7 +5,6 @@ class API::CategoriesController < ApplicationController
 
   def index
     @categories = current_user.categories.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
-    @categories = @categories.order(:position).split_category_articles_based_on_status
   end
 
   def create
