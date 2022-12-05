@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 import classnames from "classnames";
 import { useKeyPress, useDebounce } from "hooks";
@@ -21,7 +21,6 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
   const upPress = useKeyPress("ArrowUp");
   const enterPress = useKeyPress("Enter");
   const escapePress = useKeyPress("Escape");
-  const scroll = useRef(null);
   const debouncedSearchTerm = useDebounce(searchTerm);
 
   const fetchArticles = async () => {
@@ -92,7 +91,6 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
         onKeyDown={(event) => handleKeyDown(event)}
       />
       <div
-        ref={scroll}
         className={classnames(
           "mt-2 items-center justify-center rounded-sm bg-white py-2",
           {
