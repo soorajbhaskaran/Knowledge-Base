@@ -9,7 +9,7 @@ import { getFromLocalStorage } from "utils/storage";
 
 import Searchbar from "./Searchbar";
 
-const Header = ({ title }) => {
+const Header = ({ title, isPasswordProtected }) => {
   const [showModal, setShowModal] = useState(false);
   const commandPress = useKeyPress("Meta");
   const controlPress = useKeyPress("Control");
@@ -28,7 +28,7 @@ const Header = ({ title }) => {
 
   return (
     <>
-      {isAuthenticated && (
+      {(!isPasswordProtected || isAuthenticated) && (
         <Input
           className="absolute ml-4 w-1/5 py-4"
           placeholder="Search for article title"

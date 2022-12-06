@@ -1,3 +1,3 @@
 json.articles @articles do |article|
-  json.extract! article, :id, :title
+  json.extract! article, :id, :title, :slug
 end
