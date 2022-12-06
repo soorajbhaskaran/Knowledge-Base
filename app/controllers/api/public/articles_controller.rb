@@ -9,7 +9,7 @@ class API::Public::ArticlesController < ApplicationController
   end
 
   def show
-    @article.visited
+    @article.visits.create!
   end
 
   private

@@ -5,7 +5,11 @@ import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 
-import { buildAnalyticsColumnData, buildVisitsColumnData } from "./utils";
+import {
+  buildAnalyticsColumnData,
+  buildVisitsColumnData,
+  buildVisitsTableFromCreatedAt,
+} from "./utils";
 
 const Analytics = ({ history }) => {
   const [articles, setArticles] = useState([]);
@@ -35,7 +39,7 @@ const Analytics = ({ history }) => {
       const {
         data: { visits },
       } = await articlesApi.visits(id);
-      setVisits(visits);
+      setVisits(buildVisitsTableFromCreatedAt(visits));
     } catch (error) {
       logger.error(error);
     }
@@ -80,7 +84,7 @@ const Analytics = ({ history }) => {
           rowExpandable: ({ visits }) => visits > 0,
           expandRowByClick: true,
           expandedRowRender: () => (
-            <div className="w-56">
+            <div className="w-64">
               <Table columnData={buildVisitsColumnData()} rowData={visits} />
             </div>
           ),

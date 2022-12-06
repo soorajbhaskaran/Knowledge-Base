@@ -3,7 +3,7 @@
   json.articles @articles.page params[:page] do |article|
     json.partial! "api/articles/article", article: article
     json.date article.published_date
-    json.visits article.visits.sum(:count)
+    json.visits article.visits.count
     json.category article.category.title
     json.author "#{article.author.first_name} #{article.author.last_name}"
   end

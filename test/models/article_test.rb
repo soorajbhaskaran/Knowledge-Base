@@ -196,12 +196,4 @@ class ArticleTest < ActiveSupport::TestCase
     slugs = articles.pluck(:slug)
     assert_equal slugs.uniq, slugs
   end
-
-  def test_article_is_visited
-    @article.visits.destroy_all
-    create(:visit, count: 1, created_at: Time.zone.yesterday, article: @article)
-    @article.visited
-    @article.reload.visited
-    assert_equal 3, @article.reload.visits.sum(:count)
-  end
 end

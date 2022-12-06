@@ -38,30 +38,11 @@ class API::Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  def test_total_visit_count_should_be_increased_when_user_access_article
-    assert_difference "@article.visits.sum(:count)", 1 do
-      get api_public_article_path(@article.slug), headers: @headers
-    end
-  end
-
-  def test_new_visit_should_be_created_when_user_access_article_for_the_first_time_in_a_day
+  def test_new_visit_should_be_created_when_user_access_article
     assert_difference "Visit.count", 1 do
       get api_public_article_path(@article.slug), headers: @headers
     end
-  end
-
-  def test_visiting_article_should_create_a_new_field_once_in_a_day
-    article = create(
-      :article, created_at: Time.zone.at(946684800.0), updated_at: Time.zone.at(946684800.0),
-      status: "published")
-    create(
-      :visit, article: article, created_at: Time.zone.at(946684800.0), updated_at: Time.zone.at(946684800.0),
-      count: 5)
-    get api_public_article_path(article.slug), headers: @headers
-    get api_public_article_path(article.slug), headers: @headers
-    get api_public_article_path(article.slug), headers: @headers
-    get api_public_article_path(article.slug), headers: @headers
-    assert_equal article.visits.count, 2
+    assert_response :success
   end
 
   def test_searching_article_based_on_title

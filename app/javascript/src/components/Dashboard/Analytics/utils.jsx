@@ -64,6 +64,23 @@ export const buildVisitsColumnData = () => [
     key: "count",
     align: "center",
     title: "VISITS",
-    width: "24",
+    width: "32",
   },
 ];
+
+export const buildVisitsTableFromCreatedAt = (visits) => {
+  const visitsTable = {};
+  visits.forEach((visit) => {
+    const date = new Date(visit.created_at).toDateString();
+    if (visitsTable[date]) {
+      visitsTable[date] += 1;
+    } else {
+      visitsTable[date] = 1;
+    }
+  });
+
+  return Object.keys(visitsTable).map((date) => ({
+    created_at: date,
+    count: visitsTable[date],
+  }));
+};

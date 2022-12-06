@@ -23,16 +23,6 @@ class Article < ApplicationRecord
   has_paper_trail on: [:update], ignore: [:position]
   paginates_per MAX_ARTICLES_PER_PAGE
 
-  def visited
-    if self.visits.empty?
-      self.visits.create! count: 1
-    elsif self.visits.order(created_at: :desc).first.created_at.to_date == Time.zone.now.to_date
-      self.visits.last.increment!(:count)
-    else
-      self.visits.create! count: 1
-    end
-  end
-
   def preserve_slug_and_add_restore_attributes(slug)
     self.attributes = { slug: slug, restored_from: self.updated_at, status: :draft }
     self

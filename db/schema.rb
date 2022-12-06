@@ -89,7 +89,6 @@ ActiveRecord::Schema.define(version: 2022_12_02_175721) do
 
   create_table "visits", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "article_id", null: false
-    t.integer "count", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["article_id"], name: "index_visits_on_article_id"
