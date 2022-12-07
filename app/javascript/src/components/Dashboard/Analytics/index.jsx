@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Table, Pagination, PageLoader, Typography } from "neetoui";
+import { not } from "ramda";
 import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
@@ -48,7 +49,7 @@ const Analytics = ({ history }) => {
   const handleRowExpand = ({ expandable, id }) => {
     setExpandedRowIds([id]);
     fetchVisits(id);
-    if (!expandable) {
+    if (not(expandable)) {
       setExpandedRowIds([]);
     }
   };

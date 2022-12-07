@@ -21,8 +21,5 @@ export const getCategoriesTitleFromCategories = ({
     (category) => category.id !== selectedCategoryId
   );
 
-  return filteredCategories.map((category) => ({
-    id: category.id,
-    title: category.title,
-  }));
+  return filteredCategories.map(({ id, title }) => ({ id, title }));
 };

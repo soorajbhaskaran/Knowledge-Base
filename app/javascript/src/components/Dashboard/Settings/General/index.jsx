@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { Typography, Button, Checkbox } from "neetoui";
 import { Input } from "neetoui/formik";
+import { assoc, modify, F } from "ramda";
 
 import organizationApi from "apis/organization";
 import TooltipWrapper from "components/Common/TooltipWrapper";
@@ -23,11 +24,7 @@ const General = () => {
       const {
         data: { organization },
       } = await organizationApi.show();
-      setOrganization({
-        id: organization.id,
-        name: organization.name,
-        password: "",
-      });
+      setOrganization(assoc("password", "", organization));
       setIsPasswordVisible(organization.is_password_protection_enabled);
     } catch (error) {
       logger.error(error);
@@ -54,7 +51,7 @@ const General = () => {
 
   const handleCheckboxChange = (setTouched, setFieldValue) => {
     setIsPasswordVisible(!isPasswordVisible);
-    setTouched((prevTouched) => (prevTouched.password = false));
+    setTouched(modify("password", F));
     setFieldValue("active", isPasswordVisible);
   };
 

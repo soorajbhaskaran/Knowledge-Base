@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { MenuBar } from "neetoui/layouts";
 import queryString from "query-string";
+import { isNil } from "ramda";
 import { useLocation, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
@@ -123,7 +124,7 @@ const Menu = ({
 
   const preventOnBlurFromFiringWhenRelatedTargetIsNull = (event) => {
     const { _reactName: eventType, relatedTarget } = event;
-    const hasClickedOnSearchIcon = !(relatedTarget === null);
+    const hasClickedOnSearchIcon = !isNil(relatedTarget);
 
     return eventType === "onBlur" && hasClickedOnSearchIcon;
   };

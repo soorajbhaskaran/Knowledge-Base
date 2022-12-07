@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
+import { assoc } from "ramda";
 import { useParams, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/public/articles";
@@ -15,10 +16,7 @@ const Article = ({ history }) => {
       const {
         data: { article },
       } = await articlesApi.show({ slug });
-      setArticle({
-        ...article,
-        category: article.category.title,
-      });
+      setArticle(assoc("category", article.category.title, article));
       localStorage.removeItem("articleSlug");
     } catch (error) {
       logger.error(error);

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { Modal as NeetoUIModal, Typography, Button } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
+import { assoc, isNil } from "ramda";
 import { buildSelectOptions } from "utils";
 
 import versionsApi from "apis/versions";
@@ -29,12 +30,15 @@ const Modal = ({
         versionId,
         articleId,
       });
-      setVersion({
-        ...version,
-        category: version.category && {
-          ...buildSelectOptions([version.category])[0],
-        },
-      });
+      setVersion(
+        assoc(
+          "category",
+          !isNil(version.category) && {
+            ...buildSelectOptions([version.category])[0],
+          },
+          version
+        )
+      );
     } catch (error) {
       logger.error(error);
     }

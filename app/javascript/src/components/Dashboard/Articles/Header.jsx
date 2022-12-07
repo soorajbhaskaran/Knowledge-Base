@@ -4,6 +4,7 @@ import { useDebounce } from "hooks";
 import { Dropdown, Checkbox, Button } from "neetoui";
 import { Header as NeetoUIHeader } from "neetoui/layouts";
 import queryString from "query-string";
+import { assoc, toLower } from "ramda";
 import { useLocation, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
@@ -108,10 +109,9 @@ const renderColumnActionDropdown = ({ checkedColumns, setCheckedColumns }) => {
             id={name.toLowerCase()}
             label={name}
             onChange={() => {
-              setCheckedColumns((previousCheckedColumns) => ({
-                ...previousCheckedColumns,
-                [name.toLowerCase()]: !checkedColumns[name.toLowerCase()],
-              }));
+              setCheckedColumns(
+                assoc(toLower(name), !checkedColumns[toLower(name)])
+              );
             }}
           />
         </MenuItem.Button>

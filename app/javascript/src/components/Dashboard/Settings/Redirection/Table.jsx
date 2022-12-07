@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { Plus } from "neetoicons";
 import { Table as NeetoUITable, Button, PageLoader } from "neetoui";
+import { insert, filter } from "ramda";
 import { v4 as uuidv4 } from "uuid";
 
 import redirectionsApi from "apis/redirections";
@@ -52,7 +53,7 @@ const Table = () => {
       to_path: "",
     };
     setInitialValues({ from_path: "", to_path: "" });
-    setRedirections((prevRedirection) => [...prevRedirection, newRedirection]);
+    setRedirections(insert(redirections.length, newRedirection));
     setEditingKey(newRedirection.id);
   };
 
@@ -80,9 +81,7 @@ const Table = () => {
 
   const handleDeleteRedirection = async (id) => {
     if (id.length === 8) {
-      setRedirections((prevRedirections) =>
-        prevRedirections.filter((redirection) => redirection.id !== id)
-      );
+      setRedirections(filter((redirection) => redirection.id !== id));
     } else {
       try {
         await redirectionsApi.destroy(id);
