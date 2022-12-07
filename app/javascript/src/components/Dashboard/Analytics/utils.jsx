@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Typography } from "neetoui";
+import { keys } from "ramda";
 import { Link } from "react-router-dom";
 
 export const buildAnalyticsColumnData = () => [
@@ -79,8 +80,10 @@ export const buildVisitsTableFromCreatedAt = (visits) => {
     }
   });
 
-  return Object.keys(visitsTable).map((date) => ({
-    created_at: date,
-    count: visitsTable[date],
-  }));
+  return keys(visitsTable)
+    .sort()
+    .map((date) => ({
+      created_at: date,
+      count: visitsTable[date],
+    }));
 };

@@ -6,11 +6,6 @@ import * as yup from "yup";
 
 import { SETTINGS_NAVLINKS, ALPHANUMERIC_REGEX } from "./constants";
 
-const handleSubmit = (setSubmitted, submitForm) => {
-  setSubmitted(true);
-  submitForm();
-};
-
 export const buildRedirectionColumn = ({
   isEditing,
   handleEditRedirectionButton,
@@ -56,6 +51,11 @@ export const buildRedirectionColumn = ({
     width: 10,
     render: (_, record) => {
       const editing = isEditing(record);
+
+      const handleSubmit = (setSubmitted, submitForm) => {
+        setSubmitted(true);
+        submitForm();
+      };
 
       return (
         <div className="flex">

@@ -45,11 +45,10 @@ const Versions = ({ handleVersionClick, article, fetchVersions, versions }) => {
                 article={version}
                 key={version.id}
                 info={
-                  version.restored_from
-                    ? `Restored from ${formatDateWithDayAndTime(
-                        version.restored_from
-                      )}`
-                    : null
+                  version.restored_from &&
+                  `Restored from ${formatDateWithDayAndTime(
+                    version.restored_from
+                  )}`
                 }
                 onClick={() => handleVersionClick({ id: version.id })}
               />

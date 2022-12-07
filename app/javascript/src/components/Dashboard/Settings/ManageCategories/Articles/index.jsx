@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Search } from "neetoicons";
 import { Typography, Dropdown, Input } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
+import { isEmpty } from "ramda";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
@@ -78,7 +79,6 @@ const Articles = ({
     } catch (error) {
       logger.error(error);
     }
-
     setCheckedArticles([]);
   };
 
@@ -102,7 +102,7 @@ const Articles = ({
         actionBlock={
           <Dropdown
             buttonStyle="secondary"
-            disabled={checkedArticles.length === 0}
+            disabled={isEmpty(checkedArticles)}
             label="Move to"
           >
             <div className="flex flex-col gap-y-1 rounded-md p-2">
@@ -114,7 +114,7 @@ const Articles = ({
                 onChange={(event) => handleSearch({ event })}
               />
               <Typography style="body3">Results</Typography>
-              {categories.length > 0 ? (
+              {!isEmpty(categories) ? (
                 <Menu className="flex flex-col gap-y-1">
                   {getCategoriesTitleFromCategories({
                     categories,
@@ -149,7 +149,7 @@ const Articles = ({
           </span>
         </Typography>
       )}
-      {articles.length > 0 ? (
+      {!isEmpty(articles) ? (
         <DragAndDrop
           articles={articles}
           checkedArticles={checkedArticles}

@@ -34,12 +34,12 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
     }
   };
 
-  const handleArticleClick = (article) => {
+  const handleArticleClick = (slug) => {
     setShowModal(false);
     setCursor(0);
     setSearchTerm("");
     fetchArticles();
-    history.push(`/public/articles/${article.slug}`);
+    history.push(`/public/articles/${slug}`);
   };
 
   const handleKeyDown = (event) => {
@@ -103,7 +103,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
             <SearchItem
               active={index === cursor}
               article={article}
-              handleArticleClick={() => handleArticleClick(article)}
+              handleArticleClick={() => handleArticleClick(article.slug)}
               key={article.id}
               setHovered={setHovered}
             />

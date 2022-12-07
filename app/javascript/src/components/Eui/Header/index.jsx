@@ -14,11 +14,8 @@ const Header = ({ title, isPasswordProtected }) => {
   const commandPress = useKeyPress("Meta");
   const controlPress = useKeyPress("Control");
   const kPress = useKeyPress("k");
-
-  const isAuthenticated = !either(
-    isNil,
-    isEmpty
-  )(getFromLocalStorage("authToken"));
+  const authToken = getFromLocalStorage("authToken");
+  const isAuthenticated = !either(isNil, isEmpty)(authToken);
 
   useEffect(() => {
     if ((commandPress || controlPress) && kPress) {

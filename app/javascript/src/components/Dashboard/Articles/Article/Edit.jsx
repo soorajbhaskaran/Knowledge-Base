@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { PageLoader } from "neetoui";
 import queryString from "query-string";
+import { assoc } from "ramda";
 import { buildSelectOptions } from "utils";
 
 import articlesApi from "apis/articles";
@@ -25,10 +26,13 @@ const Edit = ({ location, history }) => {
       const {
         data: { article },
       } = await articlesApi.show(id);
-      setArticle({
-        ...article,
-        category: { ...buildSelectOptions([article.category])[0] },
-      });
+      setArticle(
+        assoc(
+          "category",
+          { ...buildSelectOptions([article.category])[0] },
+          article
+        )
+      );
     } catch (error) {
       logger.error(error);
     }

@@ -7,8 +7,4 @@ export const getFirstPublishedArticleFromCategories = (categories) => {
 };
 
 export const formatCategoriesWithTitleAndArticles = (categories) =>
-  categories.map((category) => ({
-    id: category.id,
-    title: category.title,
-    articles: category.articles,
-  }));
+  categories.map(({ id, title, articles }) => ({ id, title, articles }));
