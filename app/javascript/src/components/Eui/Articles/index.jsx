@@ -7,8 +7,6 @@ import categoriesApi from "apis/public/categories";
 import Accordion from "./Accordion";
 import Article from "./Article";
 
-import { formatCategoriesWithTitleAndArticles } from "../utils";
-
 const Articles = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,9 +14,9 @@ const Articles = () => {
   const fetchCategories = async () => {
     try {
       const {
-        data: { categories },
+        data: { categories: categoriesResponse },
       } = await categoriesApi.fetch();
-      setCategories(formatCategoriesWithTitleAndArticles(categories));
+      setCategories(categoriesResponse);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -29,6 +27,7 @@ const Articles = () => {
   useEffect(() => {
     fetchCategories();
   }, []);
+
   if (loading) {
     return (
       <div className="h-screen w-full">

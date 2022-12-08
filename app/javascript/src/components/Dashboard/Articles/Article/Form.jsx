@@ -31,9 +31,9 @@ const Form = ({
   const fetchCategories = async () => {
     try {
       const {
-        data: { categories },
+        data: { categories: categoriesResponse },
       } = await categoriesApi.fetch({});
-      setCategories(buildSelectOptions(categories));
+      setCategories(buildSelectOptions(categoriesResponse));
     } catch (error) {
       logger.error(error);
     }

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { Typography, Button, Checkbox } from "neetoui";
 import { Input } from "neetoui/formik";
-import { assoc, modify, F } from "ramda";
+import { assoc } from "ramda";
 
 import organizationApi from "apis/organization";
 import TooltipWrapper from "components/Common/TooltipWrapper";
@@ -22,10 +22,10 @@ const General = () => {
   const fetchOrganization = async () => {
     try {
       const {
-        data: { organization },
+        data: { organization: organizationResponse },
       } = await organizationApi.show();
-      setOrganization(assoc("password", "", organization));
-      setIsPasswordVisible(organization.is_password_protection_enabled);
+      setOrganization(assoc("password", "", organizationResponse));
+      setIsPasswordVisible(organizationResponse.is_password_protection_enabled);
     } catch (error) {
       logger.error(error);
     }
@@ -50,9 +50,8 @@ const General = () => {
     }
   };
 
-  const handleCheckboxChange = (setTouched, setFieldValue) => {
+  const handleCheckboxChange = setFieldValue => {
     setIsPasswordVisible(!isPasswordVisible);
-    setTouched(modify("password", F));
     setFieldValue("active", isPasswordVisible);
   };
 
@@ -69,7 +68,7 @@ const General = () => {
       validationSchema={buildPreferanceValidationSchema({ isPasswordVisible })}
       onSubmit={handleSubmitButton}
     >
-      {({ isSubmitting, setTouched, values, setFieldValue }) => (
+      {({ isSubmitting, values, setFieldValue }) => (
         <div className="mx-auto mt-5 w-full">
           <div className="mx-64">
             <Typography component="h3" style="h3">
@@ -97,7 +96,7 @@ const General = () => {
                 id="password"
                 label="Password Protect Knowledge Base"
                 name="active"
-                onChange={() => handleCheckboxChange(setTouched, setFieldValue)}
+                onChange={() => handleCheckboxChange(setFieldValue)}
               />
               {isPasswordVisible && <Password setFieldValue={setFieldValue} />}
               <div className="flex">

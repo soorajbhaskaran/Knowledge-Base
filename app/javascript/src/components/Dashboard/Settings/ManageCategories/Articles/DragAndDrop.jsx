@@ -1,6 +1,5 @@
 import React from "react";
 
-import { insert } from "ramda";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import articlesApi from "apis/articles";
@@ -41,7 +40,7 @@ const DragAndDrop = ({
     if (checkedArticles.includes(id)) {
       setCheckedArticles(checkedArticles.filter(item => item !== id));
     } else {
-      setCheckedArticles(insert(checkedArticles.length, id));
+      setCheckedArticles([...checkedArticles, id]);
     }
   };
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
-import { assoc } from "ramda";
 import { useParams, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/public/articles";
@@ -14,9 +13,9 @@ const Article = ({ history }) => {
   const fetchArticle = async ({ slug }) => {
     try {
       const {
-        data: { article },
+        data: { article: articleResponse },
       } = await articlesApi.show({ slug });
-      setArticle(assoc("category", article.category.title, article));
+      setArticle(articleResponse);
       localStorage.removeItem("articleSlug");
     } catch (error) {
       logger.error(error);
@@ -59,7 +58,7 @@ const Article = ({ history }) => {
       </Typography>
       <div className="flex items-center">
         <Typography className="border rounded-lg border-blue-400 bg-blue-200 p-1 font-bold">
-          {article.category}
+          {article.category.title}
         </Typography>
         <Typography className="ml-4 text-gray-600" component="h4" style="h4">
           {new Date(article.published_date).toDateString()}

@@ -13,13 +13,10 @@ export const getArticlesOrderedByPosition = articles => {
   return articleList.sort((a, b) => a.position - b.position);
 };
 
-export const getCategoriesTitleFromCategories = ({
-  categories,
-  selectedCategoryId,
-}) => {
+export const getUnselectedCategories = ({ categories, selectedCategoryId }) => {
   const filteredCategories = categories.filter(
     category => category.id !== selectedCategoryId
   );
 
-  return filteredCategories.map(({ id, title }) => ({ id, title }));
+  return filteredCategories;
 };

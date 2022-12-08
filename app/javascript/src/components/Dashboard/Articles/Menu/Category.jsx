@@ -1,7 +1,6 @@
 import React from "react";
 
 import { MenuBar } from "neetoui/layouts";
-import { filter } from "ramda";
 
 const Category = ({
   id,
@@ -13,7 +12,11 @@ const Category = ({
 }) => {
   const handleCategoryChange = async ({ title, id }) => {
     categoryList.map(({ title }) => title).includes(title)
-      ? setCategoryList(filter(category => category.title !== title))
+      ? setCategoryList(
+          setCategoryList(prevCategoryList =>
+            prevCategoryList.filter(category => category.title !== title)
+          )
+        )
       : setCategoryList(prevCategoryList => [
           ...prevCategoryList,
           { title, id },
