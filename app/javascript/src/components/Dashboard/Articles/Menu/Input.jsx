@@ -20,7 +20,7 @@ const Input = ({
 }) => {
   const debouncedSearchText = useDebounce(searchFieldText);
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = e => {
     if (e.key === "Enter") {
       handleSubmit();
     }
@@ -57,7 +57,7 @@ const Input = ({
             type="search"
             value={searchFieldText}
             onBlur={toggleSearch}
-            onChange={(e) => setSearchFieldText(e.target.value)}
+            onChange={e => setSearchFieldText(e.target.value)}
           />
         </div>
       )}
@@ -68,7 +68,7 @@ const Input = ({
             placeholder="Add New Category"
             value={title}
             onBlur={toggleAdd}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={e => setTitle(e.target.value)}
             onKeyPress={handleKeyPress}
           />
           <Button

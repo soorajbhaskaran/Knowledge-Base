@@ -59,6 +59,7 @@ const Articles = ({ history }) => {
       type: "SET_COUNT",
       count: publishedArticles + draftArticles,
     });
+
     setArticleStatusTabs(
       buildArticleStatusTabsWithCount(publishedArticles, draftArticles)
     );

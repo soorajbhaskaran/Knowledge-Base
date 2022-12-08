@@ -30,6 +30,7 @@ const Modal = ({
         versionId,
         articleId,
       });
+
       setVersion(
         assoc(
           "category",

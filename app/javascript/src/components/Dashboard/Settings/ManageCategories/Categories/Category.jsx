@@ -56,6 +56,7 @@ const Category = ({
     </div>
   </div>
 );
+
 Category.propTypes = {
   title: PropTypes.string,
   id: PropTypes.string,

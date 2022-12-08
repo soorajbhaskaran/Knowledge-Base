@@ -83,7 +83,7 @@ const Header = ({
         </>
       }
       searchProps={{
-        onChange: (event) => setSearchArticle(event.target.value),
+        onChange: event => setSearchArticle(event.target.value),
         placeholder: "Search article title",
         value: searchArticle,
       }}

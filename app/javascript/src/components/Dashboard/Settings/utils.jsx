@@ -20,7 +20,7 @@ export const buildRedirectionColumn = ({
     title: "FROM PATH",
     editable: true,
     width: 350,
-    render: (from_path) => (
+    render: from_path => (
       <div className="flex items-center">
         <Typography component="p" style="body2">
           {window.location.origin}/
@@ -35,7 +35,7 @@ export const buildRedirectionColumn = ({
     title: "TO PATH",
     editable: true,
     width: 150,
-    render: (to_path) => (
+    render: to_path => (
       <div className="flex items-center">
         <Typography component="p" style="body2">
           /
@@ -86,8 +86,8 @@ export const buildRedirectionColumn = ({
   },
 ];
 
-export const getActiveNavLink = (key) =>
-  SETTINGS_NAVLINKS.find((navlink) => key === navlink.key);
+export const getActiveNavLink = key =>
+  SETTINGS_NAVLINKS.find(navlink => key === navlink.key);
 
 export const buildPreferanceValidationSchema = ({ isPasswordVisible }) => {
   const validationShape = {

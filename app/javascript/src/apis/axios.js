@@ -21,7 +21,8 @@ const setAuthHeaders = (setLoading = () => null) => {
   }
   setLoading(false);
 };
-const handleSuccessResponse = (response) => {
+
+const handleSuccessResponse = response => {
   if (response) {
     response.success = response.status === 200;
     if (response.data.notice) {
@@ -31,10 +32,12 @@ const handleSuccessResponse = (response) => {
 
   return response;
 };
-const handleErrorResponse = (axiosErrorObject) => {
+
+const handleErrorResponse = axiosErrorObject => {
   if (axiosErrorObject.response?.status === 401) {
     setTimeout(() => (window.location.href = "/"), 2000);
   }
+
   Toastr.error(
     axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION
   );
@@ -46,7 +49,7 @@ const handleErrorResponse = (axiosErrorObject) => {
 };
 
 const registerIntercepts = () => {
-  axios.interceptors.response.use(handleSuccessResponse, (error) =>
+  axios.interceptors.response.use(handleSuccessResponse, error =>
     handleErrorResponse(error)
   );
 };

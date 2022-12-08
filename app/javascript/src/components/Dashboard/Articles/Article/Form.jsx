@@ -50,7 +50,7 @@ const Form = ({
       validateOnBlur={submitted}
       validateOnChange={submitted}
       validationSchema={buildValidationSchemaForArticles(categories)}
-      onSubmit={(values) => handleSubmit(values, status)}
+      onSubmit={values => handleSubmit(values, status)}
     >
       {({ isSubmitting, values }) => (
         <FormikForm className="w-full">
@@ -121,6 +121,7 @@ const Form = ({
     </Formik>
   );
 };
+
 Form.propTypes = {
   isEdit: PropTypes.bool,
   handleSubmit: PropTypes.func,

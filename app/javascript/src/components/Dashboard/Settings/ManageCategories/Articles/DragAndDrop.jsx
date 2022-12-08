@@ -16,7 +16,7 @@ const DragAndDrop = ({
   checkedArticles,
   setCheckedArticles,
 }) => {
-  const handleOnDragEnd = (result) => {
+  const handleOnDragEnd = result => {
     if (!result.destination) return;
 
     if (result.destination.index === result.source.index) return;
@@ -28,7 +28,7 @@ const DragAndDrop = ({
     setArticles(items);
   };
 
-  const sortArticles = async (articles) => {
+  const sortArticles = async articles => {
     try {
       await articlesApi.sort({ articles });
       fetchCategories({ isFirstFetch: false });
@@ -37,9 +37,9 @@ const DragAndDrop = ({
     }
   };
 
-  const handleCheckedColumn = (id) => {
+  const handleCheckedColumn = id => {
     if (checkedArticles.includes(id)) {
-      setCheckedArticles(checkedArticles.filter((item) => item !== id));
+      setCheckedArticles(checkedArticles.filter(item => item !== id));
     } else {
       setCheckedArticles(insert(checkedArticles.length, id));
     }
@@ -48,7 +48,7 @@ const DragAndDrop = ({
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="articles">
-        {(provided) => (
+        {provided => (
           <div
             {...provided.droppableProps}
             className="w-full"
@@ -60,7 +60,7 @@ const DragAndDrop = ({
                 index
               ) => (
                 <Draggable draggableId={id} index={index} key={id}>
-                  {(provided) => (
+                  {provided => (
                     <Article
                       checkedArticles={checkedArticles}
                       content={content}

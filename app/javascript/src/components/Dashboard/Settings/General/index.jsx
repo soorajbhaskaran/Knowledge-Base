@@ -31,7 +31,7 @@ const General = () => {
     }
   };
 
-  const handleSubmitButton = async (values) => {
+  const handleSubmitButton = async values => {
     try {
       await organizationApi.update({
         organization: {
@@ -40,6 +40,7 @@ const General = () => {
           password: (isPasswordVisible && values.password) || "",
         },
       });
+
       setToLocalStorage({
         authToken: null,
       });

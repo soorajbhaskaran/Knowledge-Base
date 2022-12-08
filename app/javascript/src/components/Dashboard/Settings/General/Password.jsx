@@ -11,7 +11,7 @@ const Password = ({ setFieldValue }) => {
   const [isPasswordDisabled, setIsPasswordDisabled] = useState(true);
   const ref = useRef(null);
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = e => {
     setPassword(e.target.value);
     setFieldValue("password", e.target.value);
   };
@@ -20,6 +20,7 @@ const Password = ({ setFieldValue }) => {
     ref.current.focus();
     setIsPasswordDisabled(false);
   };
+
   useEffect(() => {
     ref.current.focus();
   }, [isPasswordDisabled]);

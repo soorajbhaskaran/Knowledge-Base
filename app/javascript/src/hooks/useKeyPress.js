@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useKeyPress = (targetKey) => {
+const useKeyPress = targetKey => {
   const [keyPressed, setKeyPressed] = useState(false);
 
   useEffect(() => {
@@ -9,6 +9,7 @@ const useKeyPress = (targetKey) => {
         setKeyPressed(true);
       }
     };
+
     const upHandler = ({ key }) => {
       if (key === targetKey) {
         setKeyPressed(false);

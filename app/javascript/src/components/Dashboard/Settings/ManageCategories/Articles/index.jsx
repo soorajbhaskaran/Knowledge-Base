@@ -63,7 +63,7 @@ const Articles = ({
     }
   };
 
-  const handleCategoryChange = async (id) => {
+  const handleCategoryChange = async id => {
     try {
       await articlesApi.changeCategory({
         articles_ids: checkedArticles,
@@ -72,7 +72,7 @@ const Articles = ({
       const categories = await fetchCategories({ isFirstFetch: false });
       setArticles(
         getArticlesOrderedByPosition(
-          categories.find((category) => category.id === selectedCategory.id)
+          categories.find(category => category.id === selectedCategory.id)
             .articles
         )
       );
@@ -111,7 +111,7 @@ const Articles = ({
                 placeholder="Search categories"
                 prefix={<Search />}
                 value={searchTerm}
-                onChange={(event) => handleSearch({ event })}
+                onChange={event => handleSearch({ event })}
               />
               <Typography style="body3">Results</Typography>
               {!isEmpty(categories) ? (

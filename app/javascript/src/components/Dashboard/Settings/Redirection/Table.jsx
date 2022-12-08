@@ -22,9 +22,9 @@ const Table = () => {
     to_path: "",
   });
 
-  const isEditing = (record) => record.id === editingKey;
+  const isEditing = record => record.id === editingKey;
 
-  const handleEditRedirectionButton = (record) => {
+  const handleEditRedirectionButton = record => {
     setEditingKey(record.id);
     setInitialValues({
       from_path: record.from_path,
@@ -79,9 +79,9 @@ const Table = () => {
     setEditingKey("");
   };
 
-  const handleDeleteRedirection = async (id) => {
+  const handleDeleteRedirection = async id => {
     if (id.length === 8) {
-      setRedirections(filter((redirection) => redirection.id !== id));
+      setRedirections(filter(redirection => redirection.id !== id));
     } else {
       try {
         await redirectionsApi.destroy(id);
@@ -111,7 +111,7 @@ const Table = () => {
       submitForm,
       handleDeleteRedirection,
       resetForm,
-    }).map((col) => {
+    }).map(col => {
       if (!col.editable) {
         return { ...col, key: col.key };
       }
@@ -119,7 +119,7 @@ const Table = () => {
       return {
         ...col,
         key: col.key,
-        onCell: (record) => ({
+        onCell: record => ({
           record,
           dataIndex: col.dataIndex,
           editing: isEditing(record),

@@ -18,7 +18,4 @@
     }
   },
   "ruby.format": "rubocop",
-  "cSpell.words": [
-    "redirections"
-  ],
 }

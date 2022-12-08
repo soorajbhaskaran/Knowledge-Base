@@ -18,7 +18,7 @@ const DragAndDrop = ({
   setArticles,
   setSearchTerm,
 }) => {
-  const handleOnDragEnd = (result) => {
+  const handleOnDragEnd = result => {
     if (!result.destination) return;
 
     if (result.destination.index === result.source.index) return;
@@ -30,7 +30,7 @@ const DragAndDrop = ({
     setCategories(items);
   };
 
-  const sortCategories = async (categories) => {
+  const sortCategories = async categories => {
     try {
       await categoriesApi.sort({ categories });
     } catch (error) {
@@ -38,7 +38,7 @@ const DragAndDrop = ({
     }
   };
 
-  const handleCategoryClick = (category) => {
+  const handleCategoryClick = category => {
     setSelectedCategory(category);
     setArticles(getArticlesOrderedByPosition(category.articles));
     setSearchTerm("");
@@ -47,7 +47,7 @@ const DragAndDrop = ({
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="categories">
-        {(provided) => (
+        {provided => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
             {categories.map((category, index) => (
               <Draggable
@@ -55,7 +55,7 @@ const DragAndDrop = ({
                 index={index}
                 key={category.id}
               >
-                {(provided) => (
+                {provided => (
                   <Category
                     active={selectedCategory.id === category.id}
                     articlesCount={category.articles_count}

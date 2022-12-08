@@ -27,7 +27,7 @@ export const buildAnalyticsColumnData = () => [
     key: "date",
     title: "PUBLISHED DATE",
     width: "20",
-    render: (date) => (
+    render: date => (
       <Typography style="body2">{new Date(date).toDateString()}</Typography>
     ),
   },
@@ -54,7 +54,7 @@ export const buildVisitsColumnData = () => [
     key: "created_at",
     title: "DATE",
     width: "32",
-    render: (createdAt) => (
+    render: createdAt => (
       <Typography style="body2">
         {new Date(createdAt).toDateString()}
       </Typography>
@@ -69,9 +69,9 @@ export const buildVisitsColumnData = () => [
   },
 ];
 
-export const buildVisitsTableFromCreatedAt = (visits) => {
+export const buildVisitsTableFromCreatedAt = visits => {
   const visitsTable = {};
-  visits.forEach((visit) => {
+  visits.forEach(visit => {
     const date = new Date(visit.created_at).toDateString();
     if (visitsTable[date]) {
       visitsTable[date] += 1;
@@ -82,7 +82,7 @@ export const buildVisitsTableFromCreatedAt = (visits) => {
 
   return keys(visitsTable)
     .sort()
-    .map((date) => ({
+    .map(date => ({
       created_at: date,
       count: visitsTable[date],
     }));

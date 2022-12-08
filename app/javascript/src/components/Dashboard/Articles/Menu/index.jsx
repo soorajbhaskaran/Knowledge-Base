@@ -64,7 +64,7 @@ const Menu = ({
     return null;
   };
 
-  const handleStatusChange = async (value) => {
+  const handleStatusChange = async value => {
     history.push({
       pathname: "/admin/articles",
       search: value !== "all" && `?status=${value}`,
@@ -122,14 +122,14 @@ const Menu = ({
     }
   };
 
-  const preventOnBlurFromFiringWhenRelatedTargetIsNull = (event) => {
+  const preventOnBlurFromFiringWhenRelatedTargetIsNull = event => {
     const { _reactName: eventType, relatedTarget } = event;
     const hasClickedOnSearchIcon = !isNil(relatedTarget);
 
     return eventType === "onBlur" && hasClickedOnSearchIcon;
   };
 
-  const toggleSearch = (event) => {
+  const toggleSearch = event => {
     if (preventOnBlurFromFiringWhenRelatedTargetIsNull(event)) return null;
 
     if (showSearchInput) {
@@ -138,15 +138,15 @@ const Menu = ({
     setShowAddInput(false);
     setSearchFieldText("");
 
-    return setShowSearchInput((prevShowSearchInput) => !prevShowSearchInput);
+    return setShowSearchInput(prevShowSearchInput => !prevShowSearchInput);
   };
 
-  const toggleAdd = (event) => {
+  const toggleAdd = event => {
     if (preventOnBlurFromFiringWhenRelatedTargetIsNull(event)) return null;
     setShowSearchInput(false);
     setTitle("");
 
-    return setShowAddInput((prevShowAddInput) => !prevShowAddInput);
+    return setShowAddInput(prevShowAddInput => !prevShowAddInput);
   };
 
   useEffect(() => {
@@ -191,7 +191,7 @@ const Menu = ({
         toggleAdd={toggleAdd}
         toggleSearch={toggleSearch}
       />
-      {categories.map((categoryItem) => (
+      {categories.map(categoryItem => (
         <Category
           category={category}
           categoryList={categoryList}
