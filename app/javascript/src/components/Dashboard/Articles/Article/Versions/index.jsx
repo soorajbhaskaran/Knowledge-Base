@@ -40,7 +40,7 @@ const Versions = ({ handleVersionClick, article, fetchVersions, versions }) => {
         <hr className="solid bg-gray-100" />
         {versions.length > 0 ? (
           <div className="w-full overflow-auto">
-            {versions.map((version) => (
+            {versions.map(version => (
               <Version
                 article={version}
                 key={version.id}

@@ -38,13 +38,13 @@ const Categories = ({
     try {
       await categoriesApi.update({ id, payload });
       const categories = await fetchCategories({ isFirstFetch: false });
-      setSelectedCategory(categories.find((category) => category.id === id));
+      setSelectedCategory(categories.find(category => category.id === id));
     } catch (error) {
       logger.error(error);
     }
   };
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async values => {
     if (isEdit) {
       handleEditCategory({ id: selectedCategory.id, payload: values });
     } else {
@@ -75,7 +75,7 @@ const Categories = ({
     } else deleteCategory({ id });
   };
 
-  const handleEditButton = (title) => {
+  const handleEditButton = title => {
     setShowPane(true);
     setTitle(title);
     setIsEdit(true);
@@ -112,7 +112,7 @@ const Categories = ({
         setShowModal={setShowDeleteAlert}
         showModal={showDeleteAlert}
         selectOptions={buildSelectOptions(
-          categories.filter((category) => category.id !== selectedCategory.id)
+          categories.filter(category => category.id !== selectedCategory.id)
         )}
       />
       <Pane

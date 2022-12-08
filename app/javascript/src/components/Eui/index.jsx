@@ -33,6 +33,7 @@ const Eui = ({ history }) => {
       const {
         data: { categories },
       } = await categoriesApi.fetch({});
+
       setSlugOfFirstArticle(
         getFirstPublishedArticleFromCategories(categories).slug
       );
@@ -71,7 +72,7 @@ const Eui = ({ history }) => {
         <Route
           exact
           path={INVALID_PATH}
-          render={(props) => (
+          render={props => (
             <EmptyState
               {...props}
               image={EmptyArticleList}

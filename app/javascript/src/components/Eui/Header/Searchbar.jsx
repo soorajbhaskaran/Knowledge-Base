@@ -34,7 +34,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
     }
   };
 
-  const handleArticleClick = (slug) => {
+  const handleArticleClick = slug => {
     setShowModal(false);
     setCursor(0);
     setSearchTerm("");
@@ -42,13 +42,13 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
     history.push(`/public/articles/${slug}`);
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = event => {
     if (event.keyCode === 38 || event.keyCode === 40) event.target.blur();
   };
 
   useEffect(() => {
     if (articles.length > 0 && downPress) {
-      setCursor((prevState) =>
+      setCursor(prevState =>
         prevState < articles.length - 1 ? prevState + 1 : prevState
       );
     }
@@ -56,7 +56,7 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
 
   useEffect(() => {
     if (articles.length > 0 && upPress) {
-      setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+      setCursor(prevState => (prevState > 0 ? prevState - 1 : prevState));
     }
   }, [upPress]);
 
@@ -87,8 +87,8 @@ const Searchbar = ({ showModal, setShowModal, history }) => {
         size="large"
         style={{ fontWeight: "bold", fontSize: "1.2rem" }}
         value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
-        onKeyDown={(event) => handleKeyDown(event)}
+        onChange={event => setSearchTerm(event.target.value)}
+        onKeyDown={event => handleKeyDown(event)}
       />
       <div
         className={classnames(

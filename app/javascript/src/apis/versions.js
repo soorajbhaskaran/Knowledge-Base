@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const fetch = (articleId) => axios.get(`/versions?article_id=${articleId}`);
+const fetch = articleId => axios.get(`/versions?article_id=${articleId}`);
 const restore = ({ versionId, articleId }) =>
   axios.patch(`/versions/${versionId}/restore?article_id=${articleId}`);
 

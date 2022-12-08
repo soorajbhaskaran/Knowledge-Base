@@ -25,7 +25,8 @@ const Table = ({
       state: { id },
     });
   };
-  const handleDeleteButton = async (id) => {
+
+  const handleDeleteButton = async id => {
     try {
       await articlesApi.destroy(id);
       refetch();
@@ -34,7 +35,7 @@ const Table = ({
     }
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = page => {
     setPageNo(page);
     refetch(page);
   };
@@ -55,7 +56,7 @@ const Table = ({
         <Pagination
           className="float-right"
           count={count}
-          navigate={(page) => handlePageChange(page)}
+          navigate={page => handlePageChange(page)}
           pageNo={pageNo}
           pageSize={9}
         />

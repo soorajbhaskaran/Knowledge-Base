@@ -13,7 +13,7 @@ const handleLinkClick = ({ status, slug }) => {
   }
 };
 
-export const buildValidationSchemaForArticles = (categories) =>
+export const buildValidationSchemaForArticles = categories =>
   yup.object().shape({
     title: yup
       .string()
@@ -23,8 +23,8 @@ export const buildValidationSchemaForArticles = (categories) =>
       .object()
       .nullable()
       .shape({
-        label: yup.string().oneOf(categories.map((category) => category.label)),
-        value: yup.string().oneOf(categories.map((category) => category.value)),
+        label: yup.string().oneOf(categories.map(category => category.label)),
+        value: yup.string().oneOf(categories.map(category => category.value)),
       })
       .required("Category is required"),
     content: yup.string().required("Content is required"),
@@ -51,8 +51,8 @@ export const buildArticleStatusTabsWithCount = (
   },
 ];
 
-export const getCategoriesIdsFromCategoryObjects = (categoryList) => [
-  ...new Set(categoryList.map((category) => category.id)),
+export const getCategoriesIdsFromCategoryObjects = categoryList => [
+  ...new Set(categoryList.map(category => category.id)),
 ];
 
 export const buildArticleColumnData = ({
@@ -133,7 +133,7 @@ export const buildArticleColumnData = ({
         />
       ),
     },
-  ].filter((column) => !column.hidden);
+  ].filter(column => !column.hidden);
 
 export const getArticlesCountFromCategoryBasedOnStatus = (category, status) => {
   if (status === "draft") {
@@ -147,7 +147,7 @@ export const getArticlesCountFromCategoryBasedOnStatus = (category, status) => {
 
 export const getArticlesCountFromStatus = (articleStatusTabs, status) => {
   if (status) {
-    return articleStatusTabs.find((tab) => tab.value === status).count;
+    return articleStatusTabs.find(tab => tab.value === status).count;
   }
 
   return articleStatusTabs[0].count;

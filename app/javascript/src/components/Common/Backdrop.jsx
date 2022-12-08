@@ -11,7 +11,7 @@ const Backdrop = ({ showModal, setShowModal, children }) => (
       >
         <div
           className="mt-50 m-auto max-w-screen-sm"
-          onClick={(event) => event.stopPropagation()}
+          onClick={event => event.stopPropagation()}
         >
           {children}
         </div>

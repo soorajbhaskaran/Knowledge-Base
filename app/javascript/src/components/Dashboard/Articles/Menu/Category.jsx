@@ -13,8 +13,8 @@ const Category = ({
 }) => {
   const handleCategoryChange = async ({ title, id }) => {
     categoryList.map(({ title }) => title).includes(title)
-      ? setCategoryList(filter((category) => category.title !== title))
-      : setCategoryList((prevCategoryList) => [
+      ? setCategoryList(filter(category => category.title !== title))
+      : setCategoryList(prevCategoryList => [
           ...prevCategoryList,
           { title, id },
         ]);

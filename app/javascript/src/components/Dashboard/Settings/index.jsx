@@ -34,7 +34,7 @@ const Settings = ({ history, location }) => {
   return (
     <div className="relative z-0 flex items-start">
       <MenuBar showMenu>
-        {SETTINGS_NAVLINKS.map((navlink) => (
+        {SETTINGS_NAVLINKS.map(navlink => (
           <div className="flex items-center" key={navlink.key}>
             <navlink.icon size={24} />
             <MenuBar.Item

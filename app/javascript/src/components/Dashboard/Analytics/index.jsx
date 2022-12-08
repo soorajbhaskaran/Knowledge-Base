@@ -35,7 +35,7 @@ const Analytics = ({ history }) => {
     }
   };
 
-  const fetchVisits = async (id) => {
+  const fetchVisits = async id => {
     try {
       const {
         data: { visits },
@@ -97,7 +97,7 @@ const Analytics = ({ history }) => {
         <Pagination
           className="float-right"
           count={publishedArticlesCount}
-          navigate={(page) => setPageNo(page)}
+          navigate={page => setPageNo(page)}
           pageNo={pageNo}
           pageSize={9}
         />

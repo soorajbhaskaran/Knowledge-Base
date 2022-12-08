@@ -1,2 +1,2 @@
-export const buildSelectOptions = (categories) =>
-  categories.map((category) => ({ label: category.title, value: category.id }));
+export const buildSelectOptions = categories =>
+  categories.map(category => ({ label: category.title, value: category.id }));

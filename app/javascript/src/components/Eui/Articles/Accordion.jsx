@@ -7,9 +7,9 @@ const DEFAULT_SELECTED_CATEGORY_INDEX = 0;
 const Accordion = ({ categories }) => {
   const { slug } = useParams();
 
-  const getActiveCategoryIndexFromSlug = (categories) => {
+  const getActiveCategoryIndexFromSlug = categories => {
     const activeCategoryIndex = categories.findIndex(({ articles }) =>
-      articles.find((article) => article.slug === slug)
+      articles.find(article => article.slug === slug)
     );
 
     return activeCategoryIndex === -1

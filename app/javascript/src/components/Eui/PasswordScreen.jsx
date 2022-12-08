@@ -17,7 +17,7 @@ const PasswordScreen = () => {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
 
-  const handleSubmitButton = async (values) => {
+  const handleSubmitButton = async values => {
     try {
       setLoading(true);
       const response = await authApi.login(values);

@@ -35,6 +35,7 @@ const Article = ({ history }) => {
       fetchArticle({ slug });
     }
   };
+
   useEffect(() => {
     loadArticle();
   }, [slug]);

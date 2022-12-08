@@ -26,6 +26,7 @@ const Edit = ({ location, history }) => {
       const {
         data: { article },
       } = await articlesApi.show(id);
+
       setArticle(
         assoc(
           "category",
