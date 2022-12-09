@@ -13,7 +13,7 @@ import EmptyArticleList from "images/EmptyArticleList";
 import DragAndDrop from "./DragAndDrop";
 
 import {
-  getCategoriesTitleFromCategories,
+  getUnselectedCategories,
   getArticlesOrderedByPosition,
 } from "../utils";
 
@@ -116,7 +116,7 @@ const Articles = ({
               <Typography style="body3">Results</Typography>
               {!isEmpty(categories) ? (
                 <Menu className="flex flex-col gap-y-1">
-                  {getCategoriesTitleFromCategories({
+                  {getUnselectedCategories({
                     categories,
                     selectedCategoryId: selectedCategory.id,
                   }).map(({ title, id }) => (

@@ -5,6 +5,3 @@ export const getFirstPublishedArticleFromCategories = categories => {
 
   return firstCategoryWithPublishedArticles.articles.published[0];
 };
-
-export const formatCategoriesWithTitleAndArticles = categories =>
-  categories.map(({ id, title, articles }) => ({ id, title, articles }));

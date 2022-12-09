@@ -24,14 +24,14 @@ const Edit = ({ location, history }) => {
   const fetchArticle = async () => {
     try {
       const {
-        data: { article },
+        data: { article: articleResponse },
       } = await articlesApi.show(id);
 
       setArticle(
         assoc(
           "category",
-          { ...buildSelectOptions([article.category])[0] },
-          article
+          buildSelectOptions([articleResponse.category])[0],
+          articleResponse
         )
       );
     } catch (error) {
