@@ -78,6 +78,8 @@ GEM
     crass (1.0.6)
     docile (1.4.0)
     erubi (1.11.0)
+    et-orbi (1.2.7)
+      tzinfo
     execjs (2.8.1)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -87,6 +89,9 @@ GEM
     faker (2.22.0)
       i18n (>= 1.8.11, < 2)
     ffi (1.15.5)
+    fugit (1.6.0)
+      et-orbi (~> 1, >= 1.2.7)
+      raabro (~> 1.4)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
@@ -140,6 +145,7 @@ GEM
     pg (1.4.3)
     puma (5.6.5)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.6.0)
     rack (2.2.4)
     rack-proxy (0.7.4)
@@ -223,6 +229,9 @@ GEM
       connection_pool (>= 2.2.5)
       rack (~> 2.0)
       redis (>= 4.5.0, < 5)
+    sidekiq-cron (1.7.0)
+      fugit (~> 1)
+      sidekiq (>= 4.2.1)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -284,6 +293,7 @@ DEPENDENCIES
   rubocop-rails
   sass-rails (>= 6)
   sidekiq (< 7)
+  sidekiq-cron
   simplecov
   spring
   tzinfo-data
