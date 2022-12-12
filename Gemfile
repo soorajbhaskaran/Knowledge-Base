@@ -25,6 +25,7 @@ gem "kaminari"
 gem "minitest-bisect"
 gem "paper_trail"
 gem "react-rails"
+gem "sidekiq", "<7"
 gem "simplecov", require: false, group: :test
 gem "uglifier"
 
