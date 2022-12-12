@@ -10,6 +10,7 @@ class Article < ApplicationRecord
   belongs_to :category, counter_cache: true
   belongs_to :author, foreign_key: "author_id", class_name: "User"
   has_many :visits, dependent: :destroy
+  has_many :schedules, dependent: :destroy
 
   validates :title, presence: true, length: { maximum: MAX_ARTICLE_TITLE_LENGTH }
   validates :content, presence: true, length: { maximum: MAX_ARTICLE_CONTENT_LENGTH }

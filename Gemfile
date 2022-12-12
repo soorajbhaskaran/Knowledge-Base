@@ -28,6 +28,8 @@ gem "react-rails"
 gem "sidekiq", "<7"
 gem "simplecov", require: false, group: :test
 gem "uglifier"
+# For periodic sidekiq jobs
+gem "sidekiq-cron"
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

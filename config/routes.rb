@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace :api do
       resources :articles, except: %i[new edit index] do
         collection do
+          resources :schedules, except: %i[new edit show]
           post :filter
           patch :sort
           patch :change_category

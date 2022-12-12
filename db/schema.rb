@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_02_175721) do
+ActiveRecord::Schema.define(version: 2022_12_12_154146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -62,6 +62,15 @@ ActiveRecord::Schema.define(version: 2022_12_02_175721) do
     t.index ["user_id"], name: "index_redirections_on_user_id"
   end
 
+  create_table "schedules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "scheduled_at"
+    t.uuid "article_id", null: false
+    t.boolean "executed", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["article_id"], name: "index_schedules_on_article_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name"
@@ -98,6 +107,7 @@ ActiveRecord::Schema.define(version: 2022_12_02_175721) do
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "categories", "users", column: "author_id"
   add_foreign_key "redirections", "users"
+  add_foreign_key "schedules", "articles"
   add_foreign_key "users", "organizations"
   add_foreign_key "visits", "articles"
 end
