@@ -1,3 +1,5 @@
-json.schedules.where(executed: false) do |schedule|
-    json.extract! schedule, :id, :scheduled_at
+# frozen_string_literal: true
+
+json.schedules @schedules do |schedule|
+  json.extract! schedule, :id, :scheduled_at
 end
