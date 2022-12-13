@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "sidekiq/api"
+
 class Article < ApplicationRecord
   MAX_ARTICLE_TITLE_LENGTH = 50
   MAX_ARTICLE_CONTENT_LENGTH = 10000
@@ -27,6 +29,13 @@ class Article < ApplicationRecord
   def preserve_slug_and_add_restore_attributes(slug)
     self.attributes = { slug: slug, restored_from: self.updated_at, status: :draft }
     self
+  end
+
+  def remove_job_from_sidekiq
+    scheduled = Sidekiq::ScheduledSet.new
+    scheduled.scan("ArticleUpdateWorker").each do |job|
+      job.delete if job.args.first == self.id
+    end
   end
 
   private
