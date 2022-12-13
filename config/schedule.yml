@@ -1,13 +1,13 @@
 default: &default
-  todo_notifications_worker:
+  status_schedule_worker:
     cron: "0 * * * *"
-    class: "TodoNotificationsWorker"
+    class: "StatusScheduleWorker"
     queue: "default"
 
 development:
-  todo_notifications_worker:
+   status_schedule_worker:
     cron: "* * * * *"
-    class: "TodoNotificationsWorker"
+    class: "StatusScheduleWorker"
     queue: "default"
 
 test:
