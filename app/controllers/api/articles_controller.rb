@@ -27,6 +27,7 @@ class API::ArticlesController < ApplicationController
   end
 
   def destroy
+    @article.remove_job_from_sidekiq
     @article.destroy!
     respond_with_success(t("successfully_deleted", entity: "Article"))
   end
