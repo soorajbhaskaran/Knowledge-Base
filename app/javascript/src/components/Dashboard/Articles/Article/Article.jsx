@@ -47,7 +47,7 @@ const Article = ({
         articleId: id,
         schedule: {
           scheduled_at: dateTimeInUTC,
-          status,
+          status: status === "draft" ? "published" : "published",
         },
       });
     } catch (error) {
