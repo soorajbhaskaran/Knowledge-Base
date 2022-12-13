@@ -11,6 +11,7 @@ module.exports = {
       reducers: "src/reducers",
       lib: "src/lib",
       components: "src/components",
+      reactquery: "@tanstack/react-query",
       neetoui: "@bigbinary/neetoui",
       neetoicons: "@bigbinary/neeto-icons",
       images: path.resolve(__dirname, "../", "../", "app/assets/images"),

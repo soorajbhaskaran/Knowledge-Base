@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
 import { initializeLogger } from "common/logger";
+import withReactQuery from "components/Common/withReactQuery";
 import Dashboard from "components/Dashboard";
 import Eui from "components/Eui";
 import { CountProvider } from "contexts/count";
@@ -48,4 +49,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default withReactQuery(App);
