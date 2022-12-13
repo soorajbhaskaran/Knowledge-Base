@@ -14,7 +14,7 @@ const Article = ({ history }) => {
     try {
       const {
         data: { article: articleResponse },
-      } = await articlesApi.show({ slug });
+      } = await articlesApi.show(slug);
       setArticle(articleResponse);
       localStorage.removeItem("articleSlug");
     } catch (error) {
