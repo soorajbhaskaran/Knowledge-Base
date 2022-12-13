@@ -116,16 +116,6 @@ const Form = ({
               onClick={() => history.push("/admin/articles")}
             />
           </div>
-          {isEdit && (
-            <Button
-              className="mr-2 mt-2"
-              style="secondary"
-              label={
-                currentStatus === "draft" ? "Publish later" : "Unpublish later"
-              }
-              onClick={() => {}}
-            />
-          )}
         </FormikForm>
       )}
     </Formik>

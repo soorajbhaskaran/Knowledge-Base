@@ -5,7 +5,6 @@ Rails.application.routes.draw do
     namespace :api do
       resources :articles, except: %i[new edit index] do
         collection do
-          resources :schedules, except: %i[new edit show]
           post :filter
           patch :sort
           patch :change_category
@@ -17,6 +16,7 @@ Rails.application.routes.draw do
         patch :sort, on: :collection
       end
       resources :redirections, except: %i[new edit show]
+      resources :schedules, except: %i[new edit show]
       resources :versions, only: %i[index show] do
         patch :restore, on: :member
       end
