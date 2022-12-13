@@ -91,6 +91,7 @@ const Edit = ({ location, history }) => {
       article={article}
       fetchArticle={fetchArticle}
       fetchVersions={fetchVersions}
+      id={id}
       versions={versions}
     >
       <Form

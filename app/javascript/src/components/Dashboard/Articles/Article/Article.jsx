@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 
 import classnames from "classnames";
+import { Button } from "neetoui";
 import PropTypes from "prop-types";
 import { isNil } from "ramda";
 
+import schedulesApi from "apis/schedules";
+import { useStatusState } from "contexts/status";
+
+import Schedule from "./Schedule";
 import Version from "./Versions";
 import Modal from "./Versions/Modal";
 
 const Article = ({
   isEdit,
+  id,
   article,
   fetchArticle,
   fetchVersions,
@@ -16,7 +22,9 @@ const Article = ({
   children,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showPane, setShowPane] = useState(false);
   const [versionId, setVersionId] = useState(null);
+  const { status } = useStatusState();
 
   const handleVersionClick = ({ id }) => {
     setVersionId(id);
@@ -28,6 +36,26 @@ const Article = ({
     setShowModal(false);
   };
 
+  const handleSchedule = async dateTime => {
+    if (!dateTime.date || !dateTime.time) return;
+
+    const dateTimeInUTC = new Date(
+      `${dateTime.date.format("YYYY-MM-DD")} ${dateTime.time.format("HH:mm")}`
+    ).toISOString();
+    try {
+      await schedulesApi.create({
+        articleId: id,
+        schedule: {
+          scheduled_at: dateTimeInUTC,
+          status,
+        },
+      });
+    } catch (error) {
+      logger.error(error);
+    }
+    setShowPane(false);
+  };
+
   return (
     <div className="flex">
       <div
@@ -36,6 +64,24 @@ const Article = ({
         })}
       >
         {children}
+        {isEdit && (
+          <div className="w-30">
+            <Button
+              className="mr-2 mt-2"
+              label={status === "draft" ? "Publish later" : "Unpublish later"}
+              style="secondary"
+              onClick={() => setShowPane(true)}
+            />
+          </div>
+        )}
+        {isEdit && (
+          <Schedule
+            handleSchedule={handleSchedule}
+            setShowPane={setShowPane}
+            showPane={showPane}
+            status={status}
+          />
+        )}
       </div>
       {isEdit && (
         <>

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SchedulesController < ApplicationController
+class API::SchedulesController < ApplicationController
   before_action :load_article!
   before_action :load_schedule!, only: [:delete]
 
@@ -21,7 +21,7 @@ class SchedulesController < ApplicationController
   private
 
     def schedule_params
-      params.require(:schedule).permit(:scheduled_at)
+      params.require(:schedule).permit(:scheduled_at, :status)
     end
 
     def load_schedule!
