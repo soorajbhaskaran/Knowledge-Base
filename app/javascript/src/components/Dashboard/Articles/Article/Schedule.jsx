@@ -2,13 +2,12 @@ import React, { useState } from "react";
 
 import { Pane, Typography, DatePicker, TimePicker, Button } from "neetoui";
 import { assoc } from "ramda";
-import { withRouter } from "react-router-dom";
 
-const Schedule = ({ showPane, setShowPane, status, handleSchedule }) => {
+const Schedule = ({ showPane, setShowPane, status, handleCreateSchedule }) => {
   const [dateTime, setDateTime] = useState({ date: "", time: "" });
 
   const handleSubmit = () => {
-    handleSchedule(dateTime);
+    handleCreateSchedule(dateTime);
     setDateTime({ date: "", time: "" });
   };
 
@@ -34,7 +33,7 @@ const Schedule = ({ showPane, setShowPane, status, handleSchedule }) => {
           <TimePicker
             required
             use12Hours
-            format="HH"
+            format="HH:mm:ss"
             label="Select Time"
             type="time"
             onChange={value => setDateTime(assoc("time", value))}
@@ -61,4 +60,4 @@ const Schedule = ({ showPane, setShowPane, status, handleSchedule }) => {
   );
 };
 
-export default withRouter(Schedule);
+export default Schedule;
