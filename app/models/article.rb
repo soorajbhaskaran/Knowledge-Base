@@ -31,6 +31,12 @@ class Article < ApplicationRecord
     self
   end
 
+  def remove_schedule
+    self.schedules.find_by!(executed: false).destroy!
+    remove_job_from_sidekiq
+    self
+  end
+
   def remove_job_from_sidekiq
     scheduled = Sidekiq::ScheduledSet.new
     scheduled.scan("ArticleUpdateWorker").each do |job|

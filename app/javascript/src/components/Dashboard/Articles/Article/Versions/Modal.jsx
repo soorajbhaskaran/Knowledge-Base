@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import { Formik, Form } from "formik";
-import { Modal as NeetoUIModal, Typography, Button } from "neetoui";
+import { Info } from "neetoicons";
+import { Modal as NeetoUIModal, Typography, Button, Callout } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
-import { assoc, isNil } from "ramda";
+import { assoc, isNil, isEmpty } from "ramda";
+import { useQueryClient } from "reactquery";
 import { buildSelectOptions } from "utils";
 
 import versionsApi from "apis/versions";
@@ -21,6 +23,8 @@ const Modal = ({
   const [submitted, setSubmitted] = useState(false);
   const [version, setVersion] = useState({});
   const statusDispatch = useStatusDispatch();
+  const queryClient = useQueryClient();
+  const schedules = queryClient.getQueryData(["schedules", articleId]);
 
   const showVersion = async () => {
     try {
@@ -52,6 +56,7 @@ const Modal = ({
         articleId,
       });
       onClose();
+      queryClient.invalidateQueries(["schedules", articleId]);
       await Promise.all([fetchArticle(), fetchVersions()]);
     } catch (error) {
       logger.error(error);
@@ -113,6 +118,21 @@ const Modal = ({
                 The article will be changed to <strong>draft</strong> state
                 after restoring
               </Typography>
+            )}
+            {!isEmpty(schedules.data.schedules) && (
+              <Callout className="my-4" icon={Info} type="info">
+                <Typography component="p" style="body3">
+                  The article has been scheduled for{" "}
+                  {schedules.data.schedules[0].status === "draft"
+                    ? "unpublishing"
+                    : "publishing"}
+                  . Restoring the article will cancel the scheduled{" "}
+                  {schedules.data.schedules[0].status === "draft"
+                    ? "unpublishing"
+                    : "publishing"}
+                  .
+                </Typography>
+              </Callout>
             )}
             <div className="flex">
               <TooltipWrapper

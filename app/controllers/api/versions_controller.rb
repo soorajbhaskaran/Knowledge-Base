@@ -17,7 +17,7 @@ class API::VersionsController < ApplicationController
     respond_with_error(t("not_found", entity: "Category")) && return unless previous_category.present?
 
     article = @version.reify.preserve_slug_and_add_restore_attributes(@article.slug)
-    article.save!
+    article.remove_schedule.save!
     respond_with_success(t("successfully_restored", entity: "Article"))
   end
 
