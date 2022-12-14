@@ -6,6 +6,6 @@ FactoryBot.define do
     status { "published" }
     executed { false }
     queued { false }
-    association :article
+    association :article, factory: :article
   end
 end

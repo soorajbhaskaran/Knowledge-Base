@@ -32,8 +32,11 @@ class Article < ApplicationRecord
   end
 
   def remove_schedule
-    self.schedules.find_by!(executed: false).destroy!
-    remove_job_from_sidekiq
+    schedule = self.schedules.find_by(executed: false)
+    if schedule.present?
+      schedule.destroy!
+      self.remove_job_from_sidekiq
+    end
     self
   end
 
