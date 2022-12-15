@@ -1,13 +1,13 @@
 default: &default
-  status_schedule_worker:
+  status_schedules_worker:
     cron: "0 * * * *"
-    class: "StatusScheduleWorker"
+    class: "StatusSchedulesWorker"
     queue: "default"
 
 development:
-   status_schedule_worker:
+   status_schedules_worker:
     cron: "* * * * *"
-    class: "StatusScheduleWorker"
+    class: "StatusSchedulesWorker"
     queue: "default"
 
 test:

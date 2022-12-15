@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class StatusScheduleWorker
+class StatusSchedulesWorker
   include Sidekiq::Worker
 
   def perform
-    status_scheule_service = StatusScheduleService.new
+    status_scheule_service = StatusSchedulesService.new
     status_scheule_service.process
   end
 end
