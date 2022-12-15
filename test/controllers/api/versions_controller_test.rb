@@ -8,6 +8,7 @@ class API::VersionsControllerTest < ActionDispatch::IntegrationTest
     @author = create(:user, organization: @organization)
     @category = create(:category, author: @author)
     @article = create(:article, author: @author, category: @category, status: "published")
+    @schedule = create(:schedule, article: @article)
     @headers = headers(@organization)
     @article.update(title: "Updated title", content: "Updated content")
     @article.update(title: "Updated title 2", content: "Updated content 2")

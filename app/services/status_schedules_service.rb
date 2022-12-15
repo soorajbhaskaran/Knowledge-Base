@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class StatusScheduleService
+class StatusSchedulesService
   attr_reader :status_schedules
 
   def initialize
