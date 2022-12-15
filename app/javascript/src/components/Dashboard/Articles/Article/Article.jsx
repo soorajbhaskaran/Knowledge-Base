@@ -88,7 +88,7 @@ const Article = ({
     setShowModal(false);
   };
 
-  if (isLoading) {
+  if (isLoading && isEdit) {
     return <Spinner />;
   }
 
@@ -111,7 +111,7 @@ const Article = ({
             />
           </div>
         )}
-        {!isEmpty(schedules) && (
+        {isEdit && !isEmpty(schedules) && (
           <div className="w-4/5">
             <Callout className="mt-4 justify-between" icon={Info} style="info">
               <Typography className="ml-2 italic" style="body2">
