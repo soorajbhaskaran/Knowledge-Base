@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Formik, Form } from "formik";
-import { Warning } from "neetoicons";
+import { Warning, Info } from "neetoicons";
 import { Modal, Typography, Button, Callout } from "neetoui";
 import { Select } from "neetoui/formik";
 
@@ -71,12 +71,19 @@ const DeleteAlert = ({
                   icon={() => <Warning color="red" size={40} />}
                   style="danger"
                 >
-                  <Typography className="ml-2" style="body2">
+                  <Typography className="ml-2" component="p" style="body2">
                     Since there are no available categories, the articles will
                     be moved into <strong>General</strong> category
                   </Typography>
                 </Callout>
               )}
+              <Callout icon={Info} style="info">
+                <Typography className="ml-2" style="body2">
+                  There may be articles in this category that are set to publish
+                  or unpublish in the future. These schedules may be cancelled
+                  if categories are changed.
+                </Typography>
+              </Callout>
             </Modal.Body>
             <Modal.Footer className="space-x-2">
               <Button
