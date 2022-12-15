@@ -9,12 +9,21 @@ class DeleteCategoryService < ApplicationService
   end
 
   def process
-    category.articles_count.zero? ? category.destroy! : delete_category!
+    delete_category!
   end
 
   private
 
     def delete_category!
+      return category.destroy! if category.articles_count.zero?
+
+      category.articles.each do |article|
+        article.remove_schedule
+      end
+      delete_category_with_articles!
+    end
+
+    def delete_category_with_articles!
       new_category_id = create_new_category_if_there_is_only_one
       category.articles.update_all(category_id: new_category_id)
       Category.update_counters(new_category_id, articles_count: category.articles_count)
