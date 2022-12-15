@@ -79,9 +79,9 @@ const DeleteAlert = ({
               )}
               <Callout icon={Info} style="info">
                 <Typography className="ml-2" style="body2">
-                  There may be articles which are scheduled to be
-                  publish/unpublish in this category. Changing category may
-                  cancel these schedules.
+                  There may be articles in this category that are set to publish
+                  or unpublish in the future. These schedules may be cancelled
+                  if categories are changed.
                 </Typography>
               </Callout>
             </Modal.Body>
