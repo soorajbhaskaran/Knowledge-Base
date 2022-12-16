@@ -1,103 +1,66 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { PageLoader } from "neetoui";
-import queryString from "query-string";
-import { assoc } from "ramda";
-import { buildSelectOptions } from "utils";
+import { useQuery, useMutation } from "reactquery";
 
 import articlesApi from "apis/articles";
-import versionsApi from "apis/versions";
+import { onError } from "common/error";
 import { useStatusDispatch } from "contexts/status";
 
 import Article from "./Article";
 import Form from "./Form";
 
 const Edit = ({ location, history }) => {
-  const [article, setArticle] = useState({});
-  const [versions, setVersions] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const { status } = queryString.parse(location.search);
   const statusDispatch = useStatusDispatch();
 
   const { id } = location.state;
 
-  const fetchArticle = async () => {
-    try {
-      const {
-        data: { article: articleResponse },
-      } = await articlesApi.show(id);
-
-      setArticle(
-        assoc(
-          "category",
-          buildSelectOptions([articleResponse.category])[0],
-          articleResponse
-        )
-      );
-    } catch (error) {
-      logger.error(error);
+  const { data: articleResponse, isLoading } = useQuery(
+    ["article", id],
+    () => articlesApi.show(id),
+    {
+      onError,
     }
-  };
+  );
 
-  const fetchVersions = async () => {
-    try {
-      const {
-        data: { versions },
-      } = await versionsApi.fetch(id);
-      setVersions(versions);
-    } catch (error) {
-      logger.error(error);
-    }
-  };
-
-  const handleEditArticle = async (values, status) => {
-    try {
-      await articlesApi.update(id, {
-        ...values,
-        category_id: values.category.value,
-        status,
-      });
+  const { mutate: updateArticle } = useMutation(articlesApi.update, {
+    onSuccess: () => {
       history.push("/admin/articles");
-    } catch (error) {
-      logger.error(error);
-    }
-  };
+    },
+    onError,
+  });
 
-  const loadArticle = async () => {
-    setLoading(true);
-    await Promise.all([fetchArticle(), fetchVersions()]);
-    setLoading(false);
+  const handleEditArticle = (values, status) => {
+    const payload = {
+      ...values,
+      category_id: values.category.value,
+      status,
+    };
+
+    updateArticle({ id, payload });
   };
 
   useEffect(() => {
-    loadArticle();
-  }, []);
-
-  useEffect(() => {
-    statusDispatch({ type: "SET_STATUS", status });
+    statusDispatch({
+      type: "SET_STATUS",
+      status: articleResponse?.data?.article?.status,
+    });
 
     return () => {
       statusDispatch({ type: "RESET_STATUS" });
     };
-  }, []);
+  }, [articleResponse]);
 
-  if (loading) {
+  if (isLoading) {
     return <PageLoader />;
   }
 
   return (
-    <Article
-      isEdit
-      article={article}
-      fetchArticle={fetchArticle}
-      fetchVersions={fetchVersions}
-      id={id}
-      versions={versions}
-    >
+    <Article isEdit article={articleResponse?.data?.article} id={id}>
       <Form
         isEdit
         handleSubmit={handleEditArticle}
-        initialArticleValue={article}
+        initialArticleValue={articleResponse?.data?.article}
       />
     </Article>
   );

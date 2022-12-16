@@ -12,14 +12,7 @@ import versionsApi from "apis/versions";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 import { useStatusDispatch } from "contexts/status";
 
-const Modal = ({
-  articleId,
-  showModal,
-  versionId,
-  onClose,
-  fetchArticle,
-  fetchVersions,
-}) => {
+const Modal = ({ articleId, showModal, versionId, onClose }) => {
   const [submitted, setSubmitted] = useState(false);
   const [version, setVersion] = useState({});
   const statusDispatch = useStatusDispatch();
@@ -57,7 +50,8 @@ const Modal = ({
       });
       onClose();
       queryClient.invalidateQueries(["schedules", articleId]);
-      await Promise.all([fetchArticle(), fetchVersions()]);
+      queryClient.invalidateQueries(["versions", articleId]);
+      queryClient.invalidateQueries(["article", articleId]);
     } catch (error) {
       logger.error(error);
     } finally {

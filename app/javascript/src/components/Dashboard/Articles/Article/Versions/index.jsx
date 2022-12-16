@@ -1,15 +1,32 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-import { Typography } from "neetoui";
+import { Typography, Spinner } from "neetoui";
 import { Container } from "neetoui/layouts";
+import { useQuery } from "reactquery";
+
+import versionsApi from "apis/versions";
+import { onError } from "common/error";
 
 import { formatDateWithDayAndTime } from "./utils";
 import Version from "./Version";
 
-const Versions = ({ handleVersionClick, article, fetchVersions, versions }) => {
-  useEffect(() => {
-    fetchVersions();
-  }, []);
+const Versions = ({ handleVersionClick, article }) => {
+  const { data: versionsResponse, isLoading } = useQuery(
+    ["versions", article.id],
+    () => versionsApi.fetch(article.id),
+    {
+      onError,
+    }
+  );
+  const versions = versionsResponse?.data?.versions || [];
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="border mx-auto flex w-1/4 flex-col bg-gray-100 p-1">
