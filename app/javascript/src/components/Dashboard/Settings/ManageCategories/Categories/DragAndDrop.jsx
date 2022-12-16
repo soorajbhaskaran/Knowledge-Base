@@ -4,19 +4,15 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/categories";
 
-import Category from "./Category";
-
 import { getArticlesOrderedByPosition } from "../utils";
 
 const DragAndDrop = ({
   categories,
   setCategories,
-  selectedCategory,
   setSelectedCategory,
-  handleEditButton,
-  handleDeleteButton,
   setArticles,
   setSearchTerm,
+  children,
 }) => {
   const handleOnDragEnd = result => {
     if (!result.destination) return;
@@ -55,20 +51,13 @@ const DragAndDrop = ({
                 index={index}
                 key={category.id}
               >
-                {provided => (
-                  <Category
-                    active={selectedCategory.id === category.id}
-                    articlesCount={category.articles_count}
-                    handleDeleteButton={handleDeleteButton}
-                    handleEditButton={handleEditButton}
-                    id={category.id}
-                    innerRef={provided.innerRef}
-                    key={category.id}
-                    provided={provided}
-                    title={category.title}
-                    onClick={() => handleCategoryClick(category)}
-                  />
-                )}
+                {provided =>
+                  children({
+                    category,
+                    provided,
+                    handleCategoryClick,
+                  })
+                }
               </Draggable>
             ))}
             {provided.placeholder}

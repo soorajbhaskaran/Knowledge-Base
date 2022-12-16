@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 
-import dayjs from "dayjs";
-import { Pane, Typography, DatePicker, TimePicker, Button } from "neetoui";
-import { assoc, range } from "ramda";
+import {
+  Pane as NeetoUIPane,
+  Typography,
+  DatePicker,
+  TimePicker,
+  Button,
+} from "neetoui";
+import { assoc } from "ramda";
 
-const Schedule = ({ showPane, setShowPane, status, handleCreateSchedule }) => {
+import { getDisabledDate, getDisabledHours } from "./utils";
+
+const Pane = ({ showPane, setShowPane, status, handleCreateSchedule }) => {
   const [dateTime, setDateTime] = useState({ date: "", time: "" });
   const scheduleStatus = status === "published" ? "Publish" : "Unpublish";
 
@@ -18,17 +25,12 @@ const Schedule = ({ showPane, setShowPane, status, handleCreateSchedule }) => {
     setDateTime({ date: "", time: "" });
   };
 
-  const getDisabledHours = () => range(0, dayjs().hour());
-
-  const getDisabledDate = current =>
-    current.isBefore(dayjs().subtract(1, "day"));
-
   return (
-    <Pane isOpen={showPane} onClose={onClose}>
-      <Pane.Header>
+    <NeetoUIPane isOpen={showPane} onClose={onClose}>
+      <NeetoUIPane.Header>
         <Typography style="h3">{scheduleStatus} article</Typography>
-      </Pane.Header>
-      <Pane.Body className="flex flex-col space-y-6">
+      </NeetoUIPane.Header>
+      <NeetoUIPane.Body className="flex flex-col space-y-6">
         <div className="w-full">
           <DatePicker
             className="mb-4"
@@ -45,8 +47,8 @@ const Schedule = ({ showPane, setShowPane, status, handleCreateSchedule }) => {
             onChange={value => setDateTime(assoc("time", value))}
           />
         </div>
-      </Pane.Body>
-      <Pane.Footer>
+      </NeetoUIPane.Body>
+      <NeetoUIPane.Footer>
         <Button
           className="mr-3"
           label="Set schedule"
@@ -61,9 +63,9 @@ const Schedule = ({ showPane, setShowPane, status, handleCreateSchedule }) => {
           type="reset"
           onClick={() => setShowPane(false)}
         />
-      </Pane.Footer>
-    </Pane>
+      </NeetoUIPane.Footer>
+    </NeetoUIPane>
   );
 };
 
-export default Schedule;
+export default Pane;

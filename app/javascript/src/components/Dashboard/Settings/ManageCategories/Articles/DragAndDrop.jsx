@@ -4,16 +4,13 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import articlesApi from "apis/articles";
 
-import Article from "./Article";
-
 const DragAndDrop = ({
   articles,
   setArticles,
   fetchCategories,
-  userName,
-  selectedCategory,
   checkedArticles,
   setCheckedArticles,
+  children,
 }) => {
   const handleOnDragEnd = result => {
     if (!result.destination) return;
@@ -53,32 +50,21 @@ const DragAndDrop = ({
             className="w-full"
             ref={provided.innerRef}
           >
-            {articles.map(
-              (
-                { id, status, content, title, created_at, published_date },
-                index
-              ) => (
-                <Draggable draggableId={id} index={index} key={id}>
-                  {provided => (
-                    <Article
-                      checkedArticles={checkedArticles}
-                      content={content}
-                      createdAt={created_at}
-                      handleCheckedColumn={handleCheckedColumn}
-                      id={id}
-                      innerRef={provided.innerRef}
-                      key={id}
-                      provided={provided}
-                      publishedDate={published_date}
-                      selectedCategory={selectedCategory}
-                      status={status}
-                      title={title}
-                      userName={userName}
-                    />
-                  )}
-                </Draggable>
-              )
-            )}
+            {articles.map((article, index) => (
+              <Draggable
+                draggableId={article.id}
+                index={index}
+                key={article.id}
+              >
+                {provided =>
+                  children({
+                    article,
+                    provided,
+                    handleCheckedColumn,
+                  })
+                }
+              </Draggable>
+            ))}
             {provided.placeholder}
           </div>
         )}

@@ -7,6 +7,7 @@ import { buildSelectOptions } from "utils";
 
 import categoriesApi from "apis/categories";
 
+import Category from "./Category";
 import DeleteAlert from "./DeleteAlert";
 import DragAndDrop from "./DragAndDrop";
 import Pane from "./Pane";
@@ -105,7 +106,22 @@ const Categories = ({
         setCategories={setCategories}
         setSearchTerm={setSearchTerm}
         setSelectedCategory={setSelectedCategory}
-      />
+      >
+        {({ category, provided, handleCategoryClick }) => (
+          <Category
+            active={selectedCategory.id === category.id}
+            articlesCount={category.articles_count}
+            handleDeleteButton={handleDeleteButton}
+            handleEditButton={handleEditButton}
+            id={category.id}
+            innerRef={provided.innerRef}
+            key={category.id}
+            provided={provided}
+            title={category.title}
+            onClick={() => handleCategoryClick(category)}
+          />
+        )}
+      </DragAndDrop>
       <DeleteAlert
         handleDeleteCategory={handleDeleteCategoryOnAlert}
         selectedCategory={selectedCategory}
