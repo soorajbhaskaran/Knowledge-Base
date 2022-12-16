@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Search } from "neetoicons";
-import { Typography, Dropdown, Input } from "neetoui";
+import { Typography } from "neetoui";
 import { Header, Container } from "neetoui/layouts";
 import { isEmpty } from "ramda";
 
@@ -10,22 +9,18 @@ import categoriesApi from "apis/categories";
 import userApi from "apis/user";
 import EmptyArticleList from "images/EmptyArticleList";
 
+import Article from "./Article";
 import DragAndDrop from "./DragAndDrop";
 
-import {
-  getUnselectedCategories,
-  getArticlesOrderedByPosition,
-} from "../utils";
-
-const { Menu, MenuItem } = Dropdown;
+import { getArticlesOrderedByPosition } from "../utils";
 
 const Articles = ({
   articles,
   setArticles,
   fetchCategories,
-  searchTerm,
   setSearchTerm,
   selectedCategory,
+  children,
 }) => {
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState({});
@@ -99,41 +94,12 @@ const Articles = ({
     <Container>
       <Header
         title="Manage articles"
-        actionBlock={
-          <Dropdown
-            buttonStyle="secondary"
-            disabled={isEmpty(checkedArticles)}
-            label="Move to"
-          >
-            <div className="flex flex-col gap-y-1 rounded-md p-2">
-              <Input
-                autoFocus
-                placeholder="Search categories"
-                prefix={<Search />}
-                value={searchTerm}
-                onChange={event => handleSearch({ event })}
-              />
-              <Typography style="body3">Results</Typography>
-              {!isEmpty(categories) ? (
-                <Menu className="flex flex-col gap-y-1">
-                  {getUnselectedCategories({
-                    categories,
-                    selectedCategoryId: selectedCategory.id,
-                  }).map(({ title, id }) => (
-                    <MenuItem.Button
-                      key={id}
-                      onClick={() => handleCategoryChange(id)}
-                    >
-                      {title}
-                    </MenuItem.Button>
-                  ))}
-                </Menu>
-              ) : (
-                <Typography style="body3">No results found</Typography>
-              )}
-            </div>
-          </Dropdown>
-        }
+        actionBlock={children({
+          handleCategoryChange,
+          handleSearch,
+          categories,
+          checkedArticles,
+        })}
       />
       {user.info && (
         <Typography
@@ -158,7 +124,25 @@ const Articles = ({
           setArticles={setArticles}
           setCheckedArticles={setCheckedArticles}
           userName={user.name}
-        />
+        >
+          {({ article, handleCheckedColumn, provided }) => (
+            <Article
+              checkedArticles={checkedArticles}
+              content={article.content}
+              createdAt={article.created_at}
+              handleCheckedColumn={handleCheckedColumn}
+              id={article.id}
+              innerRef={provided.innerRef}
+              key={article.id}
+              provided={provided}
+              publishedDate={article.published_date}
+              selectedCategory={selectedCategory}
+              status={article.status}
+              title={article.title}
+              userName={user.name}
+            />
+          )}
+        </DragAndDrop>
       ) : (
         <div className="m-auto">
           <img

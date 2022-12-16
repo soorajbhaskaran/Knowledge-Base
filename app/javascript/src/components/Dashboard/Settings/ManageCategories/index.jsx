@@ -5,6 +5,7 @@ import { PageLoader } from "neetoui";
 import categoriesApi from "apis/categories";
 
 import Articles from "./Articles";
+import DropDownButton from "./Articles/DropDownButton";
 import Categories from "./Categories";
 import { getArticlesOrderedByPosition } from "./utils";
 
@@ -69,7 +70,23 @@ const ManageCategories = () => {
           selectedCategory={selectedCategory}
           setArticles={setArticles}
           setSearchTerm={setSearchTerm}
-        />
+        >
+          {({
+            categories,
+            checkedArticles,
+            handleCategoryChange,
+            handleSearch,
+          }) => (
+            <DropDownButton
+              categories={categories}
+              checkedArticles={checkedArticles}
+              handleCategoryChange={handleCategoryChange}
+              handleSearch={handleSearch}
+              searchTerm={searchTerm}
+              selectedCategoryId={selectedCategory.id}
+            />
+          )}
+        </Articles>
       </div>
     </div>
   );

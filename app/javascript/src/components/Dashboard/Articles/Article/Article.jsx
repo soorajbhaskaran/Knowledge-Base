@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 
 import classnames from "classnames";
-import { Info } from "neetoicons";
-import { Button, Callout, Spinner, Typography } from "neetoui";
+import { Spinner } from "neetoui";
 import PropTypes from "prop-types";
-import { isNil, isEmpty } from "ramda";
+import { isNil } from "ramda";
 import { useQuery, useMutation, useQueryClient } from "reactquery";
 
 import schedulesApi from "apis/schedules";
 import { onError } from "common/error";
 import { useStatusState } from "contexts/status";
 
-import Schedule from "./Schedule";
+import Schedules from "./Schedules";
+import Pane from "./Schedules/Pane";
 import Version from "./Versions";
 import Modal from "./Versions/Modal";
 
@@ -101,44 +101,20 @@ const Article = ({
       >
         {children}
         {isEdit && (
-          <div className="w-30">
-            <Button
-              className="mr-2 mt-2"
-              disabled={!isEmpty(schedules)}
-              label={status === "draft" ? "Publish later" : "Unpublish later"}
-              style="secondary"
-              onClick={() => setShowPane(true)}
+          <>
+            <Schedules
+              handleDeleteSchedule={handleDeleteSchedule}
+              schedules={schedules}
+              setShowPane={setShowPane}
+              status={status}
             />
-          </div>
-        )}
-        {isEdit && !isEmpty(schedules) && (
-          <div className="w-4/5">
-            <Callout className="mt-4 justify-between" icon={Info} style="info">
-              <Typography className="ml-2 italic" style="body2">
-                The article will be{" "}
-                <strong>
-                  {schedules[0].status === "draft"
-                    ? "unpublished"
-                    : "published"}
-                </strong>{" "}
-                on {new Date(schedules[0].scheduled_at).toLocaleString()}
-              </Typography>
-              <Button
-                className=""
-                label="Cancel"
-                style="link"
-                onClick={handleDeleteSchedule}
-              />
-            </Callout>
-          </div>
-        )}
-        {isEdit && (
-          <Schedule
-            handleCreateSchedule={handleCreateSchedule}
-            setShowPane={setShowPane}
-            showPane={showPane}
-            status={status}
-          />
+            <Pane
+              handleCreateSchedule={handleCreateSchedule}
+              setShowPane={setShowPane}
+              showPane={showPane}
+              status={status}
+            />
+          </>
         )}
       </div>
       {isEdit && (
