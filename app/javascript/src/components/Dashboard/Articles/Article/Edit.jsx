@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { PageLoader } from "neetoui";
-import { useQuery, useMutation } from "reactquery";
+import { isEmpty } from "ramda";
+import { useQuery, useMutation, useQueryClient } from "reactquery";
 
 import articlesApi from "apis/articles";
 import { onError } from "common/error";
@@ -9,11 +10,15 @@ import { useStatusDispatch } from "contexts/status";
 
 import Article from "./Article";
 import Form from "./Form";
+import Alert from "./Schedules/Alert";
 
 const Edit = ({ location, history }) => {
+  const [open, setOpen] = useState(false);
+  const [article, setArticle] = useState({});
   const statusDispatch = useStatusDispatch();
-
+  const queryClient = useQueryClient();
   const { id } = location.state;
+  const schedules = queryClient.getQueryData(["schedules", id]);
 
   const { data: articleResponse, isLoading } = useQuery(
     ["article", id],
@@ -31,13 +36,19 @@ const Edit = ({ location, history }) => {
   });
 
   const handleEditArticle = (values, status) => {
-    const payload = {
+    const article = {
       ...values,
       category_id: values.category.value,
       status,
     };
+    setArticle(article);
+    if (!isEmpty(schedules?.data?.schedules)) setOpen(true);
+    else updateArticle({ id, payload: article });
+  };
 
-    updateArticle({ id, payload });
+  const handleAlertSubmit = () => {
+    setOpen(false);
+    updateArticle({ id, payload: article });
   };
 
   useEffect(() => {
@@ -56,13 +67,20 @@ const Edit = ({ location, history }) => {
   }
 
   return (
-    <Article isEdit article={articleResponse?.data?.article} id={id}>
-      <Form
-        isEdit
-        handleSubmit={handleEditArticle}
-        initialArticleValue={articleResponse?.data?.article}
+    <>
+      <Article isEdit article={articleResponse?.data?.article} id={id}>
+        <Form
+          isEdit
+          handleSubmit={handleEditArticle}
+          initialArticleValue={articleResponse?.data?.article}
+        />
+      </Article>
+      <Alert
+        handleAlertSubmit={handleAlertSubmit}
+        open={open}
+        setOpen={setOpen}
       />
-    </Article>
+    </>
   );
 };
 

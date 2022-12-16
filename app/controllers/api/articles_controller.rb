@@ -22,6 +22,7 @@ class API::ArticlesController < ApplicationController
   end
 
   def update
+    @article.remove_schedule
     @article.update!(article_params)
     respond_with_success(t("successfully_updated", entity: "Article"))
   end
