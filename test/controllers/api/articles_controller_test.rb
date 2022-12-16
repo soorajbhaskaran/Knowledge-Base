@@ -96,4 +96,12 @@ class API::ArticlesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal response_json["visits"].length, @article.visits.count
   end
+
+  def test_updating_article_should_remove_existing_schedules_of_articles
+    schedule = create(:schedule, article: @article)
+    patch api_article_path(@article.id), params: { article: { title: "Updated title" }
+    }, headers: @headers
+    assert_response :success
+    assert_nil Schedule.find_by(id: schedule.id)
+  end
 end
