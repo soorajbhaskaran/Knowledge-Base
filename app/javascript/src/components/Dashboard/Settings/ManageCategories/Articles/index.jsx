@@ -18,7 +18,6 @@ const Articles = ({
   articles,
   setArticles,
   fetchCategories,
-
   setSearchTerm,
   selectedCategory,
   children,
