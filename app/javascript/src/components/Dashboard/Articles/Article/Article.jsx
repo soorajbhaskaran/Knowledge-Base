@@ -15,15 +15,7 @@ import Pane from "./Schedules/Pane";
 import Version from "./Versions";
 import Modal from "./Versions/Modal";
 
-const Article = ({
-  isEdit,
-  id,
-  article,
-  fetchArticle,
-  fetchVersions,
-  versions,
-  children,
-}) => {
+const Article = ({ isEdit, id, article, children }) => {
   const [showModal, setShowModal] = useState(false);
   const [showPane, setShowPane] = useState(false);
   const [versionId, setVersionId] = useState(null);
@@ -120,19 +112,12 @@ const Article = ({
       {isEdit && (
         <>
           <div className="m-0 border-l-2 border-gray-200" />
-          <Version
-            article={article}
-            fetchVersions={fetchVersions}
-            handleVersionClick={handleVersionClick}
-            versions={versions}
-          />
+          <Version article={article} handleVersionClick={handleVersionClick} />
         </>
       )}
       {!isNil(versionId) && (
         <Modal
           articleId={article.id}
-          fetchArticle={fetchArticle}
-          fetchVersions={fetchVersions}
           showModal={showModal}
           versionId={versionId}
           onClose={onClose}
@@ -145,9 +130,6 @@ const Article = ({
 Article.propTypes = {
   isEdit: PropTypes.bool,
   article: PropTypes.object,
-  fetchArticle: PropTypes.func,
-  fetchVersions: PropTypes.func,
-  versions: PropTypes.array,
   children: PropTypes.node,
 };
 

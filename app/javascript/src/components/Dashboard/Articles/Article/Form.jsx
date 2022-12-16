@@ -11,6 +11,8 @@ import categoriesApi from "apis/categories";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 import { useStatusState } from "contexts/status";
 
+import { updateArticleWithCategory } from "./utils";
+
 import { buildValidationSchemaForArticles } from "../utils";
 
 const { Menu, MenuItem } = ActionDropdown;
@@ -24,9 +26,7 @@ const Form = ({
   const [submitted, setSubmitted] = useState(false);
   const [categories, setCategories] = useState([]);
   const { status: currentStatus } = useStatusState();
-  const [status, setStatus] = useState(
-    currentStatus === "published" ? "draft" : "published"
-  );
+  const [status, setStatus] = useState("");
 
   const fetchCategories = async () => {
     try {
@@ -39,14 +39,26 @@ const Form = ({
     }
   };
 
+  const changeButtonLabel = () => {
+    if (currentStatus === "published") {
+      setStatus("draft");
+    } else {
+      setStatus("published");
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    changeButtonLabel();
+  }, [currentStatus]);
+
   return (
     <Formik
       enableReinitialize
-      initialValues={initialArticleValue}
+      initialValues={updateArticleWithCategory(initialArticleValue)}
       validateOnBlur={submitted}
       validateOnChange={submitted}
       validationSchema={buildValidationSchemaForArticles(categories)}
