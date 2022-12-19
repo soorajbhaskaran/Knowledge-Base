@@ -9,7 +9,7 @@ import {
 } from "neetoui";
 import { assoc } from "ramda";
 
-import { getDisabledDate, getDisabledHours } from "./utils";
+import { getDisabledDate } from "./utils";
 
 const Pane = ({ showPane, setShowPane, status, handleCreateSchedule }) => {
   const [dateTime, setDateTime] = useState({ date: "", time: "" });
@@ -40,7 +40,6 @@ const Pane = ({ showPane, setShowPane, status, handleCreateSchedule }) => {
           />
           <TimePicker
             use12Hours
-            disabledHours={getDisabledHours}
             format="HH:mm:ss"
             label="Select Time"
             type="time"

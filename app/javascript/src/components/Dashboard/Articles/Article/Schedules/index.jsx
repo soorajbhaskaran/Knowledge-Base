@@ -23,7 +23,7 @@ const Schedules = ({
     {!isEmpty(schedules) && (
       <div className="w-4/5">
         <Callout className="mt-4 justify-between" icon={Info} style="info">
-          <Typography className="ml-2 italic" style="body2">
+          <Typography style="body2">
             The article will be{" "}
             <strong>
               {schedules[0].status === "draft" ? "unpublished" : "published"}
