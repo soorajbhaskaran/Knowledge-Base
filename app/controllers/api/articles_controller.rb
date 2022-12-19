@@ -4,6 +4,7 @@ require "json"
 
 class API::ArticlesController < ApplicationController
   before_action :load_article!, only: %i[update show destroy visits]
+  before_action :article_cannot_be_unpublished_again, only: %i[update]
 
   def index
     @articles = current_user.articles.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
@@ -13,7 +14,7 @@ class API::ArticlesController < ApplicationController
   end
 
   def create
-    current_user.articles.create!(article_params)
+    current_user.articles.create! article_params
     respond_with_success(t("successfully_created", entity: "Article"))
   end
 
@@ -23,7 +24,7 @@ class API::ArticlesController < ApplicationController
 
   def update
     @article.remove_schedule
-    @article.update!(article_params)
+    @article.update! article_params
     respond_with_success(t("successfully_updated", entity: "Article"))
   end
 
@@ -64,5 +65,13 @@ class API::ArticlesController < ApplicationController
 
     def load_article!
       @article = current_user.articles.find(params[:id])
+    end
+
+    def article_cannot_be_unpublished_again
+      return if @article.schedules.find_by(executed: false, status: :published).present?
+
+      if @article.status == "draft" && @article.status == article_params[:status]
+        respond_with_error(t("already_unpublished", entity: "Article"))
+      end
     end
 end

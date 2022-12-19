@@ -10,8 +10,7 @@ class API::SchedulesController < ApplicationController
 
   def create
     existing_schedule = @article.schedules.where(executed: false).first
-    schedule_required = existing_schedule.blank? && schedule_params[:status] != @article.status
-    respond_with_error(t("cannot_schedule", entity: "Article")) && return unless schedule_required
+    respond_with_error(t("already_scheduled", entity: "Article")) && return if existing_schedule.present?
 
     @article.schedules.create! schedule_params
     respond_with_success(t("successfully_created", entity: "Schedule"))

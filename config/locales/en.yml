@@ -35,7 +35,8 @@ en:
     incorrect_credentials: "Incorrect credentials, try again."
   successfully_created: "%{entity} was successfully created!"
   successfully_updated: "%{entity} was successfully updated!"
-  cannot_schedule: "%{entity} cannot be scheduled!"
+  already_scheduled: "%{entity} is already scheduled!"
+  already_unpublished: "%{entity} is already unpublished!"
   successfully_deleted: "%{entity} was successfully deleted!"
   successfully_restored: "%{entity} was successfully restored!"
   not_found: "Couldn't find %{entity}"
@@ -49,3 +50,6 @@ en:
   redirections:
     not_same: "and to path cannot be same"
     not_cyclic: "cannot be redirected to protected path"
+  schedules:
+    not_past: "cannot be in the past"
+    not_same_status: "cannot be same as current status"
