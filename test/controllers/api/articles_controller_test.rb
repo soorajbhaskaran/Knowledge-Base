@@ -98,10 +98,25 @@ class API::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_updating_article_should_remove_existing_schedules_of_articles
-    schedule = create(:schedule, article: @article)
+    schedule = create(:schedule, article: @article, status: "draft")
     patch api_article_path(@article.id), params: { article: { title: "Updated title" }
     }, headers: @headers
     assert_response :success
     assert_nil Schedule.find_by(id: schedule.id)
+  end
+
+  def test_drafted_articles_cannot_be_drafted_again_if_there_are_no_publish_schedule
+    @article.update(status: "draft")
+    patch api_article_path(@article.id), params: { article: { status: "draft" }
+    }, headers: @headers
+    assert_response :unprocessable_entity
+  end
+
+  def test_drafted_article_can_be_drafted_again_if_there_is_publish_schedule
+    @article.update(status: "draft")
+    create(:schedule, article: @article, status: "published")
+    patch api_article_path(@article.id), params: { article: { status: "draft" }
+    }, headers: @headers
+    assert_response :success
   end
 end
