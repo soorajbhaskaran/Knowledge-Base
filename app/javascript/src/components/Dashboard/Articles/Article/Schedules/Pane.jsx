@@ -13,7 +13,7 @@ import { getDisabledDate } from "./utils";
 
 const Pane = ({ showPane, setShowPane, status, handleCreateSchedule }) => {
   const [dateTime, setDateTime] = useState({ date: "", time: "" });
-  const scheduleStatus = status === "published" ? "Publish" : "Unpublish";
+  const scheduleStatus = status === "published" ? "Unpublish" : "Publish";
 
   const handleSubmit = () => {
     handleCreateSchedule(dateTime);
@@ -40,7 +40,7 @@ const Pane = ({ showPane, setShowPane, status, handleCreateSchedule }) => {
           />
           <TimePicker
             use12Hours
-            format="HH:mm:ss"
+            format="HH"
             label="Select Time"
             type="time"
             onChange={value => setDateTime(assoc("time", value))}
