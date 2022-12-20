@@ -21,6 +21,8 @@ class Article < ApplicationRecord
 
   before_create :update_published_date_when_status_changes_to_published, :set_slug_if_article_is_published
   before_update :update_published_date_when_status_changes_to_published, :set_slug_if_article_is_published
+  before_update :remove_schedule
+  before_destroy :remove_job_from_sidekiq, prepend: true
 
   acts_as_list scope: :category
   has_paper_trail on: [:update], ignore: [:position]
@@ -29,22 +31,6 @@ class Article < ApplicationRecord
   def preserve_slug_and_add_restore_attributes(slug)
     self.attributes = { slug: slug, restored_from: self.updated_at, status: :draft }
     self
-  end
-
-  def remove_schedule
-    schedule = self.schedules.find_by(executed: false)
-    if schedule.present?
-      schedule.destroy!
-      self.remove_job_from_sidekiq
-    end
-    self
-  end
-
-  def remove_job_from_sidekiq
-    scheduled = Sidekiq::ScheduledSet.new
-    scheduled.scan("ArticleUpdateWorker").each do |job|
-      job.delete if job.args.first == self.id
-    end
   end
 
   private
@@ -86,5 +72,23 @@ class Article < ApplicationRecord
 
     def update_published_date_when_status_changes_to_published
       self.published_date = Time.zone.now if published?
+    end
+
+    def remove_job_from_sidekiq
+      existing_schedule = self.schedules.find_by(executed: false)
+      return unless existing_schedule.present?
+
+      scheduled = Sidekiq::ScheduledSet.new
+      scheduled.scan("ArticleUpdateWorker").each do |job|
+        job.delete if job.args.first == existing_schedule.id
+      end
+    end
+
+    def remove_schedule
+      schedule = self.schedules.find_by(executed: false)
+      return unless schedule.present?
+
+      remove_job_from_sidekiq
+      schedule.destroy!
     end
 end

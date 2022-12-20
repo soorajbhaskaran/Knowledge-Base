@@ -14,7 +14,7 @@ class API::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_all_articles
-    get "/api/articles/page/1", params: { query: "" }, headers: @headers
+    get "/api/articles/page/1", params: { query: "", categories_ids: JSON.unparse([]) }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["articles"].length, @author.articles.count
@@ -50,8 +50,8 @@ class API::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_equal response_json["article"]["title"], @article.title
   end
 
-  def test_should_list_all_articles_based_on_status_and_categories_ids
-    get "/api/articles/page/1", params: { status: "published", query: "" },
+  def test_should_list_all_articles_based_on_status
+    get "/api/articles/page/1", params: { status: "published", query: "", categories_ids: JSON.unparse([]) },
       headers: @headers
     assert_response :success
     response_json = response.parsed_body
@@ -60,7 +60,7 @@ class API::ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_search_article_based_on_article_title
     article = create(:article, title: "Test article", author: @author, category: @category)
-    get "/api/articles/page/1", params: { query: "test" }, headers: @headers
+    get "/api/articles/page/1", params: { query: "test", categories_ids: JSON.unparse([]) }, headers: @headers
     assert_response :success
     response_json = response.parsed_body
     assert_equal response_json["articles"].last["title"], article.title

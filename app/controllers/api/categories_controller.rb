@@ -25,7 +25,7 @@ class API::CategoriesController < ApplicationController
 
   def sort
     params[:categories].each_with_index do |category, index|
-      current_user.categories.where(id: category[:id]).update_all(position: index + 1)
+      current_user.categories.find(category[:id]).update! position: index + 1
     end
   end
 

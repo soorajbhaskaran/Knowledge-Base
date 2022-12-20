@@ -4,13 +4,13 @@ require "json"
 
 class API::ArticlesController < ApplicationController
   before_action :load_article!, only: %i[update show destroy visits]
-  before_action :article_cannot_be_unpublished_again, only: %i[update]
+  before_action :unpublished_article_cannot_be_unpublished_again, only: %i[update]
 
   def index
     @articles = current_user.articles.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
-    params[:status].present? && @articles = @articles.where(status: params[:status])
-    params[:categories_ids].present? && categories_ids = JSON.parse(params[:categories_ids])
-    categories_ids.present? && @articles = @articles.where(category_id: categories_ids)
+    @articles = @articles.where(status: params[:status]) if params[:status].present?
+    categories_ids = JSON.parse(params[:categories_ids])
+    @articles = @articles.where(category_id: categories_ids) if categories_ids.present?
   end
 
   def create
@@ -23,13 +23,11 @@ class API::ArticlesController < ApplicationController
   end
 
   def update
-    @article.remove_schedule
     @article.update! article_params
     respond_with_success(t("successfully_updated", entity: "Article"))
   end
 
   def destroy
-    @article.remove_job_from_sidekiq
     @article.destroy!
     respond_with_success(t("successfully_deleted", entity: "Article"))
   end
@@ -41,14 +39,13 @@ class API::ArticlesController < ApplicationController
 
   def sort
     params[:articles].each_with_index do |article, index|
-      current_user.articles.find(article[:id]).update!(position: index + 1)
+      current_user.articles.find(article[:id]).update! position: index + 1
     end
   end
 
   def change_category
     params[:articles_ids].each do |article_id|
-      article = current_user.articles.find(article_id).remove_schedule
-      article.update!(category_id: params[:category_id])
+      article = current_user.articles.find(article_id).update! category_id: params[:category_id]
     end
     respond_with_success(t("successfully_updated", entity: "Article"))
   end
@@ -67,7 +64,7 @@ class API::ArticlesController < ApplicationController
       @article = current_user.articles.find(params[:id])
     end
 
-    def article_cannot_be_unpublished_again
+    def unpublished_article_cannot_be_unpublished_again
       return if @article.schedules.find_by(executed: false, status: :published).present?
 
       if @article.status == "draft" && @article.status == article_params[:status]
