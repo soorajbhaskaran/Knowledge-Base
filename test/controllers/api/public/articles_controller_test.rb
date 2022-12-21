@@ -51,4 +51,11 @@ class API::Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal response_json["articles"].length, 1
   end
+
+  def test_should_list_all_published_articles_that_belongs_to_the_organization
+    get api_public_articles_path, params: { query: "" }, headers: @headers
+    assert_response :success
+    response_json = response.parsed_body
+    assert_equal response_json["articles"].length, Article.where(author: @organization.users, status: "published").count
+  end
 end

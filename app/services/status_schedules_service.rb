@@ -19,9 +19,7 @@ class StatusSchedulesService
 
     def update_articles_status
       status_schedules.each do |status_schedule|
-        ArticleUpdateWorker.perform_in(
-          status_schedule.scheduled_at, status_schedule.article_id,
-          status_schedule.status, status_schedule.id)
+        ArticleUpdateWorker.perform_in(status_schedule.scheduled_at, status_schedule.id)
         status_schedule.update!(queued: true)
       end
     end

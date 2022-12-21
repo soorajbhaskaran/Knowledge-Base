@@ -17,9 +17,6 @@ class DeleteCategoryService < ApplicationService
     def delete_category!
       return category.destroy! if category.articles_count.zero?
 
-      category.articles.each do |article|
-        article.remove_schedule
-      end
       delete_category_with_articles!
     end
 
