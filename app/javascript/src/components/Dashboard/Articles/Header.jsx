@@ -8,7 +8,7 @@ import { assoc, toLower } from "ramda";
 import { useLocation, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
-import { useCountDispatch } from "contexts/count";
+import useCountStore from "stores/count";
 
 import { getCategoriesIdsFromCategoryObjects } from "./utils";
 
@@ -24,7 +24,7 @@ const Header = ({
   const [searchArticle, setSearchArticle] = useState("");
   const location = useLocation();
   const debouncedSearchTerm = useDebounce(searchArticle);
-  const dispatch = useCountDispatch();
+  const { setCount } = useCountStore();
   const { status } = queryString.parse(location.search);
 
   const getArticlesSearch = async () => {
@@ -49,7 +49,7 @@ const Header = ({
 
   const loadArticles = async () => {
     const count = await getArticlesSearch();
-    dispatch({ type: "SET_COUNT", count });
+    setCount(count);
   };
 
   const isMounted = useRef(false);

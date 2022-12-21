@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from "reactquery";
 
 import articlesApi from "apis/articles";
 import { onError } from "common/error";
-import { useStatusDispatch } from "contexts/status";
+import useStatusStore from "stores/status";
 
 import Article from "./Article";
 import Form from "./Form";
@@ -15,7 +15,7 @@ import Alert from "./Schedules/Alert";
 const Edit = ({ location, history }) => {
   const [open, setOpen] = useState(false);
   const [article, setArticle] = useState({});
-  const statusDispatch = useStatusDispatch();
+  const { setStatus, resetStatus } = useStatusStore();
   const queryClient = useQueryClient();
   const { id } = location.state;
   const schedules = queryClient.getQueryData(["schedules", id]);
@@ -52,13 +52,10 @@ const Edit = ({ location, history }) => {
   };
 
   useEffect(() => {
-    statusDispatch({
-      type: "SET_STATUS",
-      status: articleResponse?.data?.article?.status,
-    });
+    setStatus(articleResponse?.data?.article?.status);
 
     return () => {
-      statusDispatch({ type: "RESET_STATUS" });
+      resetStatus();
     };
   }, [articleResponse]);
 

@@ -4,7 +4,7 @@ import { Table as NeetoUITable, Pagination } from "neetoui";
 import { withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
-import { useCountState } from "contexts/count";
+import useCountStore from "stores/count";
 
 import { buildArticleColumnData } from "./utils";
 
@@ -16,7 +16,7 @@ const Table = ({
   pageNo,
   setPageNo,
 }) => {
-  const { count } = useCountState();
+  const { count } = useCountStore();
 
   const handleEditButton = (identifier, status, id) => {
     history.push({
