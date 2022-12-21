@@ -7,8 +7,8 @@ import { useLocation, withRouter } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 import EmptyState from "components/Common/EmptyState";
-import { useCountDispatch } from "contexts/count";
 import EmptyArticleList from "images/EmptyArticleList";
+import useCountStore from "stores/count";
 
 import Header from "./Header";
 import MenuBar from "./Menu";
@@ -32,7 +32,7 @@ const Articles = ({ history }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const location = useLocation();
-  const dispatch = useCountDispatch();
+  const { setCount } = useCountStore();
   const { status } = queryString.parse(location.search);
 
   const fetchArticles = async (page = 1) => {
@@ -55,10 +55,7 @@ const Articles = ({ history }) => {
 
   const loadArticles = async () => {
     const [publishedArticles, draftArticles] = await fetchArticles();
-    dispatch({
-      type: "SET_COUNT",
-      count: publishedArticles + draftArticles,
-    });
+    setCount(publishedArticles + draftArticles);
 
     setArticleStatusTabs(
       buildArticleStatusTabsWithCount(publishedArticles, draftArticles)
@@ -72,10 +69,7 @@ const Articles = ({ history }) => {
   const isMounted = useRef(false);
   useEffect(() => {
     if (isMounted.current) {
-      dispatch({
-        type: "SET_COUNT",
-        count: getArticlesCountFromStatus(articleStatusTabs, status),
-      });
+      setCount(getArticlesCountFromStatus(articleStatusTabs, status));
     } else {
       isMounted.current = true;
     }

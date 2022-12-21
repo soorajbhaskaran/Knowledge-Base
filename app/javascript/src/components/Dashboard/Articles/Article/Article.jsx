@@ -8,7 +8,7 @@ import { useQuery, useMutation, useQueryClient } from "reactquery";
 
 import schedulesApi from "apis/schedules";
 import { onError } from "common/error";
-import { useStatusState } from "contexts/status";
+import useStatusStore from "stores/status";
 
 import Schedules from "./Schedules";
 import Pane from "./Schedules/Pane";
@@ -19,7 +19,7 @@ const Article = ({ isEdit, id, article, children }) => {
   const [showModal, setShowModal] = useState(false);
   const [showPane, setShowPane] = useState(false);
   const [versionId, setVersionId] = useState(null);
-  const { status } = useStatusState();
+  const { status } = useStatusStore();
   const queryClient = useQueryClient();
 
   const { data: schedulesResponse, isLoading } = useQuery(

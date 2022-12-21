@@ -14,8 +14,6 @@ import { initializeLogger } from "common/logger";
 import withReactQuery from "components/Common/withReactQuery";
 import Dashboard from "components/Dashboard";
 import Eui from "components/Eui";
-import { CountProvider } from "contexts/count";
-import { StatusProvider } from "contexts/status";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -31,21 +29,17 @@ const App = () => {
   }
 
   return (
-    <StatusProvider>
-      <CountProvider>
-        <Router>
-          <ToastContainer />
-          <Switch>
-            <Redirect exact from="/" to="/public/articles" />
-            <Route component={Eui} path="/public/articles" />
-            <Route component={Dashboard} path="/admin" />
-            <Route exact path="/:invalid">
-              <Redirect to="/public/articles/invalid" />
-            </Route>
-          </Switch>
-        </Router>
-      </CountProvider>
-    </StatusProvider>
+    <Router>
+      <ToastContainer />
+      <Switch>
+        <Redirect exact from="/" to="/public/articles" />
+        <Route component={Eui} path="/public/articles" />
+        <Route component={Dashboard} path="/admin" />
+        <Route exact path="/:invalid">
+          <Redirect to="/public/articles/invalid" />
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 

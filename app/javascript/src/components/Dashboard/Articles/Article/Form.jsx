@@ -9,7 +9,7 @@ import { buildSelectOptions } from "utils";
 
 import categoriesApi from "apis/categories";
 import TooltipWrapper from "components/Common/TooltipWrapper";
-import { useStatusState } from "contexts/status";
+import useStatusStore from "stores/status";
 
 import { updateArticleWithCategory } from "./utils";
 
@@ -25,7 +25,7 @@ const Form = ({
 }) => {
   const [submitted, setSubmitted] = useState(false);
   const [categories, setCategories] = useState([]);
-  const { status: currentStatus } = useStatusState();
+  const { status: currentStatus } = useStatusStore();
   const [status, setStatus] = useState("");
 
   const fetchCategories = async () => {

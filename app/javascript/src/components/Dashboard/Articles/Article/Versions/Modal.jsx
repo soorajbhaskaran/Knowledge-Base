@@ -10,12 +10,12 @@ import { buildSelectOptions } from "utils";
 
 import versionsApi from "apis/versions";
 import TooltipWrapper from "components/Common/TooltipWrapper";
-import { useStatusDispatch } from "contexts/status";
+import useStatusStore from "stores/status";
 
 const Modal = ({ articleId, showModal, versionId, onClose }) => {
   const [submitted, setSubmitted] = useState(false);
   const [version, setVersion] = useState({});
-  const statusDispatch = useStatusDispatch();
+  const { setStatus } = useStatusStore();
   const queryClient = useQueryClient();
   const schedules = queryClient.getQueryData(["schedules", articleId]);
 
@@ -55,10 +55,7 @@ const Modal = ({ articleId, showModal, versionId, onClose }) => {
     } catch (error) {
       logger.error(error);
     } finally {
-      statusDispatch({
-        type: "SET_STATUS",
-        status: "draft",
-      });
+      setStatus("draft");
     }
   };
 

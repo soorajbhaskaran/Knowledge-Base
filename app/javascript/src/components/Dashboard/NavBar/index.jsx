@@ -4,13 +4,13 @@ import { ExternalLink } from "neetoicons";
 import { Typography, Tag } from "neetoui";
 import { Link } from "react-router-dom";
 
-import { useStatusState } from "contexts/status";
+import useStatusStore from "stores/status";
 
 import { NAVBAR_LINKS } from "./constants";
 import NavItem from "./NavItem";
 
 const NavBar = () => {
-  const { status } = useStatusState();
+  const { status } = useStatusStore();
 
   return (
     <nav className="h-1/5 flex justify-between border-b-2 border-gray-200 bg-white p-3">
