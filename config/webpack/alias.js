@@ -10,6 +10,7 @@ module.exports = {
       stores: "src/stores",
       lib: "src/lib",
       components: "src/components",
+      channels: "src/channels",
       reactquery: "@tanstack/react-query",
       neetoui: "@bigbinary/neetoui",
       neetoicons: "@bigbinary/neeto-icons",

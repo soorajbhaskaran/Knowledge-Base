@@ -9,3 +9,4 @@
   end
   json.published_articles @articles.where(status: "published").count
   json.draft_articles @articles.where(status: "draft").count
+  json.user_id @articles.first.author.id
