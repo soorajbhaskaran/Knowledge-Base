@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     namespace :api do
       resources :articles, except: %i[new edit index] do
         collection do
+          resource :report, only: %i[create], module: :articles do
+            get :download, on: :collection
+          end
           post :filter
           patch :sort
           patch :change_category

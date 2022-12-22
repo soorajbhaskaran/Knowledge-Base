@@ -30,6 +30,14 @@ gem "simplecov", require: false, group: :test
 gem "uglifier"
 # For periodic sidekiq jobs
 gem "sidekiq-cron"
+# PDF generation gem
+gem "wicked_pdf"
+# wicked_pdf uses the following binary
+gem "wkhtmltopdf-binary"
+# Required by Active Storage to use the GCS
+gem "google-cloud-storage"
+# To load the environment variables
+gem "dotenv-rails"
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

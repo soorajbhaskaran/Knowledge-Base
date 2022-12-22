@@ -1,0 +1,12 @@
+<div class="mb-4 font-bold">Article analytics</div>
+<div class="p-4 mb-8 bg-white neeto-ui-shadow-s rounded">
+  <% @articles.each do |article| %>
+  <div class="flexrow w-full mb-4">
+    <div class="ml-4">
+      <div class="mb-1">
+        <div class="text-gray-500"><%= article.title %></div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
