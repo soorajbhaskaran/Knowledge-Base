@@ -3,4 +3,12 @@
 
 import { createConsumer } from "@rails/actioncable";
 
-export default createConsumer;
+import { getFromLocalStorage } from "utils/storage";
+
+const buildWebsocketURL = () => {
+  const userId = getFromLocalStorage("user_id");
+
+  return encodeURI(`/cable?user_id=${userId}`);
+};
+
+export default () => createConsumer(buildWebsocketURL());
