@@ -1,12 +1,20 @@
-<div class="mb-4 font-bold">Article analytics</div>
+<div class="heading">Article analytics</div>
 <div class="p-4 mb-8 bg-white neeto-ui-shadow-s rounded">
+<table>
+  <tr>
+    <th>Article title</th>
+    <th>Category</th>
+    <th>Published date</th>
+    <th> Total visits</th>
+  </tr>
+
   <% @articles.each do |article| %>
-  <div class="flexrow w-full mb-4">
-    <div class="ml-4">
-      <div class="mb-1">
-        <div class="text-gray-500"><%= article.title %></div>
-      </div>
-    </div>
-  </div>
+    <tr>
+      <td><%= article.title %></td>
+      <td><%= article.category.title %></td>
+      <td><%= article.published_date %></td>
+      <td><%= article.visits.length %></td>
+    </tr>
   <% end %>
+</table>
 </div>

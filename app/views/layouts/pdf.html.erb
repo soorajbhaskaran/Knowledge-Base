@@ -19,6 +19,41 @@
     .flexrow > div:last-child {
       margin-right: 0;
     }
+    table,th,td {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 1rem;
+      background-color: transparent;
+      border-collapse: collapse;
+      font-family: 'Lato', sans-serif;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+    }
+    table{
+      height: 500px;
+    }
+    th,td{
+      text-align: left;
+      padding: 10px 20px 12px 15px;
+    }
+    th{
+      text-align: center;
+    }
+    td{
+      width: 25%;
+      text-align: left;
+    }
+    tr:nth-child(even) {
+      background-color: #e5e5e5;
+    }
+    .heading{
+      font-size: 30px;
+      font-weight: 800;
+      font-family: 'Lato', sans-serif;
+      color: #000000;
+      margin-bottom: 10px;
+      text-align: center;
+    }
   </style>
   <body onload="number_pages">
     <div id="header"></div>
