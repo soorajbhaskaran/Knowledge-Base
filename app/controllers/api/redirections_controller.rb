@@ -2,6 +2,7 @@
 
 class API::RedirectionsController < ApplicationController
   before_action :load_redirection!, only: %i[update destroy]
+  before_action :check_redirection_loop, only: %i[create update]
 
   def index
     @redirections = current_user.redirections
@@ -30,5 +31,11 @@ class API::RedirectionsController < ApplicationController
 
     def load_redirection!
       @redirection = current_user.redirections.find(params[:id])
+    end
+
+    def check_redirection_loop
+      return if Redirection.where(from_path: redirection_params[:to_path], user: current_organization.users).empty?
+
+      respond_with_error(t("redirections.not_cyclic"))
     end
 end

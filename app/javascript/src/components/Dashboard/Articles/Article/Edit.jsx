@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { PageLoader } from "neetoui";
-import { isEmpty } from "ramda";
+import { isNil } from "ramda";
 import { useQuery, useMutation, useQueryClient } from "reactquery";
 
 import articlesApi from "apis/articles";
@@ -42,8 +42,11 @@ const Edit = ({ location, history }) => {
       status,
     };
     setArticle(article);
-    if (!isEmpty(schedules?.data?.schedules)) setOpen(true);
-    else updateArticle({ id, payload: article });
+    if (!isNil(schedules?.data?.schedules)) {
+      setOpen(true);
+    } else {
+      updateArticle({ id, payload: article });
+    }
   };
 
   const handleAlertSubmit = () => {

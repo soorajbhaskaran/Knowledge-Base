@@ -2,18 +2,20 @@
 <div class="p-4 mb-8 bg-white neeto-ui-shadow-s rounded">
 <table>
   <tr>
+    <th> Sl.no</th>
     <th>Article title</th>
     <th>Category</th>
     <th>Published date</th>
     <th> Total visits</th>
   </tr>
 
-  <% @articles.each do |article| %>
+  <% @articles.each_with_index do |article, index| %>
     <tr>
+      <td class="center"> <%= index + 1 %> </td>
       <td><%= article.title %></td>
       <td><%= article.category.title %></td>
       <td><%= article.published_date %></td>
-      <td><%= article.visits.length %></td>
+      <td class="center"><%= article.visits.length %></td>
     </tr>
   <% end %>
 </table>

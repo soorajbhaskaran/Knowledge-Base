@@ -32,13 +32,6 @@ class RedirectionTest < ActiveSupport::TestCase
     assert_includes @redirection.errors.full_messages, "From path " + t("redirections.not_same")
   end
 
-  def test_redirection_loop
-    @redirection.save!
-    test_redirection = build(:redirection, to_path: @redirection.from_path)
-    assert_not test_redirection.valid?
-    assert_includes test_redirection.errors.full_messages, "To path " + t("redirections.not_cyclic")
-  end
-
   def test_redirection_not_possible_to_admin
     @redirection.to_path = "admin"
     assert_not @redirection.valid?
