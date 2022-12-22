@@ -21,13 +21,13 @@ class DeleteCategoryService < ApplicationService
     end
 
     def delete_category_with_articles!
-      new_category_id = create_new_category_if_there_is_only_one
+      new_category_id = create_new_category_if_there_is_only_one_category
       category.articles.update_all(category_id: new_category_id)
       Category.update_counters(new_category_id, articles_count: category.articles_count)
       category.reload.destroy!
     end
 
-    def create_new_category_if_there_is_only_one
+    def create_new_category_if_there_is_only_one_category
       if current_user.categories.count == 1
         current_user.categories.create!(title: "General")
         return current_user.categories.where(title: "General").first.id

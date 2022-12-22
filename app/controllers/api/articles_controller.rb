@@ -4,7 +4,7 @@ require "json"
 
 class API::ArticlesController < ApplicationController
   before_action :load_article!, only: %i[update show destroy visits]
-  before_action :unpublished_article_cannot_be_unpublished_again, only: %i[update]
+  before_action :unpublished_article_cannot_be_unpublished_again_unless_there_is_publish_schedule, only: %i[update]
 
   def index
     @articles = current_user.articles.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
@@ -64,7 +64,7 @@ class API::ArticlesController < ApplicationController
       @article = current_user.articles.find(params[:id])
     end
 
-    def unpublished_article_cannot_be_unpublished_again
+    def unpublished_article_cannot_be_unpublished_again_unless_there_is_publish_schedule
       return if @article.schedules.find_by(executed: false, status: :published).present?
 
       if @article.status == "draft" && @article.status == article_params[:status]

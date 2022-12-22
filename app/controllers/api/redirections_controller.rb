@@ -9,12 +9,12 @@ class API::RedirectionsController < ApplicationController
   end
 
   def create
-    current_user.redirections.create!(redirection_params)
+    current_user.redirections.create! redirection_params
     respond_with_success(t("successfully_created", entity: "Redirection"))
   end
 
   def update
-    @redirection.update!(redirection_params)
+    @redirection.update! redirection_params
     respond_with_success(t("successfully_updated", entity: "Redirection"))
   end
 
