@@ -6,7 +6,7 @@ class API::OrganizationsController < ApplicationController
   end
 
   def update
-    current_organization.update!(organization_params)
+    current_organization.update! organization_params
     respond_with_success(t("successfully_updated", entity: "Your organization"))
   end
 

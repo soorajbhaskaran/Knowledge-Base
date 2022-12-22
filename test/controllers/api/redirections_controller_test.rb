@@ -41,4 +41,15 @@ class API::RedirectionsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
   end
+
+  def test_redirection_loop
+    create(:redirection, from_path: "test1", to_path: "test2", user: @user)
+    assert_no_difference "Redirection.count" do
+      post api_redirections_path, params: {
+        redirection: {
+          from_path: "test2", to_path: "test1", user: @user1
+        }
+      }, headers: @headers
+    end
+  end
 end

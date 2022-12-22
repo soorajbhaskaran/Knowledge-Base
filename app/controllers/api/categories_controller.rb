@@ -8,12 +8,12 @@ class API::CategoriesController < ApplicationController
   end
 
   def create
-    current_user.categories.create!(category_params)
+    current_user.categories.create! category_params
     respond_with_success(t("successfully_created", entity: "Category"))
   end
 
   def update
-    @category.update!(category_params)
+    @category.update! category_params
     respond_with_success(t("successfully_updated", entity: "Category"))
   end
 

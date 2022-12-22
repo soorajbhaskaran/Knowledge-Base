@@ -14,6 +14,6 @@ class FilterArticlesService < ApplicationService
  articles_list + articles.where(category_id: category_id) }
     return articles.uniq if status.blank?
 
-    status && articles = articles.select { |article| article.status == status }
+    articles = articles.select { |article| article.status == status } if status.present?
   end
 end

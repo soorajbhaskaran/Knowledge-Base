@@ -8,7 +8,7 @@ class API::UsersController < ApplicationController
   end
 
   def update
-    @user.update!(user_params)
+    @user.update! user_params
   end
 
   private
