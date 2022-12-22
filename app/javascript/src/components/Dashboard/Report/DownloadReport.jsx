@@ -62,7 +62,8 @@ const DownloadReport = () => {
         <h1>{message}</h1>
         <ProgressBar progress={progress} />
         <Button
-          buttonText="Download"
+          disabled={isLoading}
+          label="Download Report"
           loading={isLoading}
           onClick={downloadPdf}
         />
