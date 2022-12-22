@@ -13,10 +13,4 @@ class ReportsWorkerTest < ActiveSupport::TestCase
     ReportsWorker.perform_async(@user.id)
     assert_equal @user.report.attached?, true
   end
-
-  def test_reports_worker_produces_pdf_report
-    ReportsWorker.perform_async(@user.id)
-    assert_equal @user.report.attached?, true
-    assert_equal @user.report.blob.content_type, "application/pdf"
-  end
 end
