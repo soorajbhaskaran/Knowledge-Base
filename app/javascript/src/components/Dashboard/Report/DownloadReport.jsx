@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
 
-import { Toastr } from "neetoui";
+import FileSaver from "file-saver";
+import { Button } from "neetoui";
 import { Container } from "neetoui/layouts";
 
 import articlesApi from "apis/articles";
+import createConsumer from "channels/consumer";
+import { subscribeToReportDownloadChannel } from "channels/reportDownloadChannel";
+import ProgressBar from "components/Common/ProgressBar";
 
 const DownloadReport = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState("");
+
+  const consumer = createConsumer();
 
   const generatePdf = async () => {
     try {
@@ -16,22 +24,11 @@ const DownloadReport = () => {
     }
   };
 
-  const saveAs = ({ blob, fileName }) => {
-    const objectUrl = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = objectUrl;
-    link.setAttribute("download", fileName);
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
-    setTimeout(() => window.URL.revokeObjectURL(objectUrl), 150);
-  };
-
   const downloadPdf = async () => {
+    setIsLoading(true);
     try {
-      Toastr.success("Downloading report...");
       const { data } = await articlesApi.download();
-      saveAs({ blob: data, fileName: "scribble_soorajbhskrn_report.pdf" });
+      FileSaver.saveAs(data, "scribble_soorajbhskrn_report.pdf");
     } catch (error) {
       logger.error(error);
     } finally {
@@ -40,19 +37,36 @@ const DownloadReport = () => {
   };
 
   useEffect(() => {
-    generatePdf();
-    setTimeout(() => {
-      downloadPdf();
-    }, 5000);
+    subscribeToReportDownloadChannel({
+      consumer,
+      setMessage,
+      setProgress,
+      generatePdf,
+    });
+
+    return () => {
+      consumer.disconnect();
+    };
   }, []);
 
-  const message = isLoading
-    ? "Report is being generated..."
-    : "Report downloaded!";
+  useEffect(() => {
+    if (progress === 100) {
+      setIsLoading(false);
+      setMessage("Report is ready to be downloaded");
+    }
+  }, [progress]);
 
   return (
     <Container>
-      <h1>{message}</h1>
+      <div className="mx-auto mt-48 w-3/6 space-y-6 rounded-md border-2 p-4 text-center">
+        <h1>{message}</h1>
+        <ProgressBar progress={progress} />
+        <Button
+          buttonText="Download"
+          loading={isLoading}
+          onClick={downloadPdf}
+        />
+      </div>
     </Container>
   );
 };

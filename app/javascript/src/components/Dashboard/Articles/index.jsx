@@ -9,6 +9,7 @@ import articlesApi from "apis/articles";
 import EmptyState from "components/Common/EmptyState";
 import EmptyArticleList from "images/EmptyArticleList";
 import useCountStore from "stores/count";
+import { setToLocalStorage } from "utils/storage";
 
 import Header from "./Header";
 import MenuBar from "./Menu";
@@ -39,8 +40,9 @@ const Articles = ({ history }) => {
     setLoading(true);
     try {
       const {
-        data: { articles, published_articles, draft_articles },
+        data: { articles, published_articles, draft_articles, user_id },
       } = await articlesApi.fetch({ status, page });
+      setToLocalStorage({ user_id });
       setArticles(articles);
 
       return [published_articles, draft_articles];

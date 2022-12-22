@@ -40,6 +40,7 @@ en:
   successfully_deleted: "%{entity} was successfully deleted!"
   successfully_restored: "%{entity} was successfully restored!"
   not_found: "Couldn't find %{entity}"
+  in_progress: "%{action} is in progress!"
   article:
     slug:
       taken: "Slug has already been taken"
@@ -53,3 +54,8 @@ en:
   schedules:
     not_past: "cannot be in the past"
     not_same_status: "cannot be same as current status"
+  report:
+    render: "Rendering the report"
+    generate: "Generating the PDF report"
+    upload: "Uploading to server"
+    attach: "Attaching the report to the user"
