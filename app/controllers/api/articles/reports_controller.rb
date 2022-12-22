@@ -12,4 +12,10 @@ class API::Articles::ReportsController < ApplicationController
 
     send_data current_user.report.download, filename: pdf_file_name, content_type: "application/pdf"
   end
+
+  private
+
+    def pdf_file_name
+      "report_#{current_user.first_name}.pdf"
+    end
 end
