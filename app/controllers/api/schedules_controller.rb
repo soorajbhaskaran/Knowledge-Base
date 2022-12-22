@@ -17,7 +17,6 @@ class API::SchedulesController < ApplicationController
   end
 
   def destroy
-    @schedule.remove_job_from_queue
     @schedule.destroy!
     respond_with_success(t("successfully_deleted", entity: "Schedule"))
   end
