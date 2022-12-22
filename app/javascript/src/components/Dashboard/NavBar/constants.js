@@ -11,4 +11,8 @@ export const NAVBAR_LINKS = [
     name: "Analytics",
     path: "/admin/analytics",
   },
+  {
+    name: "Download Report",
+    path: "/admin/article/report",
+  },
 ];

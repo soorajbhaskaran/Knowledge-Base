@@ -24,6 +24,11 @@ const filter = ({ status, categories_ids }) => {
   return axios.post(path, { categories_ids });
 };
 
+const download = () =>
+  axios.get("/articles/report/download", { responseType: "blob" });
+
+const generatePdf = () => axios.post("/articles/report", {});
+
 const articlesApi = {
   fetch,
   create,
@@ -34,6 +39,8 @@ const articlesApi = {
   sort,
   changeCategory,
   visits,
+  generatePdf,
+  download,
 };
 
 export default articlesApi;
