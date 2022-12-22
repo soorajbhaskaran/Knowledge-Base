@@ -14,13 +14,6 @@ class ReportsWorkerTest < ActiveSupport::TestCase
     assert_equal @user.report.attached?, true
   end
 
-  def test_reports_worker_purges_the_previous_report
-    ReportsWorker.perform_async(@user.id)
-    assert_equal @user.report.attached?, true
-    ReportsWorker.perform_async(@user.id)
-    assert_equal @user.report.attached?, true
-  end
-
   def test_reports_worker_produces_pdf_report
     ReportsWorker.perform_async(@user.id)
     assert_equal @user.report.attached?, true
