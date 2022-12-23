@@ -9,7 +9,7 @@ class API::SchedulesController < ApplicationController
   end
 
   def create
-    existing_schedule = @article.schedules.where(executed: false).first
+    existing_schedule = @article.schedules.find_by(executed: false)
     respond_with_error(t("already_scheduled", entity: "Article")) && return if existing_schedule.present?
 
     @article.schedules.create! schedule_params
