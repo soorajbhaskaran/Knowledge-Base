@@ -21,7 +21,7 @@ class Schedule < ApplicationRecord
     end
 
     def schedule_cannot_be_in_the_past
-      return unless scheduled_at <= Time.zone.now
+      return unless scheduled_at.past?
 
       errors.add(:scheduled_at, t("schedules.not_past"))
     end

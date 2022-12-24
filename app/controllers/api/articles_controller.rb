@@ -9,8 +9,7 @@ class API::ArticlesController < ApplicationController
   def index
     @articles = current_user.articles.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
     @articles = @articles.where(status: params[:status]) if params[:status].present?
-    categories_ids = JSON.parse(params[:categories_ids])
-    @articles = @articles.where(category_id: categories_ids) if categories_ids.present?
+    @articles = @articles.where(category_id: params[:categories_ids]) if params[:categories_ids].present?
   end
 
   def create
