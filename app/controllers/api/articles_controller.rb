@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "json"
-
 class API::ArticlesController < ApplicationController
   before_action :load_article!, only: %i[update show destroy visits]
   before_action :unpublished_article_cannot_be_unpublished_again_unless_there_is_publish_schedule, only: %i[update]
