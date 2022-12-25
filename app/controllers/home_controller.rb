@@ -8,7 +8,7 @@ class HomeController < ApplicationController
   private
 
     def redirection
-      current_user.redirections.find_by(from_path: params[:path])
+      current_organization.redirections.find_by from_path: params[:path]
     end
 
     def redirect_to_path

@@ -5,8 +5,7 @@ require "test_helper"
 class API::RedirectionsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization)
-    @user = create(:user, organization: @organization)
-    @redirection = create(:redirection, user: @user)
+    @redirection = create(:redirection, organization: @organization)
     @headers = headers(@organization)
   end
 
@@ -15,14 +14,14 @@ class API::RedirectionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     response_json = response.parsed_body
     all_redirections = response_json["redirections"]
-    assert_equal all_redirections.length, @user.redirections.count
+    assert_equal all_redirections.length, @organization.redirections.count
   end
 
   def test_should_create_new_redirection
     assert_difference "Redirection.count", 1 do
       post api_redirections_path, params: {
         redirection: {
-          from_path: "test1", to_path: "test2", user: @user
+          from_path: "test1", to_path: "test2", organization: @organization
         }
       }, headers: @headers
     end
@@ -40,16 +39,5 @@ class API::RedirectionsControllerTest < ActionDispatch::IntegrationTest
       delete api_redirection_path(@redirection), headers: @headers
     end
     assert_response :success
-  end
-
-  def test_redirection_loop
-    create(:redirection, from_path: "test1", to_path: "test2", user: @user)
-    assert_no_difference "Redirection.count" do
-      post api_redirections_path, params: {
-        redirection: {
-          from_path: "test2", to_path: "test1", user: @user1
-        }
-      }, headers: @headers
-    end
   end
 end
