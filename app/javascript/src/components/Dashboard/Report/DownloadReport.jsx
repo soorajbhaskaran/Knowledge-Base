@@ -27,8 +27,8 @@ const DownloadReport = () => {
     select: data => data.data,
     onError,
     onSuccess: data => {
-      setIsLoading(false);
       FileSaver.saveAs(data, "scribble_soorajbhskrn_report.pdf");
+      setIsLoading(false);
     },
   });
 
