@@ -5,6 +5,7 @@ class Organization < ApplicationRecord
   VALID_PASSWORD_REGEX = /([a-z]+[0-9]+)|([0-9]+[a-z]+)/i
 
   has_many :users, dependent: :destroy
+  has_many :redirections, dependent: :destroy
 
   validates :name, presence: true
   validates :password,

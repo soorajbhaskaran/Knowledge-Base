@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_23_113234) do
+ActiveRecord::Schema.define(version: 2022_12_25_055822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -85,11 +85,11 @@ ActiveRecord::Schema.define(version: 2022_12_23_113234) do
   create_table "redirections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "from_path", null: false
     t.string "to_path", null: false
-    t.uuid "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "organization_id", null: false
     t.index ["from_path"], name: "index_redirections_on_from_path", unique: true
-    t.index ["user_id"], name: "index_redirections_on_user_id"
+    t.index ["organization_id"], name: "index_redirections_on_organization_id"
   end
 
   create_table "schedules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 2022_12_23_113234) do
   add_foreign_key "articles", "categories"
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "categories", "users", column: "author_id"
-  add_foreign_key "redirections", "users"
+  add_foreign_key "redirections", "organizations"
   add_foreign_key "schedules", "articles"
   add_foreign_key "users", "organizations"
   add_foreign_key "visits", "articles"
