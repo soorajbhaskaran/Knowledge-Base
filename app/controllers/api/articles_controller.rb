@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "json"
-
 class API::ArticlesController < ApplicationController
   before_action :load_article!, only: %i[update show destroy visits]
   before_action :unpublished_article_cannot_be_unpublished_again_unless_there_is_publish_schedule, only: %i[update]
@@ -9,8 +7,7 @@ class API::ArticlesController < ApplicationController
   def index
     @articles = current_user.articles.where("lower(title) LIKE ?", "%#{params[:query].downcase}%")
     @articles = @articles.where(status: params[:status]) if params[:status].present?
-    categories_ids = JSON.parse(params[:categories_ids])
-    @articles = @articles.where(category_id: categories_ids) if categories_ids.present?
+    @articles = @articles.where(category_id: params[:categories_ids]) if params[:categories_ids].present?
   end
 
   def create

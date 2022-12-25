@@ -1,11 +1,13 @@
 import axios from "axios";
 
 const fetch = ({ status = "", query = "", categoriesIds = [], page = 1 }) =>
-  axios.get(
-    `/articles/page/${page}?status=${status}&query=${query}&categories_ids=${JSON.stringify(
-      categoriesIds
-    )}`
-  );
+  axios.get(`/articles/page/${page}`, {
+    params: {
+      status,
+      query,
+      categories_ids: categoriesIds,
+    },
+  });
 
 const create = payload => axios.post("/articles", payload);
 const update = ({ id, payload }) => axios.put(`/articles/${id}`, payload);
