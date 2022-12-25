@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 import FileSaver from "file-saver";
-import { Button } from "neetoui";
+import { Button, Typography } from "neetoui";
 import { Container } from "neetoui/layouts";
-import { useMutation } from "reactquery";
+import { useMutation, useQuery } from "reactquery";
 
 import articlesApi from "apis/articles";
 import createConsumer from "channels/consumer";
@@ -22,16 +22,19 @@ const DownloadReport = () => {
     onError,
   });
 
-  const downloadPdf = async () => {
-    setIsLoading(true);
-    try {
-      const { data } = await articlesApi.download();
+  const { refetch: downloadPdf } = useQuery(["report"], articlesApi.download, {
+    enabled: false,
+    select: data => data.data,
+    onError,
+    onSuccess: data => {
       FileSaver.saveAs(data, "scribble_soorajbhskrn_report.pdf");
-    } catch (error) {
-      logger.error(error);
-    } finally {
       setIsLoading(false);
-    }
+    },
+  });
+
+  const handleDownloadReport = () => {
+    setIsLoading(true);
+    downloadPdf();
   };
 
   useEffect(() => {
@@ -57,13 +60,15 @@ const DownloadReport = () => {
   return (
     <Container>
       <div className="mx-auto mt-48 w-3/6 space-y-6 rounded-md border-2 p-4 text-center">
-        <h1>{message}</h1>
+        <Typography component="h1" style="h1">
+          {message}
+        </Typography>
         <ProgressBar progress={progress} />
         <Button
           disabled={isLoading}
           label="Download Report"
           loading={isLoading}
-          onClick={downloadPdf}
+          onClick={handleDownloadReport}
         />
       </div>
     </Container>
